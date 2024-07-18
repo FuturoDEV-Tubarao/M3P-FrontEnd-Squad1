@@ -11,7 +11,7 @@ enum GenderType {
   MALE = "MALE",
 }
 
-interface RegisterData {
+type RegisterData = {
   name: string;
   gender: GenderType;
   cpf: string;
@@ -19,12 +19,12 @@ interface RegisterData {
   email: string;
   password: string;
   zipCode: string;
-  street?: string;
-  number: number;
-  neighborhood?: string;
-  city?: string;
-  state?: string;
-}
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+};
 
 interface RegisterContextProviderProps {
   children: ReactNode;
@@ -37,10 +37,6 @@ export function RegisterContextProvider({
 }: RegisterContextProviderProps) {
   const navigate = useNavigate();
 
-  // const formattedData = {
-  //   ...data,
-  //   birthDate: format(new Date(data.birthDate), 'yyyy-MM-dd'),
-  // };
   const signup = async (data: RegisterData) => {
     try {
       console.log(data);
