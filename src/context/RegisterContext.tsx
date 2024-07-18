@@ -20,7 +20,7 @@ type RegisterData = {
   password: string;
   zipCode: string;
   street: string;
-  number: string;
+  number_adddress: number;
   neighborhood: string;
   city: string;
   state: string;
@@ -42,7 +42,7 @@ export function RegisterContextProvider({
       console.log(data);
       const response = await api.post("/api/labfoods/v1/user", data,{
         headers: {
-          'Content-Type': 'application/json' 
+          'Content-Type': 'application/json',
         },
     });
 

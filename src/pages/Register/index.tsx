@@ -29,12 +29,14 @@ const userProfileSchema = zod.object({
     required_error: "Informe uma categoria",
   }),
   cpf: zod.string().min(11, "Informe um CPF válido"),
-  birthDate: zod.string(),
+  birthDate: zod.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: "Data inválida",
+  }),
   email: zod.string().min(5, "Informe um e-mail válido"),
   password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   zipCode: zod.string().length(8, "Informe um CEP válido"),
   street: zod.string(),
-  number: zod.string(),
+  number_adddress: zod.number().int().positive(),
   // complement: zod.string().optional(),
   neighborhood: zod.string(),
   city: zod.string(),
@@ -61,7 +63,7 @@ export function Register() {
       password: "",
       zipCode: "",
       street: "",
-      number: "",
+      number_adddress: 0,
       // complement: "",
       neighborhood: "",
       city: "",
@@ -153,7 +155,7 @@ export function Register() {
           <Row>
             <FieldWrapper>
               <Input
-                type="text"
+                type="date"
                 {...register("birthDate")}
                 placeholder="Data de Nascimento"
               />
@@ -186,9 +188,9 @@ export function Register() {
             )}
           </FieldWrapper>
           <FieldWrapper>
-            <Input type="text" {...register("number")} placeholder="number" />
-            {errors.zipCode && (
-              <ErrorMessage>{errors.zipCode.message}</ErrorMessage>
+            <Input type="number" {...register("number_adddress")} placeholder="number" />
+            {errors.number_adddress && (
+              <ErrorMessage>{errors.number_adddress.message}</ErrorMessage>
             )}
           </FieldWrapper>
 
