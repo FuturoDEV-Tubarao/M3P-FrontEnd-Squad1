@@ -37,7 +37,7 @@ const userProfileSchema = zod.object({
   contactAddress: zod.object({
     zipCode: zod.string().min(8, "CEP é obrigatório"),
     street: zod.string().min(1, "Rua é obrigatória"),
-    number_adddress: zod.number().int().positive("Número deve ser positivo"),
+    number_address: zod.number().int().positive("Número deve ser positivo"),
     neighborhood: zod.string().min(1, "Bairro é obrigatório"),
     city: zod.string().min(1, "Cidade é obrigatória"),
     state: zod.string().min(1, "Estado é obrigatório"),
@@ -65,7 +65,7 @@ export function Register() {
       contactAddress: {
         zipCode: "",
         street: "",
-        number_adddress: 0,
+        number_address: 0,
         neighborhood: "",
         city: "",
         state: "",
@@ -187,12 +187,12 @@ export function Register() {
           <FieldWrapper>
             <Input
               type="number"
-              {...register("contactAddress.number_adddress")}
+              {...register("contactAddress.number_address")}
               placeholder="Número"
             />
-            {errors.contactAddress?.number_adddress && (
+            {errors.contactAddress?.number_address && (
               <ErrorMessage>
-                {errors.contactAddress.number_adddress.message}
+                {errors.contactAddress.number_address.message}
               </ErrorMessage>
             )}
           </FieldWrapper>

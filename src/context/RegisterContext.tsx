@@ -21,7 +21,7 @@ type RegisterData = {
   contactAddress: {
     zipCode: string;
     street: string;
-    number_adddress: number;
+    number_address: number;
     neighborhood: string;
     city: string;
     state: string;
