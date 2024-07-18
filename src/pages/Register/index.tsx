@@ -33,12 +33,12 @@ const userProfileSchema = zod.object({
   email: zod.string().min(5, "Informe um e-mail válido"),
   password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   zipCode: zod.string().length(8, "Informe um CEP válido"),
-  street: zod.string().optional(),
-  number: zod.number(),
+  street: zod.string(),
+  number: zod.string(),
   // complement: zod.string().optional(),
-  neighborhood: zod.string().optional(),
-  city: zod.string().optional(),
-  state: zod.string().optional(),
+  neighborhood: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
 });
 
 type UserFormData = zod.infer<typeof userProfileSchema>;
@@ -61,7 +61,7 @@ export function Register() {
       password: "",
       zipCode: "",
       street: "",
-      number: 0,
+      number: "",
       // complement: "",
       neighborhood: "",
       city: "",
@@ -77,7 +77,7 @@ export function Register() {
     neighborhood: "",
     city: "",
     state: "",
-    complement: "",
+    // complement: ''
   });
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export function Register() {
               neighborhood: data.bairro,
               city: data.localidade,
               state: data.uf,
-              complement: data.complemento,
+              // complement: data.complemento
             });
           } else {
             alert("CEP não encontrado.");
@@ -185,6 +185,13 @@ export function Register() {
               <ErrorMessage>{errors.zipCode.message}</ErrorMessage>
             )}
           </FieldWrapper>
+          <FieldWrapper>
+            <Input type="text" {...register("number")} placeholder="number" />
+            {errors.zipCode && (
+              <ErrorMessage>{errors.zipCode.message}</ErrorMessage>
+            )}
+          </FieldWrapper>
+
           <Row>
             <FieldWrapper>
               <Input
