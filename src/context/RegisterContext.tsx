@@ -18,13 +18,16 @@ type RegisterData = {
   birthDate: string;
   email: string;
   password: string;
-  zipCode: string;
-  street: string;
-  number_adddress: number;
-  neighborhood: string;
-  city: string;
-  state: string;
+  contactAddress: {
+    zipCode: string;
+    street: string;
+    number_adddress: number;
+    neighborhood: string;
+    city: string;
+    state: string;
+  };
 };
+
 
 interface RegisterContextProviderProps {
   children: ReactNode;

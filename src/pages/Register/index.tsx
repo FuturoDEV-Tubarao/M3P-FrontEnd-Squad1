@@ -34,13 +34,14 @@ const userProfileSchema = zod.object({
   }),
   email: zod.string().min(5, "Informe um e-mail válido"),
   password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
-  zipCode: zod.string().length(8, "Informe um CEP válido"),
-  street: zod.string(),
-  number_adddress: zod.number().int().positive(),
-  // complement: zod.string().optional(),
-  neighborhood: zod.string(),
-  city: zod.string(),
-  state: zod.string(),
+  contactAddress: zod.object({
+    zipCode: zod.string().min(8, "CEP é obrigatório"),
+    street: zod.string().min(1, "Rua é obrigatória"),
+    number_adddress: zod.number().int().positive("Número deve ser positivo"),
+    neighborhood: zod.string().min(1, "Bairro é obrigatório"),
+    city: zod.string().min(1, "Cidade é obrigatória"),
+    state: zod.string().min(1, "Estado é obrigatório"),
+  }),
 });
 
 type UserFormData = zod.infer<typeof userProfileSchema>;
@@ -61,25 +62,25 @@ export function Register() {
       birthDate: "",
       email: "",
       password: "",
-      zipCode: "",
-      street: "",
-      number_adddress: 0,
-      // complement: "",
-      neighborhood: "",
-      city: "",
-      state: "",
+      contactAddress: {
+        zipCode: "",
+        street: "",
+        number_adddress: 0,
+        neighborhood: "",
+        city: "",
+        state: "",
+      },
     },
   });
 
   const { signup } = useContext(RegisterContext);
 
-  const zipCode = watch("zipCode");
+  const zipCode = watch("contactAddress.zipCode");
   const [address, setAddress] = useState({
     street: "",
     neighborhood: "",
     city: "",
     state: "",
-    // complement: ''
   });
 
   useEffect(() => {
@@ -96,7 +97,6 @@ export function Register() {
               neighborhood: data.bairro,
               city: data.localidade,
               state: data.uf,
-              // complement: data.complemento
             });
           } else {
             alert("CEP não encontrado.");
@@ -111,11 +111,10 @@ export function Register() {
   }, [zipCode]);
 
   useEffect(() => {
-    setValue("street", address.street);
-    // setValue('complement', address.complement);
-    setValue("neighborhood", address.neighborhood);
-    setValue("city", address.city);
-    setValue("state", address.state);
+    setValue("contactAddress.street", address.street);
+    setValue("contactAddress.neighborhood", address.neighborhood);
+    setValue("contactAddress.city", address.city);
+    setValue("contactAddress.state", address.state);
   }, [address, setValue]);
 
   return (
@@ -176,69 +175,77 @@ export function Register() {
           <FieldWrapper>
             <Input
               type="text"
-              {...register("zipCode")}
-              value={zipCode}
-              onChange={(e: { target: { value: string } }) =>
-                setValue("zipCode", e.target.value)
-              }
+              {...register("contactAddress.zipCode")}
               placeholder="CEP"
             />
-            {errors.zipCode && (
-              <ErrorMessage>{errors.zipCode.message}</ErrorMessage>
+            {errors.contactAddress?.zipCode && (
+              <ErrorMessage>
+                {errors.contactAddress.zipCode.message}
+              </ErrorMessage>
             )}
           </FieldWrapper>
           <FieldWrapper>
-            <Input type="number" {...register("number_adddress")} placeholder="number" />
-            {errors.number_adddress && (
-              <ErrorMessage>{errors.number_adddress.message}</ErrorMessage>
+            <Input
+              type="number"
+              {...register("contactAddress.number_adddress")}
+              placeholder="Número"
+            />
+            {errors.contactAddress?.number_adddress && (
+              <ErrorMessage>
+                {errors.contactAddress.number_adddress.message}
+              </ErrorMessage>
             )}
           </FieldWrapper>
 
           <Row>
             <FieldWrapper>
               <Input
-                {...register("street")}
+                {...register("contactAddress.street")}
                 value={address.street}
                 placeholder="Logradouro"
               />
-              {errors.street && (
-                <ErrorMessage>{errors.street.message}</ErrorMessage>
+              {errors.contactAddress?.street && (
+                <ErrorMessage>
+                  {errors.contactAddress.street.message}
+                </ErrorMessage>
               )}
             </FieldWrapper>
-            {/* <FieldWrapper>
-              <Input {...register("complement")} value={address.complement} placeholder="Complemento" />
-              {errors.complement && <ErrorMessage>{errors.complement.message}</ErrorMessage>}
-            </FieldWrapper> */}
           </Row>
           <Row>
             <FieldWrapper>
               <Input
-                {...register("neighborhood")}
+                {...register("contactAddress.neighborhood")}
                 value={address.neighborhood}
                 placeholder="Bairro"
               />
-              {errors.neighborhood && (
-                <ErrorMessage>{errors.neighborhood.message}</ErrorMessage>
+              {errors.contactAddress?.neighborhood && (
+                <ErrorMessage>
+                  {errors.contactAddress.neighborhood.message}
+                </ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
               <Input
-                {...register("city")}
+                {...register("contactAddress.city")}
                 value={address.city}
                 placeholder="Cidade"
               />
-              {errors.city && (
-                <ErrorMessage>{errors.city.message}</ErrorMessage>
+              {errors.contactAddress?.city && (
+                <ErrorMessage>
+                  {errors.contactAddress.city.message}
+                </ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
               <Input
-                {...register("state")}
+                {...register("contactAddress.state")}
                 value={address.state}
                 placeholder="Estado"
               />
-              {errors.state && (
-                <ErrorMessage>{errors.state.message}</ErrorMessage>
+              {errors.contactAddress?.state && (
+                <ErrorMessage>
+                  {errors.contactAddress.state.message}
+                </ErrorMessage>
               )}
             </FieldWrapper>
           </Row>
