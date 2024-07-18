@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
-import imagemFundo from "./assets/img-fundo.jpg";
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -15,7 +14,6 @@ export const GlobalStyle = createGlobalStyle`
       position: relative; 
       background-color: rgba(255, 255, 255, 0.85);
         overflow: auto; 
-      background: black url(${imagemFundo}) center center no-repeat fixed;
       background-size: cover; 
     }
 `;
