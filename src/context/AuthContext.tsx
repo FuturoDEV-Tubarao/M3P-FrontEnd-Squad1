@@ -24,18 +24,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const login = async (data: LoginData) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await api.post("/api/labfoods/v1/auth", data,  {
+      const credentials = btoa(`${data.email}:${data.password}`);
+  
+      const response = await api.post("/api/labfoods/v1/auth", data, {
         headers: {
-          Authorization: `${token}`,
-        }
-        });
-
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+  
       if (response.data && response.status === 200) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("isLogado", "true");
-        
+  
         navigate("/");
       } else {
         alert("Não foi possível realizar o login");
