@@ -54,7 +54,8 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
       console.log(data);
       const response = await api.post("/api/labfoods/v1/recipe", data,  {
         headers: {
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json' 
         },
       });
 
