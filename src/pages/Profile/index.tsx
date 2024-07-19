@@ -6,7 +6,6 @@ import { AuthContext } from "../../context/AuthContext";
 
 export function Profile() {
   const { deleteUser } = useContext(UserContext);
-  // const navigate = useNavigate();
 
   const handleDelete = async () => {
     if (user && window.confirm("Tem certeza de que deseja excluir sua conta?")) {
@@ -37,7 +36,7 @@ export function Profile() {
           <ButtonGroup>
             <StyledNavLink
               to="/editProfile"
-              state={{ user: user }} // Corrigido: Passando o estado diretamente
+              state={{ user: user }} 
               title="UserForm"
             >
               Editar
