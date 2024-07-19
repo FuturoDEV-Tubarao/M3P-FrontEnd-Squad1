@@ -44,14 +44,17 @@ export function Recipes() {
             </Header>
             <Title>{recipe.title}</Title>
             <Meta>
-              <FontAwesomeIcon icon={faUser} style={{ marginRight: "1px" }} />
-              {/* {recipe.author} */}Nome usuario
-              <FontAwesomeIcon
-                icon={faCalendarAlt}
-                style={{ marginLeft: "55px", marginRight: "5px" }}
-              />
-              {recipe.lastModifiedDate}
-            </Meta>
+              <div>
+                <FontAwesomeIcon icon={faUser} />
+                {/* {recipe.author} */}Nome usuario
+              </div>
+              <div>
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                />
+                {recipe.createdDate ? new Date(recipe.createdDate).toLocaleDateString('pt-BR') : 'Data não disponível'}
+              </div>
+              </Meta>
             <Description>{recipe.description}</Description>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Button as={Link} to={`/recipe/${recipe.id}`}>

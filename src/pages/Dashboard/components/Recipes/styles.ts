@@ -78,11 +78,16 @@ export const Title = styled.h2`
 export const Meta = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-right: 10px;
+  justify-content: space-between;
+  gap: 7px;
   font-size: 17px;
   color: #666;
   margin-top: 8px;
+
+  div {
+    display: flex;
+    gap: 6px;
+  }
 `;
 
 export const Description = styled.p`
