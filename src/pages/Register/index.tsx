@@ -187,7 +187,9 @@ export function Register() {
           <FieldWrapper>
             <Input
               type="number"
-              {...register("contactAddress.number_address")}
+              {...register("contactAddress.number_address", {
+                valueAsNumber: true,
+              })}
               placeholder="Número"
             />
             {errors.contactAddress?.number_address && (
