@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const ProfileContainer = styled.div`
@@ -65,7 +65,7 @@ export const ButtonGroup = styled.div`
   }
 `;
 
-export const StyledNavLink = styled(NavLink)`
+export const StyledNavLink = styled(Link)`
   padding: 0.50rem 0.9rem;
   font-size: 1rem;
   border: none;

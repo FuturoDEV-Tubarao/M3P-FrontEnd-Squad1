@@ -15,7 +15,7 @@ import {
 } from "./styles"; // Certifique-se de ajustar o caminho conforme necessário
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { RegisterContext } from "../../context/RegisterContext";
+import { UserContext } from "../../context/UserContext";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -73,7 +73,7 @@ export function Register() {
     },
   });
 
-  const { signup } = useContext(RegisterContext);
+  const { signup } = useContext(UserContext);
 
   const zipCode = watch("contactAddress.zipCode");
   const [address, setAddress] = useState({
