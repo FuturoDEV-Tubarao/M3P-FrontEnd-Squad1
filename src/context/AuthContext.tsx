@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 
@@ -6,11 +6,20 @@ interface AuthContextType {
   login: (data: LoginData) => Promise<void>;
   logout: () => void;
   logado: () => boolean;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>; // Adicione esta linha
+
 }
 
 interface LoginData {
   email: string;
   password: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
 }
 
 interface AuthContextProviderProps {
@@ -21,22 +30,39 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    const isLogado = localStorage.getItem("isLogado");
+
+    if (storedUser && token && isLogado === "true") {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = async (data: LoginData) => {
     try {
       const credentials = btoa(`${data.email}:${data.password}`);
-  
+
       const response = await api.post("/api/labfoods/v1/auth", data, {
         headers: {
           Authorization: `Basic ${credentials}`,
         },
       });
-  
+
       if (response.data && response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("isLogado", "true");
-  
+        const userData: User = {
+          id: response.data.id,
+          name: response.data.name,
+          email: response.data.email
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+        setUser(userData);
+
         navigate("/");
       } else {
         alert("Não foi possível realizar o login");
@@ -48,23 +74,18 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
     localStorage.removeItem("isLogado");
-    
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
   };
 
-  function logado () {
-    const isLogado = localStorage.getItem("isLogado")
-
-    if(isLogado){
-      return true
-    } else {
-      return false
-    }
+  function logado() {
+    return localStorage.getItem("isLogado") === "true";
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, logado }}>
+    <AuthContext.Provider value={{ login, logout, logado, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
