@@ -37,24 +37,24 @@ export function Recipes() {
             <Header>
               <Badge>{recipe.recipeType}</Badge>
               <div>
-                <StarRating>
-                  {logado() && <Votes recipe={recipe} />}
-                </StarRating>
+                <StarRating>{logado() && <Votes recipe={recipe} />}</StarRating>
               </div>
             </Header>
             <Title>{recipe.title}</Title>
             <Meta>
+              {recipe.createdBy && !!recipe.createdBy.name && (
+                <div>
+                  <FontAwesomeIcon icon={faUser} />
+                  {recipe.createdBy.name}
+                </div>
+              )}
               <div>
-                <FontAwesomeIcon icon={faUser} />
-                {/* {recipe.author} */}Nome usuario
+                <FontAwesomeIcon icon={faCalendarAlt} />
+                {recipe.createdDate
+                  ? new Date(recipe.createdDate).toLocaleDateString("pt-BR")
+                  : "Data não disponível"}
               </div>
-              <div>
-                <FontAwesomeIcon
-                  icon={faCalendarAlt}
-                />
-                {recipe.createdDate ? new Date(recipe.createdDate).toLocaleDateString('pt-BR') : 'Data não disponível'}
-              </div>
-              </Meta>
+            </Meta>
             <Description>{recipe.description}</Description>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Button as={Link} to={`/recipe/${recipe.id}`}>

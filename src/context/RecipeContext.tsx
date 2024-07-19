@@ -21,7 +21,12 @@ interface Recipe {
   origin: string;
   votes?: Vote[];
   // lastModifiedDate?: string;
+  createdDate: string;
   url?: string;
+  createdBy?: {
+    name: string;
+    id: string;
+  }
 }
 
 interface Vote {
