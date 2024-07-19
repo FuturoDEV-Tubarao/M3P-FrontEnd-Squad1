@@ -56,6 +56,9 @@ interface Vote {
   feedback: string;
   lastModifiedDate: string;
   recipeId: string;
+  createdBy: {
+    name: string;
+  } 
 }
 
 
@@ -142,7 +145,7 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
           <div>
             {!!recipe.votes && recipe.votes.map((voto) => (
               <VoteContainer key={voto.id}>
-                <ReviewAuthor>Nome</ReviewAuthor>
+                <ReviewAuthor>{voto.createdBy.name}</ReviewAuthor>
                 <p>{voto.feedback}</p>
                 <VoteContent>
                   <p>nota {voto.note}</p>
