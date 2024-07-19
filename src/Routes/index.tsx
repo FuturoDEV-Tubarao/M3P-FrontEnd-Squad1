@@ -9,7 +9,7 @@ import { EditRecipe } from "../pages/EditeRecipe";
 import { AuthContextProvider } from "../context/AuthContext";
 import { RecipePage } from "../pages/RecipePage";
 import { RecipesContextProvider } from "../context/RecipeContext";
-import { RegisterContextProvider } from "../context/RegisterContext";
+import { UserContextProvider } from "../context/UserContext";
 // import { NewRecipeReview } from "../pages/RecipePage/components/NewRecipeReview";
 
 const RotaPrivada = () => {
@@ -20,26 +20,26 @@ const RotaPrivada = () => {
 
 export function Router() {
   return (
-    <RegisterContextProvider>
     <AuthContextProvider>
-      <RecipesContextProvider>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/addrecipe" element={<NewRecipe />} />
-          <Route path="/editrecipe" element={<EditRecipe />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/editProfile" element={<UserForm />} />
-          <Route  path="/recipe/:id" element={<RecipePage />} />
-          {/* <Route path="/recipereview" element={<NewRecipeReview />} /> */}
+      <UserContextProvider>
+        <RecipesContextProvider>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/addrecipe" element={<NewRecipe />} />
+            <Route path="/editrecipe" element={<EditRecipe />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/editProfile" element={<UserForm />} />
+            <Route path="/recipe/:id" element={<RecipePage />} />
+            {/* <Route path="/recipereview" element={<NewRecipeReview />} /> */}
 
-          <Route element={<RotaPrivada />}>
-            {/* adicionar as rotas privadas aqui, deixei elas fora para poder visualizar todas */}
-          </Route>
-        </Routes>
-      </RecipesContextProvider>
+            <Route element={<RotaPrivada />}>
+              {/* adicionar as rotas privadas aqui, deixei elas fora para poder visualizar todas */}
+            </Route>
+          </Routes>
+        </RecipesContextProvider>
+      </UserContextProvider>
     </AuthContextProvider>
-    </RegisterContextProvider>
   );
 }
