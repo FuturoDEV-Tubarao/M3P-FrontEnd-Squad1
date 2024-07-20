@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../axios/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 enum RecipeType {
   MAIN_DISH = 'MAIN_DISH',
@@ -21,7 +22,7 @@ interface Recipe {
   origin: string;
   votes?: Vote[];
   // lastModifiedDate?: string;
-  createdDate: string;
+  createdDate?: string;
   url?: string;
   createdBy?: {
     name: string;
@@ -58,9 +59,11 @@ export const RecipesContext = createContext({} as RecipesContextType);
 export function RecipesContextProvider({ children }: RecipesContextProviderProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   const createRecipe = async (data: Recipe) => {
     try {
+      console.log(data);
       const response = await api.post("/api/labfoods/v1/recipe", data,  {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,6 +73,8 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
 
       if(response.data && response.status === 200) {
         alert("Receita cadastrada com sucesso");
+        navigate("/");
+
       } else {
         alert("Não foi possível cadastrar a receita");
       }

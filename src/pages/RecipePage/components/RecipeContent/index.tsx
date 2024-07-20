@@ -48,7 +48,7 @@ interface Recipe {
   origin: string;
   votes?: Vote[];
   // lastModifiedDate?: string;
-  createdDate: string;
+  createdDate?: string;
   url?: string;
   createdBy?: {
     name: string;

@@ -22,12 +22,11 @@ import { AuthContext } from "../../../../context/AuthContext";
 import { RecipesContext } from "../../../../context/RecipeContext";
 
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
-
 
 interface Recipe {
   id?: string;
@@ -41,7 +40,7 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  createdDate: string;
+  createdDate?: string;
   url?: string;
   createdBy?: {
     name: string;
@@ -72,7 +71,6 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
     setShowReviewPopup(true);
   };
 
-  
   const closeReviewPopup = async () => {
     setShowReviewPopup(false);
     const fetchedRecipe = await fetchRecipeById(recipe.id!);
@@ -81,6 +79,15 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
     }
   };
 
+  const { user } = useContext(AuthContext);
+  if (user != null) {
+    console.log(user.id);
+  }
+
+  console.log(recipe.createdBy?.id);
+  
+  const shouldShowReviewSection = logado() && user && recipe.createdBy && user.id !== recipe.createdBy.id;
+
   return (
     <Container>
       <ReviewsSection>
@@ -88,17 +95,22 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
         <div>
           <Votes recipe={updatedRecipe} />
         </div>
-        <ReviewText>{!!updatedRecipe.votes && updatedRecipe.votes.length} avaliações globais</ReviewText>
+        <ReviewText>
+          {!!updatedRecipe.votes && updatedRecipe.votes.length} avaliações
+          globais
+        </ReviewText>
         <Divider />
-        <SectionTitle>Avalie este produto</SectionTitle>
-        <ProductReviewPrompt>
-          Compartilhe seus pensamentos com outros clientes
-        </ProductReviewPrompt>
-        {logado() && (
-          <Button onClick={openReviewPopup}>
-            <FontAwesomeIcon icon={faPen} />
-            Escreva uma avaliação
-          </Button>
+        {shouldShowReviewSection && (
+          <>
+            <SectionTitle>Avalie este produto</SectionTitle>
+            <ProductReviewPrompt>
+              Compartilhe seus pensamentos com outros clientes
+            </ProductReviewPrompt>
+            <Button onClick={openReviewPopup}>
+              <FontAwesomeIcon icon={faPen} />
+              Escreva uma avaliação
+            </Button>
+          </>
         )}
       </ReviewsSection>
       <MainReviewsSection>
@@ -121,7 +133,10 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
         </ReviewItem>
       </MainReviewsSection>
       {showReviewPopup && updatedRecipe.id && (
-        <NewRecipeReview onClose={closeReviewPopup} idRecipe={updatedRecipe.id} />
+        <NewRecipeReview
+          onClose={closeReviewPopup}
+          idRecipe={updatedRecipe.id}
+        />
       )}
     </Container>
   );
