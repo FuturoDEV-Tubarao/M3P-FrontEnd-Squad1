@@ -2,27 +2,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
   BadgeAndRatingContainer,
-  Button,
-  ButtonContainer,
   ContentContainer,
   DetailsContainer,
   ImageSection,
   MainContainer,
   RatingContainer,
   ShareContainer,
-  SpecialButton,
   TextSection,
   Title,
   Image,
   Text,
+  UserDetails,
 } from "./styles";
 import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
 
 import {
-  faStar,
   faFlag,
   faClock,
-  faPen,
+  faUser,
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookF,
@@ -32,14 +30,12 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { Votes } from "../../../../components/Votes";
 
-
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
-
 
 interface Recipe {
   id?: string;
@@ -55,6 +51,11 @@ interface Recipe {
   votes?: Vote[];
   lastModifiedDate?: string;
   url?: string;
+  createdDate?: string;
+  createdBy?: {
+    name: string;
+    id: string;
+  };
 }
 
 interface Vote {
@@ -63,13 +64,11 @@ interface Vote {
   recipeId: string;
 }
 
-
 interface RecipeHeaderProps {
   recipe: Recipe;
 }
 
 export function RecipeHeader({ recipe }: RecipeHeaderProps) {
-
   return (
     <MainContainer>
       <ContentContainer>
@@ -103,16 +102,18 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
               <FontAwesomeIcon icon={faWhatsapp} />
             </a>
           </ShareContainer>
-          <ButtonContainer>
-            <Button>
-              <FontAwesomeIcon icon={faStar} />
-              Votar Receita
-            </Button>
-            <SpecialButton>
-              <FontAwesomeIcon icon={faPen} />
-              Alterar Receita
-            </SpecialButton>
-          </ButtonContainer>
+          <section>
+            <UserDetails>
+              <FontAwesomeIcon icon={faUser} />
+              <span>{recipe.createdBy?.name}</span>
+            </UserDetails>
+            <UserDetails>
+              <FontAwesomeIcon icon={faCalendarAlt} />
+              {recipe.createdDate
+                ? new Date(recipe.createdDate).toLocaleDateString("pt-BR")
+                : "Data não disponível"}
+            </UserDetails>
+          </section>
         </TextSection>
         <ImageSection>
           <Image src={ImagemReceita} alt="Delicious Dish" />
