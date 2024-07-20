@@ -3,10 +3,10 @@ import api from "../axios/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
 
 interface Recipe {
@@ -27,7 +27,7 @@ interface Recipe {
   createdBy?: {
     name: string;
     id: string;
-  }
+  };
 }
 
 interface Vote {
@@ -36,7 +36,7 @@ interface Vote {
   recipeId: string;
   createdBy: {
     name: string;
-  } 
+  };
 }
 
 interface RecipesContextType {
@@ -44,10 +44,8 @@ interface RecipesContextType {
   updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<void>;
   createRecipe: (data: Recipe) => Promise<void>;
   createVote: (data: Vote) => Promise<void>;
-  // getRecipeById: (id: string) => Promise<Recipe | null>;
   fetchRecipeById: (id: string) => Promise<Recipe | null>;
-
-
+  deleteRecipe: (id: string) => Promise<void>;
 }
 
 interface RecipesContextProviderProps {
@@ -56,25 +54,26 @@ interface RecipesContextProviderProps {
 
 export const RecipesContext = createContext({} as RecipesContextType);
 
-export function RecipesContextProvider({ children }: RecipesContextProviderProps) {
+export function RecipesContextProvider({
+  children,
+}: RecipesContextProviderProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const createRecipe = async (data: Recipe) => {
     try {
-      console.log(data);
-      const response = await api.post("/api/labfoods/v1/recipe", data,  {
+      const response = await api.post("/api/labfoods/v1/recipe", data, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json' 
+          "Content-Type": "application/json",
         },
       });
 
-      if(response.data && response.status === 200) {
+      if (response.data && response.status === 200) {
         alert("Receita cadastrada com sucesso");
+        setRecipes((prevRecipes) => [...prevRecipes, response.data]);
         navigate("/");
-
       } else {
         alert("Não foi possível cadastrar a receita");
       }
@@ -82,19 +81,17 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
       alert("Erro ao tentar cadastrar receita");
     }
   };
-  
 
-  const createVote = async (data : Vote) => {
+  const createVote = async (data: Vote) => {
     try {
-      console.log(data)
-      const response = await api.post("/api/labfoods/v1/vote", data,  {
+      const response = await api.post("/api/labfoods/v1/vote", data, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json' 
+          "Content-Type": "application/json",
         },
       });
 
-      if(response.data && response.status === 200) {
+      if (response.data && response.status === 200) {
         alert("Voto cadastrado com sucesso");
       } else {
         alert("Não foi possível cadastrar o voto");
@@ -102,19 +99,51 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
     } catch (error) {
       alert("Erro ao tentar cadastrar voto");
     }
-  }
+  };
 
-  const updateRecipe = async (id: string, updatedRecipe: Recipe) => {
+  const updateRecipe = async (id: string, data: Recipe) => {
     try {
-      const response = await api.put(`/api/labfoods/v1/recipe/${id}`, updatedRecipe);
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
 
-      setRecipes((prevRecipes) =>
-        prevRecipes.map((recipe) =>
-          recipe.id === id ? { ...recipe, ...response.data } : recipe
-        )
-      );
+      const response = await api.put(`/api/labfoods/v1/recipe/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data && response.status === 200) {
+        alert("Receita atualizada com sucesso");
+        setRecipes((prevRecipes) =>
+          prevRecipes.map((recipe) =>
+            recipe.id === id ? response.data : recipe
+          )
+        );
+      } else {
+        alert("Não foi possível atualizar o usuário");
+      }
     } catch (error) {
-      console.error("Erro ao atualizar a receita:", error);
+      console.error(error);
+      alert("Erro ao tentar atualizar receita");
+    }
+  };
+
+  const deleteRecipe = async (id: string) => {
+    try {
+      const response = await api.delete(`/api/labfoods/v1/recipe/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 204) {
+        alert("Receita excluída com sucesso!");
+        setRecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
+        navigate("/");
+      }
+    } catch (error) {
+      alert("Erro ao tentar excluir receita");
     }
   };
 
@@ -131,17 +160,26 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
       return null;
     }
   };
-  
+
   useEffect(() => {
     async function fetchData() {
-      const response = await api.get('/api/labfoods/v1/recipe');
+      const response = await api.get("/api/labfoods/v1/recipe");
       setRecipes(response.data);
     }
     fetchData();
   }, []);
 
   return (
-    <RecipesContext.Provider value={{ recipes, updateRecipe, createRecipe, createVote, fetchRecipeById   }}>
+    <RecipesContext.Provider
+      value={{
+        recipes,
+        updateRecipe,
+        createRecipe,
+        createVote,
+        fetchRecipeById,
+        deleteRecipe,
+      }}
+    >
       {children}
     </RecipesContext.Provider>
   );
