@@ -7,7 +7,7 @@ interface AuthContextType {
   logout: () => void;
   logado: () => boolean;
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>; // Adicione esta linha
+  setUser: React.Dispatch<React.SetStateAction<User | null>>; 
 
 }
 
