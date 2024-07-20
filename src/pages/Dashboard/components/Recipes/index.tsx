@@ -13,12 +13,10 @@ import {
   RecipeContainer,
   StarRating,
   Title,
-  VoteButton,
+  // VoteButton,
 } from "./styles";
 import { useContext } from "react";
 import { RecipesContext } from "../../../../context/RecipeContext";
-// import { AuthContext } from "../../../../context/AuthContext";
-// import { useContext } from "react";
 import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
 import { AuthContext } from "../../../../context/AuthContext";
 import { Link } from "react-router-dom";
@@ -60,7 +58,7 @@ export function Recipes() {
               <Button as={Link} to={`/recipe/${recipe.id}`}>
                 Ver Receita
               </Button>
-              {logado() && <VoteButton>Votar Receita</VoteButton>}
+              {/* {logado() && <VoteButton>Votar Receita</VoteButton>} */}
             </div>
           </Content>
         </Card>
