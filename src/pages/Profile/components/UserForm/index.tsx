@@ -2,13 +2,19 @@ import { useLocation } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { FormGroup, FormWrapper } from "./styles";
-import { ButtonGroup } from "../../styles";
+// import { FormWrapper } from "./styles";
 import { Header } from "../../../../components/Header";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import axios from "axios";
-import { ErrorMessage, Row } from "../../../Register/styles";
+import {
+  ErrorMessage,
+  FieldWrapper,
+  // GlassCard,
+  Row,
+  // StyledSelect,
+} from "../../../Register/styles";
+import { ButtonSave, Input, StyledSelect, UpdateContainer, UpdateContent } from "./styles";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -36,7 +42,6 @@ const userProfileSchema = zod.object({
   }),
 });
 
-
 type UserProfileFormData = zod.infer<typeof userProfileSchema>;
 
 export function UserForm() {
@@ -54,7 +59,7 @@ export function UserForm() {
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
       name: user?.name || "",
-      gender: user?.gender || "",
+      gender: user?.gender || "MALE",
       birthDate: user?.birthDate || "",
       email: user?.email || "",
       cpf: user?.cpf || "",
@@ -112,140 +117,158 @@ export function UserForm() {
     setValue("contactAddress.state", address.state);
   }, [address, setValue]);
 
-
   const onSubmit: SubmitHandler<UserProfileFormData> = async (data) => {
     if (user?.id) {
-      await update(user.id, data); 
+      await update(user.id, data);
     }
   };
 
   return (
     <>
       <Header currentPage={"dashboard"} />
-      <FormWrapper>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormGroup>
-            <label htmlFor="name">Nome</label>
-            <input id="name" {...register("name")} />
-            {errors.name && <span>{errors.name.message}</span>}
-          </FormGroup>
-
-          <FormGroup>
-            <label htmlFor="gender">Sexo</label>
-            <select id="gender" {...register("gender")}>
-              <option value="MALE">Masculino</option>
-              <option value="FEMALE">Feminino</option>
-            </select>
-            {errors.gender && <span>{errors.gender.message}</span>}
-          </FormGroup>
-
-          <FormGroup>
-            <label htmlFor="birthDate">Data de Nascimento</label>
-            <input type="date" id="birthDate" {...register("birthDate")} />
-            {errors.birthDate && <span>{errors.birthDate.message}</span>}
-          </FormGroup>
-
-          <FormGroup>
-            <label htmlFor="email">E-mail</label>
-            <input type="email" id="email" {...register("email")} />
-            {errors.email && <span>{errors.email.message}</span>}
-          </FormGroup>
-
-          <FormGroup>
-            <label htmlFor="cpf">CPF</label>
-            <input id="cpf" {...register("cpf")} />
-            {errors.cpf && <span>{errors.cpf.message}</span>}
-          </FormGroup>
-
-          <FormGroup>
-            <label htmlFor="password">Senha</label>
-            <input type="password" id="password" {...register("password")} />
-            {errors.password && <span>{errors.password.message}</span>}
-          </FormGroup>
-          <FormGroup>
-            <input
-              type="text"
-              {...register("contactAddress.zipCode")}
-              placeholder="CEP"
-            />
-            {errors.contactAddress?.zipCode && (
-              <ErrorMessage>
-                {errors.contactAddress.zipCode.message}
-              </ErrorMessage>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <input
-              type="number"
-              {...register("contactAddress.number_address", {
-                valueAsNumber: true,
-              })}
-              placeholder="Número"
-            />
-            {errors.contactAddress?.number_address && (
-              <ErrorMessage>
-                {errors.contactAddress.number_address.message}
-              </ErrorMessage>
-            )}
-          </FormGroup>
-
-          <Row>
-            <FormGroup>
-              <input
-                {...register("contactAddress.street")}
-                value={address.street}
-                placeholder="Logradouro"
+      <UpdateContainer>
+        <UpdateContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+              <FieldWrapper>
+                <Input type="text" {...register("name")} placeholder="Nome" />
+                {errors.name && (
+                  <ErrorMessage>{errors.name.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input
+                  type="text"
+                  {...register("cpf")}
+                  placeholder="CPF"
+                  /*disabled*/
+                />
+                {errors.cpf && (
+                  <ErrorMessage>{errors.cpf.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <FieldWrapper>
+              <Input type="text" {...register("email")} placeholder="E-mail" />
+              {errors.email && (
+                <ErrorMessage>{errors.email.message}</ErrorMessage>
+              )}
+            </FieldWrapper>
+            <FieldWrapper>
+              <Input
+                type="password"
+                {...register("password")}
+                placeholder="Senha"
               />
-              {errors.contactAddress?.street && (
+              {errors.password && (
+                <ErrorMessage>{errors.password.message}</ErrorMessage>
+              )}
+            </FieldWrapper>
+            <Row>
+              <FieldWrapper>
+                <Input
+                  type="date"
+                  {...register("birthDate")}
+                  placeholder="Data de Nascimento"
+                />
+                {errors.birthDate && (
+                  <ErrorMessage>{errors.birthDate.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <StyledSelect {...register("gender")}>
+                  <option value="MALE">Masculino</option>
+                  <option value="FEMALE">Feminino</option>
+                </StyledSelect>
+                {errors.gender && (
+                  <ErrorMessage>{errors.gender.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <FieldWrapper>
+              <Input
+                type="text"
+                {...register("contactAddress.zipCode")}
+                placeholder="CEP"
+              />
+              {errors.contactAddress?.zipCode && (
                 <ErrorMessage>
-                  {errors.contactAddress.street.message}
+                  {errors.contactAddress.zipCode.message}
                 </ErrorMessage>
               )}
-            </FormGroup>
-          </Row>
-          <Row>
-            <FormGroup>
-              <input
-                {...register("contactAddress.neighborhood")}
-                value={address.neighborhood}
-                placeholder="Bairro"
+            </FieldWrapper>
+            <FieldWrapper>
+              <Input
+                type="number"
+                {...register("contactAddress.number_address", {
+                  valueAsNumber: true,
+                })}
+                placeholder="Número"
               />
-              {errors.contactAddress?.neighborhood && (
+              {errors.contactAddress?.number_address && (
                 <ErrorMessage>
-                  {errors.contactAddress.neighborhood.message}
+                  {errors.contactAddress.number_address.message}
                 </ErrorMessage>
               )}
-            </FormGroup>
-            <FormGroup>
-              <input
-                {...register("contactAddress.city")}
-                value={address.city}
-                placeholder="Cidade"
-              />
-              {errors.contactAddress?.city && (
-                <ErrorMessage>
-                  {errors.contactAddress.city.message}
-                </ErrorMessage>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <input
-                {...register("contactAddress.state")}
-                value={address.state}
-                placeholder="Estado"
-              />
-              {errors.contactAddress?.state && (
-                <ErrorMessage>
-                  {errors.contactAddress.state.message}
-                </ErrorMessage>
-              )}
-            </FormGroup>
-          </Row>
-          <ButtonGroup>
-            <button type="submit">Salvar</button>
-          </ButtonGroup>
-        </form>
-      </FormWrapper>
+            </FieldWrapper>
+            <Row>
+              <FieldWrapper>
+                <Input
+                  {...register("contactAddress.street")}
+                  value={address.street}
+                  placeholder="Logradouro"
+                />
+                {errors.contactAddress?.street && (
+                  <ErrorMessage>
+                    {errors.contactAddress.street.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <Row>
+              <FieldWrapper>
+                <Input
+                  {...register("contactAddress.neighborhood")}
+                  value={address.neighborhood}
+                  placeholder="Bairro"
+                />
+                {errors.contactAddress?.neighborhood && (
+                  <ErrorMessage>
+                    {errors.contactAddress.neighborhood.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input
+                  {...register("contactAddress.city")}
+                  value={address.city}
+                  placeholder="Cidade"
+                />
+                {errors.contactAddress?.city && (
+                  <ErrorMessage>
+                    {errors.contactAddress.city.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input
+                  {...register("contactAddress.state")}
+                  value={address.state}
+                  placeholder="Estado"
+                />
+                {errors.contactAddress?.state && (
+                  <ErrorMessage>
+                    {errors.contactAddress.state.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <ButtonSave>
+              <button type="submit">Salvar</button>
+            </ButtonSave>
+          </form>
+        </UpdateContent>
+      </UpdateContainer>
     </>
   );
 }
