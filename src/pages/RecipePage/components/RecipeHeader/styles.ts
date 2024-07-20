@@ -74,7 +74,7 @@ export const RatingContainer = styled.div`
 
 export const Text = styled.p`
   color: #4b5563;
-  margin-top: 2.5rem;
+  margin: 3rem 0;
 `;
 
 
@@ -133,10 +133,15 @@ export const Button = styled.button`
 
 
   svg {
-    margin-right: 10px; // Espaço adicionado entre o ícone e o texto
+    margin-right: 10px; 
   }
 `;
 
+export const UserDetails = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+`
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
