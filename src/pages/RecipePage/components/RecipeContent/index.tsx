@@ -17,6 +17,8 @@ import {
   SpecialButton,
   TittleMenu,
   DeleteButton,
+  StyledSelect,
+  CancelButton,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faClock } from "@fortawesome/free-solid-svg-icons";
@@ -26,14 +28,12 @@ import { RecipesContext } from "../../../../context/RecipeContext";
 import { RecipeHeader } from "../RecipeHeader";
 import { RecipeReviewsList } from "../RecipeReviewsList";
 
-
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
-
 
 interface Recipe {
   id?: string;
@@ -47,32 +47,35 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  // lastModifiedDate?: string;
   createdDate?: string;
   url?: string;
   createdBy?: {
     name: string;
     id: string;
-  }
+  };
 }
+
 interface Vote {
   note: number;
   feedback: string;
   recipeId: string;
   createdBy: {
     name: string;
-  } 
+  };
 }
 
 const recipeSchema = zod.object({
+  title: zod.string().min(1, "Informe o título da receita"),
   description: zod.string().min(1, "Informe a descrição da receita"),
-  preparationMethod: zod.string().min(1, "Informe o modo de preparo"),
   ingredients: zod.string().min(1, "Informe os ingredientes"),
-  origin: zod.string().min(1, "Informe o país de origem"),
-  preparationTime: zod.string().min(1, "Informe um tempo de preparo válido"),
-  selectedCategory: zod.string().min(1, "Informe uma categoria"),
+  preparationTime: zod.string().min(1, "Informe uma preparação válida"),
+  preparationMethod: zod.string().min(1, "Informe o modo de preparo"),
+  recipeType: zod.nativeEnum(RecipeType, {
+    required_error: "Informe uma categoria",
+  }),
   glutenFree: zod.boolean(),
   lactoseFree: zod.boolean(),
+  origin: zod.string().min(1, "Informe o país de origem"),
 });
 
 type RecipeFormData = zod.infer<typeof recipeSchema>;
@@ -86,71 +89,82 @@ export function RecipeContent() {
   } = useForm<RecipeFormData>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
+      title: "",
       description: "",
-      preparationMethod: "",
       ingredients: "",
-      origin: "Brasil",
-      preparationTime: "30",
-      selectedCategory: "",
+      preparationTime: "",
+      preparationMethod: "",
+      recipeType: RecipeType.MAIN_DISH,
       glutenFree: false,
       lactoseFree: false,
+      origin: "",
     },
   });
 
-  const { id } = useParams<{ id: string}>();
-  const { recipes, updateRecipe } = useContext(RecipesContext);
-  const { logado } = useContext(AuthContext);
-
+  const { id } = useParams<{ id: string }>();
+  const { recipes, updateRecipe, fetchRecipeById, deleteRecipe } = useContext(RecipesContext);
+  const { logado, user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
-  const isLoggedIn = logado();
-
   const [recipe, setRecipe] = useState<Recipe | null>(null);
 
   useEffect(() => {
     const foundRecipe = recipes.find((recipe) => recipe.id === id);
-    console.log(foundRecipe)
     if (foundRecipe) {
       setRecipe(foundRecipe);
-      setValue("description", foundRecipe.description);
-      setValue("preparationMethod", foundRecipe.preparationMethod);
-      setValue("ingredients", foundRecipe.ingredients);
-      setValue("origin", foundRecipe.origin);
-      setValue("preparationTime", foundRecipe.preparationTime);
-      setValue("selectedCategory", foundRecipe.recipeType);
-      setValue("glutenFree", foundRecipe.glutenFree);
-      setValue("lactoseFree", foundRecipe.lactoseFree);
+      Object.keys(foundRecipe).forEach((key) =>
+        setValue(
+          key as keyof RecipeFormData,
+          foundRecipe[key as keyof RecipeFormData]
+        )
+      );
     }
   }, [id, recipes, setValue]);
 
-  if (!recipe) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    if (recipe) {
+      Object.keys(recipe).forEach((key) =>
+        setValue(
+          key as keyof RecipeFormData,
+          recipe[key as keyof RecipeFormData]
+        )
+      );
+    }
+  }, [recipe, setValue]);
 
-   const onSubmit: SubmitHandler<RecipeFormData> = async (data) => {
+  if (!recipe) return <div>Loading...</div>;
+
+  const onSubmit: SubmitHandler<RecipeFormData> = async (data) => {
     if (!id) {
       console.error("Erro: ID da receita não encontrado");
       return;
     }
 
     try {
-      await updateRecipe(id, {
-        ...recipe,
-        ...data,
-        preparationMethod: data.preparationMethod,
-      });
+      await updateRecipe(id, { ...recipe, ...data });
+      const updatedRecipe = await fetchRecipeById(id);
+      if (updatedRecipe) {
+        setRecipe(updatedRecipe);
+      }
       setIsEditing(false);
     } catch (error) {
       console.error("Erro ao atualizar a receita:", error);
+      alert("Erro ao atualizar a receita. Por favor, tente novamente.");
     }
   };
 
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
+  const handleDelete = async () => {
+    if (recipe && recipe.id && window.confirm("Tem certeza de que deseja excluir sua receita?")) {
+      try {
+        await deleteRecipe(recipe.id!);
+      } catch (error) {
+        console.error("Erro ao excluir receita:", error);
+        alert("Erro ao tentar excluir a receita");
+      }
+    }
   };
 
-  const handleDeleteClick = () => {
-    console.log("excluir")
-  };
+  const changeRecipeSection =
+    logado() && user && recipe.createdBy && user.id === recipe.createdBy.id;
 
   return (
     <>
@@ -162,25 +176,24 @@ export function RecipeContent() {
               <Title>Descrição</Title>
               <TextArea
                 {...register("description")}
-                disabled={!isEditing || !isLoggedIn}
+                disabled={!isEditing || !logado()}
               />
               {errors.description && <span>{errors.description.message}</span>}
               <Subtitle>Ingredientes</Subtitle>
               <TextArea
                 {...register("ingredients")}
-                disabled={!isEditing || !isLoggedIn}
+                disabled={!isEditing || !logado()}
               />
               {errors.ingredients && <span>{errors.ingredients.message}</span>}
-
               <Subtitle>Modo de Preparo</Subtitle>
-              <GeneralSection>
-                <TextArea
-                  {...register("preparationMethod")}
-                  disabled={!isEditing || !isLoggedIn}
-                />
-              </GeneralSection>
+              <TextArea
+                {...register("preparationMethod")}
+                disabled={!isEditing || !logado()}
+              />
+              {errors.preparationMethod && (
+                <span>{errors.preparationMethod.message}</span>
+              )}
             </GeneralSection>
-
             <SpecialSection>
               <TittleMenu>Informações do Menu</TittleMenu>
               <List>
@@ -188,7 +201,7 @@ export function RecipeContent() {
                   <FontAwesomeIcon icon={faFlag} color="#2b9a31" />
                   <Input
                     {...register("origin")}
-                    disabled={!isEditing || !isLoggedIn}
+                    disabled={!isEditing || !logado()}
                   />
                   {errors.origin && <span>{errors.origin.message}</span>}
                 </ListItem>
@@ -196,49 +209,100 @@ export function RecipeContent() {
                   <FontAwesomeIcon icon={faClock} color="#2b9a31" />
                   <Input
                     {...register("preparationTime")}
-                    disabled={!isEditing || !isLoggedIn}
+                    disabled={!isEditing || !logado()}
                   />
                   {errors.preparationTime && (
                     <span>{errors.preparationTime.message}</span>
                   )}
                 </ListItem>
               </List>
-
               <Subtitle>Categorias</Subtitle>
-              <Checkbox
-                {...register("selectedCategory")}
-                disabled={!isEditing || !isLoggedIn}
-              />
-                <label htmlFor="glutenFree">{recipe.recipeType}</label>
-
+              <StyledSelect
+                {...register("recipeType")}
+                disabled={!isEditing || !logado()}
+              >
+                {Object.values(RecipeType).map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </StyledSelect>
+              {errors.recipeType && <span>{errors.recipeType.message}</span>}
               <Subtitle>Tipo de Dieta</Subtitle>
               <List>
-                <ListItem>
-                  <Checkbox
-                    {...register("glutenFree")}
-                    disabled={!isEditing || !isLoggedIn}
-                  />
-                  <label htmlFor="glutenFree">Sem Glúten</label>
-                </ListItem>
-                <ListItem>
-                  <Checkbox
-                    {...register("lactoseFree")}
-                    disabled={!isEditing || !isLoggedIn}
-                  />
-                  <label htmlFor="lactoseFree">Sem Lactose</label>
-                </ListItem>
+                {!isEditing ? (
+                  <>
+                    {recipe.glutenFree && (
+                      <ListItem>
+                        <Checkbox
+                          {...register("glutenFree")}
+                          disabled
+                          checked
+                        />
+                        <label htmlFor="glutenFree">Sem Glúten</label>
+                      </ListItem>
+                    )}
+                    {recipe.lactoseFree && (
+                      <ListItem>
+                        <Checkbox
+                          {...register("lactoseFree")}
+                          disabled
+                          checked
+                        />
+                        <label htmlFor="lactoseFree">Sem Lactose</label>
+                      </ListItem>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <ListItem>
+                      <Checkbox
+                        {...register("glutenFree")}
+                        disabled={!logado()}
+                      />
+                      <label htmlFor="glutenFree">Sem Glúten</label>
+                    </ListItem>
+                    <ListItem>
+                      <Checkbox
+                        {...register("lactoseFree")}
+                        disabled={!logado()}
+                      />
+                      <label htmlFor="lactoseFree">Sem Lactose</label>
+                    </ListItem>
+                  </>
+                )}
               </List>
-
-              {isLoggedIn && (
-                <SpecialButton type="button" onClick={handleEditClick}>
-                  {isEditing ? "Salvar" : "Alterar Receita"}
-                </SpecialButton>
-              )}
-              {isLoggedIn && (
-                <DeleteButton type="button" onClick={handleDeleteClick}>
-                  Excluir
-                </DeleteButton>
-              )}
+              <>
+                {" "}
+                {changeRecipeSection && (
+                  <>
+                    {!isEditing ? (
+                      <SpecialButton
+                        type="button"
+                        onClick={() => setIsEditing(true)}
+                      >
+                        Alterar Receita
+                      </SpecialButton>
+                    ) : (
+                      <>
+                        <SpecialButton type="submit">Salvar</SpecialButton>
+                        <CancelButton
+                          type="button"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancelar
+                        </CancelButton>
+                      </>
+                    )}
+                    <DeleteButton
+                      type="button"
+                      onClick={handleDelete}
+                    >
+                      Excluir
+                    </DeleteButton>
+                  </>
+                )}
+              </>
             </SpecialSection>
           </Grid>
         </form>
