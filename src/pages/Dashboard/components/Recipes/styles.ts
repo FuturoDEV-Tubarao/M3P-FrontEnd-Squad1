@@ -18,7 +18,7 @@ export const RecipeContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-row-gap: 40px;
-  grid-column-gap: 32px;
+  grid-column-gap: 45px;
 `;
 
 export const Card = styled.div`
@@ -27,8 +27,8 @@ export const Card = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 10px;
-  margin: 6px 25px;
   width: 360px;
+  margin-top: 15px;
 `;
 
 export const Image = styled.img`
