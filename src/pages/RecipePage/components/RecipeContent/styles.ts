@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-// Estilos globais para o componente
 export const Container = styled.div`
   max-width: 1200px;
   margin: 50px auto;
@@ -81,14 +80,42 @@ export const ListItem = styled.li`
   }
 `;
 
+export const StyledSelect = styled.select`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 16px;
+  color: black;
+  
+  &:disabled {
+    background-color: #f0f0f0;
+    color: black;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #2b9a31;
+  }
+
+  option {
+    padding: 8px;
+  }
+`;
+
 export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   appearance: none;
-  background-color: #fff;
   border: 1px solid #2b9a31;
   padding: 10px;
   display: inline-block;
   position: relative;
-  margin-right: 8px;
+  margin: 4px 6px;
+
+   &:disabled {
+    border: 0;
+    color: black;
+  }
 
   &:checked {
     background-color: #2b9a31;
@@ -116,7 +143,7 @@ const pulse = keyframes`
 `;
 
 export const Button = styled.button`
-  width: 100%; // Garante que o container ocupe toda a largura
+  width: 100%; 
   display: flex;
   justify-content: center;
   margin-top: 30px;
@@ -129,29 +156,41 @@ export const Button = styled.button`
   font-weight: light;
 
   &:hover {
-    background-color: #f2ca04;
   }
 
   svg {
-    margin-right: 10px; // Espaço adicionado entre o ícone e o texto
+    margin-right: 10px;
   }
 `;
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
-  background-color: #2b9a31; // Cor especial para este botão
+  background-color: #2b9a31; 
   color: white;
   margin-top: 50px;
 
   &:hover {
-    background-color: #ffdf34; // Cor de hover especial
+    background-color: #ffdf34; 
     color: black;
   }
 `;
 
-export const DeleteButton = styled(Button)`
-   background-color: red; // Cor especial para este botão
+export const CancelButton = styled(Button)`
+  background-color: #CCCCCC;
   color: white;
+
+   &:hover {
+    background-color:#B0B0B0; 
+    color: white;
+  }
 `
 
-export const Radio = styled(Checkbox).attrs({ type: "radio" })``;
+export const DeleteButton = styled(Button)`
+    background-color: #E30000;
+    color: white;
+
+    &:hover {
+    background-color:#D62500;
+  }
+`
+
