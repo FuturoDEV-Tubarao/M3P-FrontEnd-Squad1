@@ -1,45 +1,60 @@
 import styled from "styled-components";
 
-export const FormWrapper = styled.div`
+
+export const UpdateContainer = styled.div`
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  padding: 50px 0; // Ajustado padding vertical
+`
+
+export const UpdateContent = styled.div`
+  background-color: #EBEBEB;
+  padding: 40px; 
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
   max-width: 500px;
-  margin: 2.5rem auto;
-  padding: 2rem;
-  background-color: #f9f9f9;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+`
+
+export const Input = styled.input`
+   width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
-`;
+  border: none;
+  outline: none;
 
-export const FormGroup = styled.div`
-  margin-bottom: 1rem;
-
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
+  &::placeholder {
+    color: black;
   }
+`
 
-  input, select {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  span {
-    color: red;
-    font-size: 0.875rem;
-  }
-`;
-
-export const Button = styled.div`
+export const StyledSelect = styled.select`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+`
+export const ButtonSave = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
 
   button {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-size: 1rem;
     border: none;
     border-radius: 4px;
