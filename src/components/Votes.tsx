@@ -27,10 +27,9 @@ interface Recipe {
 }
 
 interface Vote {
-  id: string;
+  id?: string;
   note: number;
   feedback: string;
-  lastModifiedDate: string;
   recipeId: string;
 }
 
