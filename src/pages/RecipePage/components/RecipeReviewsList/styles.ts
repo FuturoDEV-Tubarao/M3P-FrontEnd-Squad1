@@ -102,7 +102,6 @@ export const ProgressBarTrack = styled.div`
   position: relative;
 `;
 
-// Interface para a prop width
 interface ProgressBarFillProps {
   width: string;
 }
