@@ -30,17 +30,23 @@ interface Recipe {
 }
 
 interface Vote {
-  id: string;
   note: number;
   feedback: string;
-  lastModifiedDate: string;
   recipeId: string;
+  createdBy: {
+    name: string;
+  } 
 }
 
 interface RecipesContextType {
   recipes: Recipe[];
   updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<void>;
   createRecipe: (data: Recipe) => Promise<void>;
+  createVote: (data: Vote) => Promise<void>;
+  // getRecipeById: (id: string) => Promise<Recipe | null>;
+  fetchRecipeById: (id: string) => Promise<Recipe | null>;
+
+
 }
 
 interface RecipesContextProviderProps {
@@ -51,12 +57,10 @@ export const RecipesContext = createContext({} as RecipesContextType);
 
 export function RecipesContextProvider({ children }: RecipesContextProviderProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const token = localStorage.getItem('token');
 
   const createRecipe = async (data: Recipe) => {
     try {
-      const token = localStorage.getItem('token');
-      console.log(token);
-      console.log(data);
       const response = await api.post("/api/labfoods/v1/recipe", data,  {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,6 +79,26 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
   };
   
 
+  const createVote = async (data : Vote) => {
+    try {
+      console.log(data)
+      const response = await api.post("/api/labfoods/v1/vote", data,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json' 
+        },
+      });
+
+      if(response.data && response.status === 200) {
+        alert("Voto cadastrado com sucesso");
+      } else {
+        alert("Não foi possível cadastrar o voto");
+      }
+    } catch (error) {
+      alert("Erro ao tentar cadastrar voto");
+    }
+  }
+
   const updateRecipe = async (id: string, updatedRecipe: Recipe) => {
     try {
       const response = await api.put(`/api/labfoods/v1/recipe/${id}`, updatedRecipe);
@@ -88,6 +112,20 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
       console.error("Erro ao atualizar a receita:", error);
     }
   };
+
+  const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
+    try {
+      const response = await api.get(`/api/labfoods/v1/recipe/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar a receita:", error);
+      return null;
+    }
+  };
   
   useEffect(() => {
     async function fetchData() {
@@ -98,7 +136,7 @@ export function RecipesContextProvider({ children }: RecipesContextProviderProps
   }, []);
 
   return (
-    <RecipesContext.Provider value={{ recipes, updateRecipe, createRecipe }}>
+    <RecipesContext.Provider value={{ recipes, updateRecipe, createRecipe, createVote, fetchRecipeById   }}>
       {children}
     </RecipesContext.Provider>
   );
