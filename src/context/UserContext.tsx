@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 import { AuthContext } from "./AuthContext";
 
-interface UserContextType {
-  signup: (data: RegisterData) => Promise<void>;
-  update: (id: string, data: RegisterData) => Promise<void>;
-  deleteUser: (id: string) => Promise<void>; // Novo método
-}
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -37,6 +32,12 @@ interface User {
   email: string;
 }
 
+interface UserContextType {
+  signup: (data: RegisterData) => Promise<void>;
+  update: (id: string, data: RegisterData) => Promise<void>;
+  deleteUser: (id: string) => Promise<void>; 
+}
+
 interface UserContextProviderProps {
   children: ReactNode;
 }
@@ -49,7 +50,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
   const signup = async (data: RegisterData) => {
     try {
-      console.log(data);
       const response = await api.post("/api/labfoods/v1/user", data, {
         headers: {
           "Content-Type": "application/json",
@@ -73,9 +73,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       if (!token) {
         throw new Error("Token não encontrado");
       }
-  
-      console.log("Token:", token);
-      console.log(data);
   
       const response = await api.put(`/api/labfoods/v1/user/${id}`, data, {
         headers: {
@@ -112,7 +109,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const deleteUser = async (id: string) => {
     try {
       const token = localStorage.getItem("token");
-      console.log(id);
       const response = await api.delete(`/api/labfoods/v1/user/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
