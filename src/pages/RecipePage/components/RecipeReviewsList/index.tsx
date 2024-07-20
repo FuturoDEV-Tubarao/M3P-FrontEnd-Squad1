@@ -66,6 +66,9 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
   const [updatedRecipe, setUpdatedRecipe] = useState(recipe);
   const { logado } = useContext(AuthContext);
   const { fetchRecipeById } = useContext(RecipesContext);
+  const { user } = useContext(AuthContext);
+  const shouldShowReviewSection =
+    logado() && user && recipe.createdBy && user.id !== recipe.createdBy.id;
 
   const openReviewPopup = () => {
     setShowReviewPopup(true);
@@ -78,15 +81,6 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
       setUpdatedRecipe(fetchedRecipe);
     }
   };
-
-  const { user } = useContext(AuthContext);
-  if (user != null) {
-    console.log(user.id);
-  }
-
-  console.log(recipe.createdBy?.id);
-  
-  const shouldShowReviewSection = logado() && user && recipe.createdBy && user.id !== recipe.createdBy.id;
 
   return (
     <Container>
