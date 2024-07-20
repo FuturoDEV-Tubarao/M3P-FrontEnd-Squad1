@@ -25,7 +25,6 @@ import { ErrorMessage } from "../../../Login/styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import { RecipesContext } from "../../../../context/RecipeContext";
 
-// Define o esquema de validação
 const avaliacaoSchema = zod.object({
   note: zod.number().min(0, "A nota mínima é 0").max(5, "A nota máxima é 5"),
   title: zod.string().min(1, "O título é obrigatório"),
@@ -40,7 +39,7 @@ const avaliacaoSchema = zod.object({
 type AvaliacaoFormData = zod.infer<typeof avaliacaoSchema>;
 
 interface NewRecipeReviewProps {
-  onClose: () => void; // Define o tipo de prop onClose
+  onClose: () => void; 
   idRecipe: string;
 }
 
@@ -50,12 +49,11 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
   const { user } = useContext(AuthContext);
   const { createVote } = useContext(RecipesContext);
 
-  
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm<AvaliacaoFormData>({
     resolver: zodResolver(avaliacaoSchema),
     defaultValues: {
@@ -70,14 +68,12 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
     },
   });
 
-  const onSubmit = (data: AvaliacaoFormData) => {
+  const rating = watch("note", 2.5);
 
+  const onSubmit = (data: AvaliacaoFormData) => {
     createVote(data).then(() => handleClose());
   };
 
-
-  const rating = watch("note", 2.5);
-  
   if (!isVisible) return null;
 
   const handleClose = () => {
@@ -89,8 +85,6 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
     const currentFill = Math.max(0, (rating - index) * 100);
     return Math.min(currentFill, 100);
   };
-
-
 
   return (
     <>
@@ -125,20 +119,19 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
               ))}
             </StarRating>
             <Rate>
-                <Label htmlFor="note">Sua nota</Label>
-                <RangeInput
-                  type="range"
-                  min= "0"
-                  max="5" 
-                  step="0.5"
-                  {...register("note", { valueAsNumber: true })}
-                  id="note"
-                />
-                <ErrorMessage>
-                  {errors.note && <span>{errors.note.message}</span>}
-                </ErrorMessage>
+              <Label htmlFor="note">Sua nota</Label>
+              <RangeInput
+                type="range"
+                min="0"
+                max="5"
+                step="0.5"
+                {...register("note", { valueAsNumber: true })}
+                id="note"
+              />
+              <ErrorMessage>
+                {errors.note && <span>{errors.note.message}</span>}
+              </ErrorMessage>
             </Rate>
-
 
             <LabelDescription htmlFor="feedback">
               Descreva sua experiência:
