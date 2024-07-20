@@ -6,10 +6,11 @@ import { AuthContext } from "../../context/AuthContext";
 
 export function Profile() {
   const { deleteUser } = useContext(UserContext);
+  const { user, logado } = useContext(AuthContext);
+  const currentPage = logado() ? "dashboard" : "home"; 
 
   const handleDelete = async () => {
     if (user && window.confirm("Tem certeza de que deseja excluir sua conta?")) {
-      console.log("Tentando excluir o usuário com ID:", user.id);
       try {
         const response = await deleteUser(user.id);
         console.log("Resposta da exclusão:", response);
@@ -20,10 +21,7 @@ export function Profile() {
       }
     }
   };
-  
-  
-  const { user, logado } = useContext(AuthContext);
-  const currentPage = logado() ? "dashboard" : "home"; 
+ 
 
   return (
     <ProfileContainer>
