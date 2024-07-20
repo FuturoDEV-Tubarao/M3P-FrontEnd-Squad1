@@ -34,6 +34,7 @@ enum RecipeType {
   BREAKFAST = 'BREAKFAST',
 }
 
+
 interface Recipe {
   id?: string;
   title: string;
@@ -46,15 +47,21 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  lastModifiedDate?: string;
+  // lastModifiedDate?: string;
+  createdDate: string;
   url?: string;
+  createdBy?: {
+    name: string;
+    id: string;
+  }
 }
 interface Vote {
-  id: string;
   note: number;
   feedback: string;
-  lastModifiedDate: string;
   recipeId: string;
+  createdBy: {
+    name: string;
+  } 
 }
 
 const recipeSchema = zod.object({
