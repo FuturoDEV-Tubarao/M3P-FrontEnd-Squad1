@@ -53,14 +53,14 @@ export const ButtonGroup = styled.div`
     }
     
     &:hover {
-      background-color: #81c784; /* Cor mais clara para hover */
+      background-color: #81c784; 
     }
 
     &:last-child {
       background-color: #f44336;
 
     &:hover {
-      background-color: #e57373; /* Cor mais clara para hover */
+      background-color: #e57373;
     }
   }
 `;
@@ -76,6 +76,6 @@ export const StyledNavLink = styled(Link)`
   background-color: #4caf50;
 
   &:hover {
-    background-color: #81c784; /* Cor mais clara para hover */
+    background-color: #81c784; 
   }
 `;
