@@ -12,7 +12,7 @@ import {
   SubHeader,
   StyledSelect,
   FieldWrapper,
-} from "./styles"; 
+} from "./styles";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
@@ -22,7 +22,6 @@ enum GenderType {
   MALE = "MALE",
 }
 
-// Definindo o esquema de validação com Zod
 const userProfileSchema = zod.object({
   name: zod.string().min(1, "Informe o nome"),
   gender: zod.nativeEnum(GenderType, {
@@ -32,6 +31,7 @@ const userProfileSchema = zod.object({
   birthDate: zod.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Data inválida",
   }),
+  active: zod.boolean(),
   email: zod.string().min(5, "Informe um e-mail válido"),
   password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   contactAddress: zod.object({
@@ -60,6 +60,7 @@ export function Register() {
       gender: GenderType.MALE,
       cpf: "",
       birthDate: "",
+      active: true,
       email: "",
       password: "",
       contactAddress: {
