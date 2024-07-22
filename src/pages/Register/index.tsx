@@ -13,9 +13,9 @@ import {
   StyledSelect,
   FieldWrapper,
 } from "./styles";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import { useFetchAddress } from "../../utils/useFetchAddress";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -33,7 +33,7 @@ const userProfileSchema = zod.object({
   }),
   active: zod.boolean(),
   email: zod.string().min(5, "Informe um e-mail válido"),
-  password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  password: zod.string().min(6, "A senha deve ter no mínimo 5 caracteres"),
   contactAddress: zod.object({
     zipCode: zod.string().min(8, "CEP é obrigatório"),
     street: zod.string().min(1, "Rua é obrigatória"),
@@ -77,39 +77,7 @@ export function Register() {
   const { signup } = useContext(UserContext);
 
   const zipCode = watch("contactAddress.zipCode");
-  const [address, setAddress] = useState({
-    street: "",
-    neighborhood: "",
-    city: "",
-    state: "",
-  });
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      if (zipCode.length === 8) {
-        try {
-          const response = await axios.get(
-            `https://viacep.com.br/ws/${zipCode}/json/`
-          );
-          const data = response.data;
-          if (!data.erro) {
-            setAddress({
-              street: data.logradouro,
-              neighborhood: data.bairro,
-              city: data.localidade,
-              state: data.uf,
-            });
-          } else {
-            alert("CEP não encontrado.");
-          }
-        } catch (error) {
-          console.error("Falha ao buscar o CEP", error);
-          alert("Erro ao buscar o CEP.");
-        }
-      }
-    };
-    fetchAddress();
-  }, [zipCode]);
+  const address = useFetchAddress(zipCode); 
 
   useEffect(() => {
     setValue("contactAddress.street", address.street);
