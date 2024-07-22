@@ -15,6 +15,7 @@ import {
 import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
 import { Link } from "react-router-dom";
 import { Votes } from "../../../../components/Votes";
+import { translateRecipeType } from "../../../../utils/translateRecipeType";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -35,7 +36,6 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  // lastModifiedDate?: string;
   createdDate?: string;
   url?: string;
   createdBy?: {
@@ -59,38 +59,38 @@ interface RecipeCardProps {
 
 export function Recipes({ recipe }: RecipeCardProps) {
   return (
-      <Card key={recipe.id}>
-        <Image src={ImagemReceita} alt={recipe.title} />
-        <Content>
-          <Header>
-            <Badge>{recipe.recipeType}</Badge>
-            <div>
-              <StarRating>{<Votes recipe={recipe} />}</StarRating>
-            </div>
-          </Header>
-          <Title>{recipe.title}</Title>
-          <Meta>
-            {recipe.createdBy && !!recipe.createdBy.name && (
-              <div>
-                <FontAwesomeIcon icon={faUser} />
-                {recipe.createdBy.name}
-              </div>
-            )}
-            <div>
-              <FontAwesomeIcon icon={faCalendarAlt} />
-              {recipe.createdDate
-                ? new Date(recipe.createdDate).toLocaleDateString("pt-BR")
-                : "Data não disponível"}
-            </div>
-          </Meta>
-          <Description>{recipe.description}</Description>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button as={Link} to={`/recipe/${recipe.id}`}>
-              Ver Receita
-            </Button>
-            {/* {logado() && <VoteButton>Votar Receita</VoteButton>} */}
+    <Card key={recipe.id}>
+      <Image src={ImagemReceita} alt={recipe.title} />
+      <Content>
+        <Header>
+          <Badge>{translateRecipeType(recipe.recipeType)}</Badge>
+          <div>
+            <StarRating>{<Votes recipe={recipe} />}</StarRating>
           </div>
-        </Content>
-      </Card>
+        </Header>
+        <Title>{recipe.title}</Title>
+        <Meta>
+          {recipe.createdBy && !!recipe.createdBy.name && (
+            <div>
+              <FontAwesomeIcon icon={faUser} />
+              {recipe.createdBy.name}
+            </div>
+          )}
+          <div>
+            <FontAwesomeIcon icon={faCalendarAlt} />
+            {recipe.createdDate
+              ? new Date(recipe.createdDate).toLocaleDateString("pt-BR")
+              : "Data não disponível"}
+          </div>
+        </Meta>
+        <Description>{recipe.description}</Description>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button as={Link} to={`/recipe/${recipe.id}`}>
+            Ver Receita
+          </Button>
+          {/* {logado() && <VoteButton>Votar Receita</VoteButton>} */}
+        </div>
+      </Content>
+    </Card>
   );
 }
