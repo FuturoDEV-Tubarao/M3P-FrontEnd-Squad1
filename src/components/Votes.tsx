@@ -22,6 +22,7 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
+  voteAvg?: number;
   lastModifiedDate?: string;
   url?: string;
 }
@@ -41,32 +42,16 @@ export function Votes({ recipe }: RecipeReviewsProps) {
   const [mediaAvaliacao, setMediaAvaliacao] = useState<number>(0);
 
   useEffect(() => {
-    const result = recipe.votes;
+    const result = recipe.voteAvg;
 
     if (result) {
-      // Calcula a média de notas
-      const totalNotas = result.length;
-      const somaNotas = result.reduce(
-        (acc: number, voto: { note: number }) => acc + voto.note,
-        0
-      );
-      const mediaNotas = totalNotas > 0 ? somaNotas / totalNotas : 0;
-      setMediaAvaliacao(mediaNotas);
-
-      const counts = [0, 0, 0, 0, 0];
-      result.forEach((voto: { note: number }) => {
-        if (voto.note === 5) counts[4]++;
-        else if (voto.note === 4) counts[3]++;
-        else if (voto.note === 3) counts[2]++;
-        else if (voto.note === 2) counts[1]++;
-        else if (voto.note === 1) counts[0]++;
-      });
+      setMediaAvaliacao(result);
     }
-  }, [recipe.votes]);
+  }, [recipe.voteAvg]);
 
   const renderStars = (note: number): JSX.Element[] => {
-    const fullStars = Math.floor(note / 2);
-    const halfStar = note % 2 === 1;
+    const fullStars = Math.floor(note);
+    const halfStar = note % 1 !== 0; 
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -83,7 +68,7 @@ export function Votes({ recipe }: RecipeReviewsProps) {
 
   return (
     <StarContainer>
-      {renderStars(mediaAvaliacao * 2)}{" "}
+      {renderStars(mediaAvaliacao)}
     </StarContainer>
   );
 }
