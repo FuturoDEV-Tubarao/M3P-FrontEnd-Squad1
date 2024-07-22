@@ -23,6 +23,7 @@ interface Recipe {
   votes?: Vote[];
   createdDate?: string;
   url?: string;
+  voteAvg?: number,
   createdBy?: {
     name: string;
     id: string;
