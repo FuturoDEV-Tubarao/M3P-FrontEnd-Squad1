@@ -2,23 +2,39 @@ import { useLocation } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-// import { FormWrapper } from "./styles";
 import { Header } from "../../../../components/Header";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import axios from "axios";
 import {
   ErrorMessage,
   FieldWrapper,
-  // GlassCard,
   Row,
-  // StyledSelect,
 } from "../../../Register/styles";
 import { ButtonSave, Input, StyledSelect, UpdateContainer, UpdateContent } from "./styles";
+import { useFetchAddress } from "../../../../utils/useFetchAddress";
+
 
 enum GenderType {
   FEMALE = "FEMALE",
   MALE = "MALE",
+}
+
+interface User {
+  id?: string;
+  name: string;
+  gender: GenderType;
+  cpf: string;
+  birthDate: string;
+  email: string;
+  password?: string;
+  contactAddress: {
+    zipCode: string;
+    street: string;
+    number_address: number;
+    neighborhood: string;
+    city: string;
+    state: string;
+  };
 }
 
 const userProfileSchema = zod.object({
@@ -26,14 +42,14 @@ const userProfileSchema = zod.object({
   gender: zod.nativeEnum(GenderType, {
     required_error: "Informe uma categoria",
   }),
-  cpf: zod.string().length(11, "Informe um CPF válido"), // Corrigido para length(11)
+  cpf: zod.string().length(11, "Informe um CPF válido"),
   birthDate: zod.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Data inválida",
   }),
-  email: zod.string().email("Informe um e-mail válido"), // Corrigido para email()
-  password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  email: zod.string().email("Informe um e-mail válido"),
+  password: zod.string().min(5, "A senha deve ter no mínimo 5 caracteres"),
   contactAddress: zod.object({
-    zipCode: zod.string().length(8, "CEP é obrigatório"), // Corrigido para length(8)
+    zipCode: zod.string().length(8, "CEP é obrigatório"),
     street: zod.string().min(1, "Rua é obrigatória"),
     number_address: zod.number().int().positive("Número deve ser positivo"),
     neighborhood: zod.string().min(1, "Bairro é obrigatório"),
@@ -47,7 +63,25 @@ type UserProfileFormData = zod.infer<typeof userProfileSchema>;
 export function UserForm() {
   const location = useLocation();
   const user = location.state?.user;
-  const { update } = useContext(UserContext);
+  const { update, getUserById } = useContext(UserContext);
+
+  const [userData, setUserData] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user?.id) {
+        const data = await getUserById(user.id) as User;
+        if (data) {
+          setUserData(data);
+        }
+      }
+    };
+    fetchUserData();
+  }, [user, getUserById]);
+
+  const formatCpf = (cpf: string) => {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  };
 
   const {
     register,
@@ -58,11 +92,11 @@ export function UserForm() {
   } = useForm<UserProfileFormData>({
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
-      name: user?.name || "",
-      gender: user?.gender || "MALE",
-      birthDate: user?.birthDate || "",
-      email: user?.email || "",
-      cpf: user?.cpf || "",
+      name: userData?.name || "",
+      gender: userData?.gender || GenderType.MALE,
+      birthDate: userData?.birthDate || "",
+      email: userData?.email || "",
+      cpf: userData?.cpf || "",
       password: "",
       contactAddress: {
         zipCode: "",
@@ -76,39 +110,7 @@ export function UserForm() {
   });
 
   const zipCode = watch("contactAddress.zipCode");
-  const [address, setAddress] = useState({
-    street: "",
-    neighborhood: "",
-    city: "",
-    state: "",
-  });
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      if (zipCode.length === 8) {
-        try {
-          const response = await axios.get(
-            `https://viacep.com.br/ws/${zipCode}/json/`
-          );
-          const data = response.data;
-          if (!data.erro) {
-            setAddress({
-              street: data.logradouro,
-              neighborhood: data.bairro,
-              city: data.localidade,
-              state: data.uf,
-            });
-          } else {
-            alert("CEP não encontrado.");
-          }
-        } catch (error) {
-          console.error("Falha ao buscar o CEP", error);
-          alert("Erro ao buscar o CEP.");
-        }
-      }
-    };
-    fetchAddress();
-  }, [zipCode]);
+  const address = useFetchAddress(zipCode);
 
   useEffect(() => {
     setValue("contactAddress.street", address.street);
@@ -116,6 +118,16 @@ export function UserForm() {
     setValue("contactAddress.city", address.city);
     setValue("contactAddress.state", address.state);
   }, [address, setValue]);
+
+  useEffect(() => {
+    if (userData) {
+      setValue("name", userData.name);
+      setValue("gender", userData.gender);
+      setValue("birthDate", userData.birthDate);
+      setValue("email", userData.email);
+      setValue("cpf", userData.cpf);
+    }
+  }, [userData, setValue]);
 
   const onSubmit: SubmitHandler<UserProfileFormData> = async (data) => {
     if (user?.id) {
@@ -139,9 +151,9 @@ export function UserForm() {
               <FieldWrapper>
                 <Input
                   type="text"
-                  {...register("cpf")}
+                  value={formatCpf(watch("cpf"))}
                   placeholder="CPF"
-                  /*disabled*/
+                  disabled
                 />
                 {errors.cpf && (
                   <ErrorMessage>{errors.cpf.message}</ErrorMessage>
