@@ -77,6 +77,7 @@ export function LatestRecipes() {
 
   useEffect(() => {
     applyFilters(recipes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipes, glutenFree, lactoseFree, selectedCategory, showAll]);
 
   const handleFilterChange = (filter: string) => {
