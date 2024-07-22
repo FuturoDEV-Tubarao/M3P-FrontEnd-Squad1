@@ -1,3 +1,5 @@
+// src/components/RecipeHeader.tsx
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
@@ -29,6 +31,7 @@ import {
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
 import { Votes } from "../../../../components/Votes";
+import { translateRecipeType } from "../../../../utils/translateRecipeType";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -75,7 +78,7 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
         <TextSection>
           <Title>{recipe.title}</Title>
           <BadgeAndRatingContainer>
-            <Badge>{recipe.recipeType}</Badge>
+            <Badge>{translateRecipeType(recipe.recipeType)}</Badge>
             <RatingContainer>
               <Votes recipe={recipe} />
             </RatingContainer>
