@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 import { AuthContext } from "./AuthContext";
 
-
 enum GenderType {
   FEMALE = "FEMALE",
   MALE = "MALE",
@@ -15,7 +14,7 @@ type RegisterData = {
   cpf: string;
   birthDate: string;
   email: string;
-  password: string;
+  password?: string;
   contactAddress: {
     zipCode: string;
     street: string;
@@ -35,7 +34,8 @@ interface User {
 interface UserContextType {
   signup: (data: RegisterData) => Promise<void>;
   update: (id: string, data: RegisterData) => Promise<void>;
-  deleteUser: (id: string) => Promise<void>; 
+  deleteUser: (id: string) => Promise<void>;
+  getUserById: (id: string) => Promise<User | null>;
 }
 
 interface UserContextProviderProps {
@@ -73,27 +73,27 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       if (!token) {
         throw new Error("Token não encontrado");
       }
-  
+
       const response = await api.put(`/api/labfoods/v1/user/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-  
+
       if (response.data && response.status === 200) {
         localStorage.setItem("token", token);
         localStorage.setItem("isLogado", "true");
-  
+
         const userData: User = {
           id: response.data.id,
           name: response.data.name,
           email: response.data.email,
         };
-  
+
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);
-  
+
         alert("Usuário atualizado com sucesso!");
         navigate("/profile");
       } else {
@@ -104,7 +104,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       alert("Erro ao tentar atualizar usuário");
     }
   };
-  
 
   const deleteUser = async (id: string) => {
     try {
@@ -130,15 +129,36 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     }
   };
 
+  const getUserById = async (id: string): Promise<User | null> => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
+
+      const response = await api.get(`/api/labfoods/v1/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao tentar buscar usuário");
+      return null;
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <UserContext.Provider value={{ signup, update, deleteUser }}>
+    <UserContext.Provider value={{ signup, update, getUserById,deleteUser,  }}>
       {children}
     </UserContext.Provider>
   );
