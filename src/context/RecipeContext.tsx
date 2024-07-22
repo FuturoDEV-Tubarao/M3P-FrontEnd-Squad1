@@ -21,7 +21,6 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  // lastModifiedDate?: string;
   createdDate?: string;
   url?: string;
   createdBy?: {
