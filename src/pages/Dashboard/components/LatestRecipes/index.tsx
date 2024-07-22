@@ -4,6 +4,7 @@ import { RecipesContext } from "../../../../context/RecipeContext";
 import { Recipes } from "../Recipes";
 import { RecipeContainer } from "../Recipes/styles";
 import api from "../../../../axios/axiosConfig";
+import { Categories } from "../Categories";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -24,7 +25,6 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  // lastModifiedDate?: string;
   createdDate?: string;
   url?: string;
   createdBy?: {
@@ -47,11 +47,17 @@ export function LatestRecipes() {
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [glutenFree, setGlutenFree] = useState(false);
   const [lactoseFree, setLactoseFree] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<RecipeType | null>(null);
   const [showAll, setShowAll] = useState(true);
 
   const applyFilters = (recipes: Recipe[]) => {
     let filtered = recipes;
-  
+
+    if (showAll) {
+      setFilteredRecipes(recipes);
+      return;
+    }
+
     if (glutenFree && lactoseFree) {
       filtered = filtered.filter(recipe => recipe.glutenFree && recipe.lactoseFree);
     } else if (glutenFree) {
@@ -62,13 +68,16 @@ export function LatestRecipes() {
       filtered = recipes;
     }
   
+    if (selectedCategory) {
+      filtered = filtered.filter(recipe => recipe.recipeType === selectedCategory);
+    }
+
     setFilteredRecipes(filtered);
   };
 
   useEffect(() => {
     applyFilters(recipes);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipes, glutenFree, lactoseFree, showAll]);
+  }, [recipes, glutenFree, lactoseFree, selectedCategory, showAll]);
 
   const handleFilterChange = (filter: string) => {
     switch (filter) {
@@ -81,26 +90,34 @@ export function LatestRecipes() {
         setShowAll(false);
         break;
       case "all":
-        setShowAll(true);
+        setShowAll(!showAll);
         setGlutenFree(false);
         setLactoseFree(false);
+        setSelectedCategory(null);
         break;
       default:
         break;
     }
   };
 
-  const [users, setUsers] = useState(0)
+  const handleCategoryChange = (category: RecipeType) => {
+    setSelectedCategory(category);
+    setShowAll(false);
+  };
+
+  const [users, setUsers] = useState(0);
   useEffect(() => {
-    async function fetchData(){
-      const resultado = await api.get("/api/labfoods/v1/dashboard/users/active")
-      console.log(resultado.data)
-      setUsers(resultado.data)
+    async function fetchData() {
+      const resultado = await api.get("/api/labfoods/v1/dashboard/users/active");
+      console.log(resultado.data);
+      setUsers(resultado.data);
     }
-    fetchData()
-  }, [])
-  
+    fetchData();
+  }, []);
+
   return (
+    <>
+    <Categories handleCategoryChange={handleCategoryChange} />
     <Container>
       <TitleContainer>
         <div>
@@ -108,7 +125,7 @@ export function LatestRecipes() {
           <p>Usuários Ativos: {users}</p>
         </div>
         <Filters>
-          <CheckboxContainer>
+        <CheckboxContainer>
             <Checkbox
               type="checkbox"
               checked={showAll}
@@ -134,11 +151,12 @@ export function LatestRecipes() {
           </CheckboxContainer>
         </Filters>
       </TitleContainer>
-        <RecipeContainer>
-          {filteredRecipes.map(recipe => (
-            <Recipes key={recipe.id} recipe={recipe} />
-          ))}
-        </RecipeContainer>
+      <RecipeContainer>
+        {filteredRecipes.map(recipe => (
+          <Recipes key={recipe.id} recipe={recipe} />
+        ))}
+      </RecipeContainer>
     </Container>
+    </>
   );
 }
