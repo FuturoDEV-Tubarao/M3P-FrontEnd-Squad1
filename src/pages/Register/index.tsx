@@ -33,11 +33,11 @@ const userProfileSchema = zod.object({
   }),
   active: zod.boolean(),
   email: zod.string().min(5, "Informe um e-mail válido"),
-  password: zod.string().min(6, "A senha deve ter no mínimo 5 caracteres"),
-  contactAddress: zod.object({
+  password: zod.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  userAddress: zod.object({
     zipCode: zod.string().min(8, "CEP é obrigatório"),
     street: zod.string().min(1, "Rua é obrigatória"),
-    number_address: zod.number().int().positive("Número deve ser positivo"),
+    numberAddress: zod.number().int().positive("Número deve ser positivo"),
     neighborhood: zod.string().min(1, "Bairro é obrigatório"),
     city: zod.string().min(1, "Cidade é obrigatória"),
     state: zod.string().min(1, "Estado é obrigatório"),
@@ -63,10 +63,10 @@ export function Register() {
       active: true,
       email: "",
       password: "",
-      contactAddress: {
+      userAddress: {
         zipCode: "",
         street: "",
-        number_address: 0,
+        numberAddress: 0,
         neighborhood: "",
         city: "",
         state: "",
@@ -76,14 +76,14 @@ export function Register() {
 
   const { signup } = useContext(UserContext);
 
-  const zipCode = watch("contactAddress.zipCode");
+  const zipCode = watch("userAddress.zipCode");
   const address = useFetchAddress(zipCode); 
 
   useEffect(() => {
-    setValue("contactAddress.street", address.street);
-    setValue("contactAddress.neighborhood", address.neighborhood);
-    setValue("contactAddress.city", address.city);
-    setValue("contactAddress.state", address.state);
+    setValue("userAddress.street", address.street);
+    setValue("userAddress.neighborhood", address.neighborhood);
+    setValue("userAddress.city", address.city);
+    setValue("userAddress.state", address.state);
   }, [address, setValue]);
 
   return (
@@ -144,26 +144,26 @@ export function Register() {
           <FieldWrapper>
             <Input
               type="text"
-              {...register("contactAddress.zipCode")}
+              {...register("userAddress.zipCode")}
               placeholder="CEP"
             />
-            {errors.contactAddress?.zipCode && (
+            {errors.userAddress?.zipCode && (
               <ErrorMessage>
-                {errors.contactAddress.zipCode.message}
+                {errors.userAddress.zipCode.message}
               </ErrorMessage>
             )}
           </FieldWrapper>
           <FieldWrapper>
             <Input
               type="number"
-              {...register("contactAddress.number_address", {
+              {...register("userAddress.numberAddress", {
                 valueAsNumber: true,
               })}
               placeholder="Número"
             />
-            {errors.contactAddress?.number_address && (
+            {errors.userAddress?.numberAddress && (
               <ErrorMessage>
-                {errors.contactAddress.number_address.message}
+                {errors.userAddress.numberAddress.message}
               </ErrorMessage>
             )}
           </FieldWrapper>
@@ -171,13 +171,13 @@ export function Register() {
           <Row>
             <FieldWrapper>
               <Input
-                {...register("contactAddress.street")}
+                {...register("userAddress.street")}
                 value={address.street}
                 placeholder="Logradouro"
               />
-              {errors.contactAddress?.street && (
+              {errors.userAddress?.street && (
                 <ErrorMessage>
-                  {errors.contactAddress.street.message}
+                  {errors.userAddress.street.message}
                 </ErrorMessage>
               )}
             </FieldWrapper>
@@ -185,37 +185,37 @@ export function Register() {
           <Row>
             <FieldWrapper>
               <Input
-                {...register("contactAddress.neighborhood")}
+                {...register("userAddress.neighborhood")}
                 value={address.neighborhood}
                 placeholder="Bairro"
               />
-              {errors.contactAddress?.neighborhood && (
+              {errors.userAddress?.neighborhood && (
                 <ErrorMessage>
-                  {errors.contactAddress.neighborhood.message}
+                  {errors.userAddress.neighborhood.message}
                 </ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
               <Input
-                {...register("contactAddress.city")}
+                {...register("userAddress.city")}
                 value={address.city}
                 placeholder="Cidade"
               />
-              {errors.contactAddress?.city && (
+              {errors.userAddress?.city && (
                 <ErrorMessage>
-                  {errors.contactAddress.city.message}
+                  {errors.userAddress.city.message}
                 </ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
               <Input
-                {...register("contactAddress.state")}
+                {...register("userAddress.state")}
                 value={address.state}
                 placeholder="Estado"
               />
-              {errors.contactAddress?.state && (
+              {errors.userAddress?.state && (
                 <ErrorMessage>
-                  {errors.contactAddress.state.message}
+                  {errors.userAddress.state.message}
                 </ErrorMessage>
               )}
             </FieldWrapper>
