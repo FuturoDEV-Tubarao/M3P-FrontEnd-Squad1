@@ -5,14 +5,16 @@ import * as zod from "zod";
 import { Header } from "../../../../components/Header";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
+import { ErrorMessage, FieldWrapper, Row } from "../../../Register/styles";
 import {
-  ErrorMessage,
-  FieldWrapper,
-  Row,
-} from "../../../Register/styles";
-import { ButtonSave, Input, StyledSelect, UpdateContainer, UpdateContent } from "./styles";
+  Buttons,
+  Input,
+  LinkProfile,
+  StyledSelect,
+  UpdateContainer,
+  UpdateContent,
+} from "./styles";
 import { useFetchAddress } from "../../../../utils/useFetchAddress";
-
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -25,6 +27,7 @@ interface User {
   gender: GenderType;
   cpf: string;
   birthDate: string;
+  active: boolean;
   email: string;
   password?: string;
   contactAddress: {
@@ -46,6 +49,7 @@ const userProfileSchema = zod.object({
   birthDate: zod.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Data inválida",
   }),
+  active: zod.boolean(),
   email: zod.string().email("Informe um e-mail válido"),
   password: zod.string().min(5, "A senha deve ter no mínimo 5 caracteres"),
   contactAddress: zod.object({
@@ -70,7 +74,7 @@ export function UserForm() {
   useEffect(() => {
     const fetchUserData = async () => {
       if (user?.id) {
-        const data = await getUserById(user.id) as User;
+        const data = (await getUserById(user.id)) as User;
         if (data) {
           setUserData(data);
         }
@@ -95,6 +99,7 @@ export function UserForm() {
       name: userData?.name || "",
       gender: userData?.gender || GenderType.MALE,
       birthDate: userData?.birthDate || "",
+      active: true,
       email: userData?.email || "",
       cpf: userData?.cpf || "",
       password: "",
@@ -275,9 +280,10 @@ export function UserForm() {
                 )}
               </FieldWrapper>
             </Row>
-            <ButtonSave>
+            <Buttons>
               <button type="submit">Salvar</button>
-            </ButtonSave>
+              <LinkProfile to="/profile">Voltar</LinkProfile>
+            </Buttons>
           </form>
         </UpdateContent>
       </UpdateContainer>
