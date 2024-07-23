@@ -25,7 +25,7 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  voteAvg?: number,
+  voteAvg?: number;
   createdDate?: string;
   url?: string;
   createdBy?: {
@@ -55,23 +55,27 @@ export function LatestRecipes() {
     let filtered = recipes;
 
     if (showAll) {
-      setFilteredRecipes(recipes);
-      return;
+      filtered = recipes;
+    } else {
+      if (glutenFree && lactoseFree) {
+        filtered = filtered.filter(recipe => recipe.glutenFree && recipe.lactoseFree);
+      } else if (glutenFree) {
+        filtered = filtered.filter(recipe => recipe.glutenFree);
+      } else if (lactoseFree) {
+        filtered = filtered.filter(recipe => recipe.lactoseFree);
+      }
+
+      if (selectedCategory) {
+        filtered = filtered.filter(recipe => recipe.recipeType === selectedCategory);
+      }
     }
 
-    if (glutenFree && lactoseFree) {
-      filtered = filtered.filter(recipe => recipe.glutenFree && recipe.lactoseFree);
-    } else if (glutenFree) {
-      filtered = filtered.filter(recipe => recipe.glutenFree && !recipe.lactoseFree);
-    } else if (lactoseFree) {
-      filtered = filtered.filter(recipe => !recipe.glutenFree && recipe.lactoseFree);
-    } else {
-      filtered = recipes;
-    }
-  
-    if (selectedCategory) {
-      filtered = filtered.filter(recipe => recipe.recipeType === selectedCategory);
-    }
+    // Ordenar as receitas pela data de criação (mais recentes primeiro)
+    filtered = filtered.sort((a, b) => {
+      const dateA = new Date(a.createdDate || "").getTime();
+      const dateB = new Date(b.createdDate || "").getTime();
+      return dateB - dateA; // Ordem decrescente
+    });
 
     setFilteredRecipes(filtered);
   };
