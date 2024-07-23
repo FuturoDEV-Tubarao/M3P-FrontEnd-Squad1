@@ -1,7 +1,9 @@
-import { createContext, ReactNode, useContext, useEffect } from "react";
+// UserContext.tsx
+import { createContext, ReactNode, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 import { AuthContext } from "./AuthContext";
+// import { Recipe } from "./RecipeContext";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -16,10 +18,10 @@ type RegisterData = {
   active: boolean;
   email: string;
   password?: string;
-  contactAddress: {
+  userAddress: {
     zipCode: string;
     street: string;
-    number_address: number;
+    numberAddress: number;
     neighborhood: string;
     city: string;
     state: string;
@@ -119,6 +121,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
   const deleteUser = async (id: string) => {
     try {
+      // if (recipesUser && recipesUser.length > 0) {
+      //   alert("Por favor, exclua suas receitas antes de excluir sua conta.");
+      //   return;
+      // }
+
       const token = localStorage.getItem("token");
       const response = await api.delete(`/api/labfoods/v1/user/${id}`, {
         headers: {
@@ -155,23 +162,13 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       });
       return response.data;
     } catch (error) {
-
       console.error(error);
       alert("Erro ao tentar buscar usuário");
       return null;
     }
   };
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <UserContext.Provider value={{ signup, update, getUserById,deleteUser,  }}>
+    <UserContext.Provider value={{ signup, update, getUserById, deleteUser }}>
       {children}
     </UserContext.Provider>
   );
