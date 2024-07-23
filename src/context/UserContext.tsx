@@ -13,6 +13,7 @@ type RegisterData = {
   gender: GenderType;
   cpf: string;
   birthDate: string;
+  active: boolean;
   email: string;
   password?: string;
   contactAddress: {
@@ -105,9 +106,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         setUser(userData);
 
         alert("Usuário atualizado com sucesso!");
-        // navigate("/profile");
         login(loginData);
-
+        navigate("/");
       } else {
         alert("Não foi possível atualizar o usuário");
       }
