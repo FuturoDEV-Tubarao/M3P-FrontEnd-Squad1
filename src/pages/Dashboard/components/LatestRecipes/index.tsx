@@ -1,5 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { Checkbox, CheckboxContainer, Container, Filters, Title, TitleContainer } from "./styles";
+import { useContext, useEffect, useState, useRef } from "react";
+import {
+  Checkbox,
+  CheckboxContainer,
+  Container,
+  Filters,
+  Title,
+  TitleContainer,
+} from "./styles";
 import { RecipesContext } from "../../../../context/RecipeContext";
 import { Recipes } from "../Recipes";
 import { RecipeContainer } from "../Recipes/styles";
@@ -25,7 +32,7 @@ interface Recipe {
   lactoseFree: boolean;
   origin: string;
   votes?: Vote[];
-  voteAvg?: number,
+  voteAvg?: number;
   createdDate?: string;
   url?: string;
   createdBy?: {
@@ -43,12 +50,14 @@ interface Vote {
   };
 }
 
-export function LatestRecipes() {
+export function LatestRecipes({ recipesRef }) {
   const { recipes } = useContext(RecipesContext);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [glutenFree, setGlutenFree] = useState(false);
   const [lactoseFree, setLactoseFree] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<RecipeType | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<RecipeType | null>(
+    null
+  );
   const [showAll, setShowAll] = useState(true);
 
   const applyFilters = (recipes: Recipe[]) => {
@@ -60,17 +69,25 @@ export function LatestRecipes() {
     }
 
     if (glutenFree && lactoseFree) {
-      filtered = filtered.filter(recipe => recipe.glutenFree && recipe.lactoseFree);
+      filtered = filtered.filter(
+        (recipe) => recipe.glutenFree && recipe.lactoseFree
+      );
     } else if (glutenFree) {
-      filtered = filtered.filter(recipe => recipe.glutenFree && !recipe.lactoseFree);
+      filtered = filtered.filter(
+        (recipe) => recipe.glutenFree && !recipe.lactoseFree
+      );
     } else if (lactoseFree) {
-      filtered = filtered.filter(recipe => !recipe.glutenFree && recipe.lactoseFree);
+      filtered = filtered.filter(
+        (recipe) => !recipe.glutenFree && recipe.lactoseFree
+      );
     } else {
       filtered = recipes;
     }
-  
+
     if (selectedCategory) {
-      filtered = filtered.filter(recipe => recipe.recipeType === selectedCategory);
+      filtered = filtered.filter(
+        (recipe) => recipe.recipeType === selectedCategory
+      );
     }
 
     setFilteredRecipes(filtered);
@@ -78,7 +95,7 @@ export function LatestRecipes() {
 
   useEffect(() => {
     applyFilters(recipes);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipes, glutenFree, lactoseFree, selectedCategory, showAll]);
 
   const handleFilterChange = (filter: string) => {
@@ -110,7 +127,9 @@ export function LatestRecipes() {
   const [users, setUsers] = useState(0);
   useEffect(() => {
     async function fetchData() {
-      const resultado = await api.get("/api/labfoods/v1/dashboard/users/active");
+      const resultado = await api.get(
+        "/api/labfoods/v1/dashboard/users/active"
+      );
       console.log(resultado.data);
       setUsers(resultado.data);
     }
@@ -119,46 +138,46 @@ export function LatestRecipes() {
 
   return (
     <>
-    <Categories handleCategoryChange={handleCategoryChange} />
-    <Container>
-      <TitleContainer>
-        <div>
-          <Title>Últimas Receitas</Title>
-          <p>Usuários Ativos: {users}</p>
-        </div>
-        <Filters>
-        <CheckboxContainer>
-            <Checkbox
-              type="checkbox"
-              checked={showAll}
-              onChange={() => handleFilterChange("all")}
-            />
-            Todas
-          </CheckboxContainer>
-          <CheckboxContainer>
-            <Checkbox
-              type="checkbox"
-              checked={glutenFree}
-              onChange={() => handleFilterChange("glutenFree")}
-            />
-            Sem Glúten
-          </CheckboxContainer>
-          <CheckboxContainer>
-            <Checkbox
-              type="checkbox"
-              checked={lactoseFree}
-              onChange={() => handleFilterChange("lactoseFree")}
-            />
-            Sem Lactose
-          </CheckboxContainer>
-        </Filters>
-      </TitleContainer>
-      <RecipeContainer>
-        {filteredRecipes.map(recipe => (
-          <Recipes key={recipe.id} recipe={recipe} />
-        ))}
-      </RecipeContainer>
-    </Container>
+      <Categories handleCategoryChange={handleCategoryChange} />
+      <Container id="ultimas-receitas">
+        <TitleContainer>
+          <div>
+            <Title>Últimas Receitas</Title>
+            <p>Usuários Ativos: {users}</p>
+          </div>
+          <Filters>
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                checked={showAll}
+                onChange={() => handleFilterChange("all")}
+              />
+              Todas
+            </CheckboxContainer>
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                checked={glutenFree}
+                onChange={() => handleFilterChange("glutenFree")}
+              />
+              Sem Glúten
+            </CheckboxContainer>
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                checked={lactoseFree}
+                onChange={() => handleFilterChange("lactoseFree")}
+              />
+              Sem Lactose
+            </CheckboxContainer>
+          </Filters>
+        </TitleContainer>
+        <RecipeContainer ref={recipesRef}>
+          {filteredRecipes.map((recipe) => (
+            <Recipes key={recipe.id} recipe={recipe} />
+          ))}
+        </RecipeContainer>
+      </Container>
     </>
   );
 }

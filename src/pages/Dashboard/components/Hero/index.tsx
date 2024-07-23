@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import {
   Button,
   ButtonContainer,
@@ -12,38 +12,47 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
+import { LatestRecipes } from "../LatestRecipes";
 
 export function Hero() {
   const { logado } = useContext(AuthContext);
+  const recipesRef = useRef(null);
 
   const scrollToRecipes = () => {
-    const recipesSection = document.getElementById("ultimas-receitas");
-    recipesSection && recipesSection.scrollIntoView({ behavior: "smooth" });
+    if (recipesRef.current) {
+      recipesRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Elemento com referência 'recipesRef' não encontrado.");
+    }
   };
 
   return (
     <>
       <HeroContainer>
         <Content>
-          <Title>The Foods That Fully Fill Your Heart</Title>
+          <Title>A Química Perfeita de Sabor e Saúde!</Title>
           <Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim, quis nostrud exercitation ullamco laboris nisi ut aliquip
-            ex ea commodo consequat.
+            Explore pratos deliciosos e saudáveis, todos sem glúten e sem
+            lactose. Ideal para quem busca uma alimentação equilibrada sem abrir
+            mão do sabor. Experimente receitas inovadoras e nutricionalmente
+            ricas!
           </Description>
           <ButtonContainer>
             <Button onClick={scrollToRecipes}>Escolher Receita</Button>
             {logado() && (
-              <SpecialButton to="addrecipe" title="Nova Receita">
+              <SpecialButton title="Nova Receita">
                 <FontAwesomeIcon icon={faPen} />
                 Cadastrar Receita
               </SpecialButton>
             )}
           </ButtonContainer>
         </Content>
-        <Image src="src/assets/food.jpg" alt="Delicious Dish" />
+        <Image
+          src="src/assets/Hero-Hamburguer.webp"
+          alt="Delicioso Hamburguer Labfood"
+        />
       </HeroContainer>
+      <LatestRecipes recipesRef={recipesRef} />
     </>
   );
 }

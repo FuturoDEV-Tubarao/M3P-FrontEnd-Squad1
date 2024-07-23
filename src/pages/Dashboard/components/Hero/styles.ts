@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 // Animação de pulsação
@@ -19,11 +18,11 @@ export const HeroContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-size: cover;
+  background: #0d1923;
   background-position: center;
   height: auto;
-  padding: 40px 10%;
-  color: #fff;
+  padding: 40px 12%;
+  color: #131313;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -62,23 +61,22 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 48px;
-  margin-bottom: 20px;
-  color: #202022;
+  margin-bottom: 0px;
+  color: #f4f4f3;
 
   @media (min-width: 768px) {
-    font-size: 48px;
+    font-size: 70px;
   }
 
   @media (min-width: 1200px) {
-    font-size: 54px;
+    font-size: 70px;
   }
 `;
 
 export const Description = styled.p`
   font-size: 20px;
-  margin-bottom: 20px;
-  color: #202022;
+  margin-bottom: 30px;
+  color: #f4f4f3;
 
   @media (min-width: 768px) {
     font-size: 18px;
@@ -108,21 +106,9 @@ export const Button = styled.button`
   }
 `;
 
-export const SpecialButton = styled(NavLink)`
+export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
   background-color: #96d433; // Cor especial para este botão
-  background-color: #ffdf34;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: light;
-  text-decoration: none;
-  color: black;
-  &:hover {
-    background-color: #f2ca04;
-  }
 
   &:hover {
     background-color: #ffdf34; // Cor de hover especial

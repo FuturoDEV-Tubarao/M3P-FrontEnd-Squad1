@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export function Header({ currentPage }: HeaderProps) {
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
 
   return (
     <HeaderContainer>
@@ -53,7 +53,7 @@ export function Header({ currentPage }: HeaderProps) {
           </SocialIcon>
         </SocialMediaContainer>
         <Logo>
-          <a href="https://www.labfoods.com">
+          <a href="https://www.labfoods.com.br">
             <img src={logoImage} alt="Labfoods Logo" />
           </a>
         </Logo>
@@ -77,7 +77,7 @@ export function Header({ currentPage }: HeaderProps) {
                 <StyledNavLink to="/profile" title="Profile">
                   <p>Perfil</p>
                 </StyledNavLink>
-                <StyledNavLink to="/login" onClick={() => logout()}>
+                <StyledNavLink to="/" onClick={() => logout()}>
                   <p>Logout</p>
                 </StyledNavLink>
               </>
