@@ -3,6 +3,7 @@ import { faUser, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   Badge,
   Button,
+  Buttons,
   Card,
   Content,
   Description,
@@ -38,7 +39,7 @@ interface Recipe {
   votes?: Vote[];
   createdDate?: string;
   url?: string;
-  voteAvg?: number,
+  voteAvg?: number;
   createdBy?: {
     name: string;
     id: string;
@@ -85,12 +86,11 @@ export function Recipes({ recipe }: RecipeCardProps) {
           </div>
         </Meta>
         <Description>{recipe.description}</Description>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Buttons >
           <Button as={Link} to={`/recipe/${recipe.id}`}>
             Ver Receita
           </Button>
-          {/* {logado() && <VoteButton>Votar Receita</VoteButton>} */}
-        </div>
+        </Buttons>
       </Content>
     </Card>
   );

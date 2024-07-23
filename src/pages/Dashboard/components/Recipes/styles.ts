@@ -111,24 +111,14 @@ export const Button = styled(NavLink)`
   &:first-child {
     margin-right: 15px;
   }
+    &:hover {
+    background-color: #E6B525;
+  }
+
 `;
 
-export const VoteButton = styled.button`
-  background-color: #ffca28;
-  color: black;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
-  margin-top: 16px;
-  cursor: pointer;
-  width: calc(50% - 7.5px);
-  text-align: center;
-  font-weight: light;
-  text-decoration: none;
-  &:first-child {
-    margin-right: 15px;
-  }
-  animation: ${pulse} 1s infinite;
-  background-color: #4caf50; // Different background for voting
-  color: white;
+export const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
