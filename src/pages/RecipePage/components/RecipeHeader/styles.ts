@@ -59,7 +59,7 @@ export const Badge = styled.span`
   color: white;
   padding: 0.25rem 0.9rem;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 100;
 `;
 
