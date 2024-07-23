@@ -1,27 +1,33 @@
+// Profile.tsx
 import { useContext } from "react";
 import { Header } from "../../components/Header";
-import { ButtonGroup, ProfileContainer, ProfileInfos, StyledNavLink } from "./styles";
+import {
+  ButtonGroup,
+  ProfileContainer,
+  ProfileInfos,
+  StyledNavLink,
+} from "./styles";
 import { UserContext } from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 
 export function Profile() {
   const { deleteUser } = useContext(UserContext);
   const { user, logado } = useContext(AuthContext);
-  const currentPage = logado() ? "dashboard" : "home"; 
+  const currentPage = logado() ? "dashboard" : "home";
 
   const handleDelete = async () => {
-    if (user && window.confirm("Tem certeza de que deseja excluir sua conta?")) {
+    if (
+      user &&
+      window.confirm("Tem certeza de que deseja excluir sua conta?")
+    ) {
       try {
-        const response = await deleteUser(user.id);
-        console.log("Resposta da exclusão:", response);
-        console.log("Usuário excluído com sucesso");
+        await deleteUser(user.id);
       } catch (error) {
         console.error("Erro ao excluir usuário:", error);
         alert("Erro ao tentar excluir o usuário");
       }
     }
   };
- 
 
   return (
     <ProfileContainer>
@@ -34,7 +40,7 @@ export function Profile() {
           <ButtonGroup>
             <StyledNavLink
               to="/editProfile"
-              state={{ user: user }} 
+              state={{ user: user }}
               title="UserForm"
             >
               Editar
