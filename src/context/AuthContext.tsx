@@ -76,7 +76,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     localStorage.removeItem("isLogado");
     localStorage.removeItem("user");
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   function logado() {
