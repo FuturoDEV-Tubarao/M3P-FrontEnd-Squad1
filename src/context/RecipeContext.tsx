@@ -9,7 +9,7 @@ enum RecipeType {
   BREAKFAST = "BREAKFAST",
 }
 
-interface Recipe {
+export interface Recipe {
   id?: string;
   title: string;
   description: string;
