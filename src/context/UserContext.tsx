@@ -31,6 +31,11 @@ interface User {
   email: string;
 }
 
+interface LoginData {
+  email: string;
+  password: string;
+}
+
 interface UserContextType {
   signup: (data: RegisterData) => Promise<void>;
   update: (id: string, data: RegisterData) => Promise<void>;
@@ -46,7 +51,7 @@ export const UserContext = createContext({} as UserContextType);
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { setUser, login } = useContext(AuthContext);
 
   const signup = async (data: RegisterData) => {
     try {
@@ -84,6 +89,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       if (response.data && response.status === 200) {
         localStorage.setItem("token", token);
         localStorage.setItem("isLogado", "true");
+        
+        const loginData: LoginData = {
+          email: data.email,
+          password: data.password || ""
+        }
 
         const userData: User = {
           id: response.data.id,
@@ -95,7 +105,9 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         setUser(userData);
 
         alert("Usuário atualizado com sucesso!");
-        navigate("/profile");
+        // navigate("/profile");
+        login(loginData);
+
       } else {
         alert("Não foi possível atualizar o usuário");
       }
@@ -143,6 +155,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       });
       return response.data;
     } catch (error) {
+
       console.error(error);
       alert("Erro ao tentar buscar usuário");
       return null;
