@@ -27,6 +27,7 @@ import { useParams } from "react-router-dom";
 import { RecipesContext } from "../../../../context/RecipeContext";
 import { RecipeHeader } from "../RecipeHeader";
 import { RecipeReviewsList } from "../RecipeReviewsList";
+import { translateRecipeType } from "../../../../utils/translateRecipeType";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -223,54 +224,29 @@ export function RecipeContent() {
               >
                 {Object.values(RecipeType).map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {translateRecipeType(type)}
                   </option>
                 ))}
               </StyledSelect>
               {errors.recipeType && <span>{errors.recipeType.message}</span>}
               <Subtitle>Tipo de Dieta</Subtitle>
               <List>
-                {!isEditing ? (
-                  <>
-                    {recipe.glutenFree && (
-                      <ListItem>
-                        <Checkbox
-                          {...register("glutenFree")}
-                          disabled
-                          checked
-                        />
-                        <label htmlFor="glutenFree">Sem Glúten</label>
-                      </ListItem>
-                    )}
-                    {recipe.lactoseFree && (
-                      <ListItem>
-                        <Checkbox
-                          {...register("lactoseFree")}
-                          disabled
-                          checked
-                        />
-                        <label htmlFor="lactoseFree">Sem Lactose</label>
-                      </ListItem>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <ListItem>
-                      <Checkbox
-                        {...register("glutenFree")}
-                        disabled={!logado()}
-                      />
-                      <label htmlFor="glutenFree">Sem Glúten</label>
-                    </ListItem>
-                    <ListItem>
-                      <Checkbox
-                        {...register("lactoseFree")}
-                        disabled={!logado()}
-                      />
-                      <label htmlFor="lactoseFree">Sem Lactose</label>
-                    </ListItem>
-                  </>
-                )}
+                <ListItem>
+                  <Checkbox
+                    {...register("glutenFree")}
+                    disabled={!isEditing || !logado()}
+                    defaultChecked={recipe.glutenFree}
+                  />
+                  <label htmlFor="glutenFree">Sem Glúten</label>
+                </ListItem>
+                <ListItem>
+                  <Checkbox
+                    {...register("lactoseFree")}
+                    disabled={!isEditing || !logado()}
+                    defaultChecked={recipe.lactoseFree}
+                  />
+                  <label htmlFor="lactoseFree">Sem Lactose</label>
+                </ListItem>
               </List>
               <>
                 {" "}

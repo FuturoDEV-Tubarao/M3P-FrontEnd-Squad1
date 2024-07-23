@@ -113,7 +113,6 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   margin: 4px 6px;
 
    &:disabled {
-    border: 0;
     color: black;
   }
 
