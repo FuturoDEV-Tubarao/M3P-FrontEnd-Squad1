@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 // Animação de pulsação
@@ -106,9 +107,19 @@ export const Button = styled.button`
   }
 `;
 
-export const SpecialButton = styled(Button)`
+export const SpecialButton = styled(NavLink)`
   animation: ${pulse} 1s infinite;
   background-color: #96d433; // Cor especial para este botão
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: light;
+  text-decoration: none;
+  color: black;
 
   &:hover {
     background-color: #ffdf34; // Cor de hover especial

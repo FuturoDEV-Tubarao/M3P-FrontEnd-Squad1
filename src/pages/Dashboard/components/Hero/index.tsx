@@ -40,7 +40,7 @@ export function Hero() {
           <ButtonContainer>
             <Button onClick={scrollToRecipes}>Escolher Receita</Button>
             {logado() && (
-              <SpecialButton title="Nova Receita">
+              <SpecialButton to="addrecipe" title="Nova Receita">
                 <FontAwesomeIcon icon={faPen} />
                 Cadastrar Receita
               </SpecialButton>
