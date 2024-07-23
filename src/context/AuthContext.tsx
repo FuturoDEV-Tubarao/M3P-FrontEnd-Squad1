@@ -62,7 +62,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         };
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);
-
         navigate("/");
       } else {
         alert("Não foi possível realizar o login");
