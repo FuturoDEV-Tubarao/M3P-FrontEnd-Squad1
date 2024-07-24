@@ -11,6 +11,7 @@ import {
 } from "./styles";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
+import { Header } from "../../components/Header";
 
 const loginSchema = zod.object({
   email: zod.string().email("Informe um e-mail válido"),
@@ -35,6 +36,8 @@ export function Login() {
   const { login /*logout*/ } = useContext(AuthContext);
 
   return (
+    <>
+    <Header currentPage={"home"}/>
     <LoginContainer>
       <GlassCard>
         <Title>Login Labfoods</Title>
@@ -59,5 +62,6 @@ export function Login() {
         </form>
       </GlassCard>
     </LoginContainer>
+    </>
   );
 }

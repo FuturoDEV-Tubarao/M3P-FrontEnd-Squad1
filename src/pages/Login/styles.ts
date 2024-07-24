@@ -5,14 +5,13 @@ export const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 90vh;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url(${backgroundImage});
   background-size: cover;
   background-position: center;
   max-width: 100%;
   margin: 0 auto;
-  padding: 50px 0; // Ajustado padding vertical
 `;
 
 export const GlassCard = styled.div`
