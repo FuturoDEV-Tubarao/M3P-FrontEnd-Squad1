@@ -16,6 +16,7 @@ import {
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useFetchAddress } from "../../utils/useFetchAddress";
+import { Header } from "../../components/Header";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -87,134 +88,145 @@ export function Register() {
   }, [address, setValue]);
 
   return (
-    <RegisterContainer>
-      <GlassCard>
-        <Title>Cadastro Labfoods</Title>
-        <SubHeader>Compartilhe Química de Sabor</SubHeader>
-        <form onSubmit={handleSubmit(signup)}>
-          <Row>
+    <>
+      <Header currentPage={"home"} />
+      <RegisterContainer>
+        <GlassCard>
+          <Title>Cadastro Labfoods</Title>
+          <SubHeader>Compartilhe Química de Sabor</SubHeader>
+          <form onSubmit={handleSubmit(signup)}>
+            <Row>
+              <FieldWrapper>
+                <Input type="text" {...register("name")} placeholder="Nome" />
+                {errors.name && (
+                  <ErrorMessage>{errors.name.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input type="text" {...register("cpf")} placeholder="CPF" />
+                {errors.cpf && (
+                  <ErrorMessage>{errors.cpf.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
             <FieldWrapper>
-              <Input type="text" {...register("name")} placeholder="Nome" />
-              {errors.name && (
-                <ErrorMessage>{errors.name.message}</ErrorMessage>
+              <Input type="text" {...register("email")} placeholder="E-mail" />
+              {errors.email && (
+                <ErrorMessage>{errors.email.message}</ErrorMessage>
               )}
             </FieldWrapper>
-            <FieldWrapper>
-              <Input type="text" {...register("cpf")} placeholder="CPF" />
-              {errors.cpf && <ErrorMessage>{errors.cpf.message}</ErrorMessage>}
-            </FieldWrapper>
-          </Row>
-          <FieldWrapper>
-            <Input type="text" {...register("email")} placeholder="E-mail" />
-            {errors.email && (
-              <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
-          </FieldWrapper>
-          <FieldWrapper>
-            <Input
-              type="password"
-              {...register("password")}
-              placeholder="Senha"
-            />
-            {errors.password && (
-              <ErrorMessage>{errors.password.message}</ErrorMessage>
-            )}
-          </FieldWrapper>
-          <Row>
             <FieldWrapper>
               <Input
-                type="date"
-                {...register("birthDate")}
-                placeholder="Data de Nascimento"
+                type="password"
+                {...register("password")}
+                placeholder="Senha"
               />
-              {errors.birthDate && (
-                <ErrorMessage>{errors.birthDate.message}</ErrorMessage>
+              {errors.password && (
+                <ErrorMessage>{errors.password.message}</ErrorMessage>
               )}
             </FieldWrapper>
-            <FieldWrapper>
-              <StyledSelect {...register("gender")}>
-                <option value="MALE">Masculino</option>
-                <option value="FEMALE">Feminino</option>
-              </StyledSelect>
-              {errors.gender && (
-                <ErrorMessage>{errors.gender.message}</ErrorMessage>
-              )}
-            </FieldWrapper>
-          </Row>
-          <FieldWrapper>
-            <Input
-              type="text"
-              {...register("userAddress.zipCode")}
-              placeholder="CEP"
-            />
-            {errors.userAddress?.zipCode && (
-              <ErrorMessage>{errors.userAddress.zipCode.message}</ErrorMessage>
-            )}
-          </FieldWrapper>
-          <FieldWrapper>
-            <Input
-              type="number"
-              {...register("userAddress.numberAddress", {
-                valueAsNumber: true,
-              })}
-              placeholder="Número"
-            />
-            {errors.userAddress?.numberAddress && (
-              <ErrorMessage>
-                {errors.userAddress.numberAddress.message}
-              </ErrorMessage>
-            )}
-          </FieldWrapper>
-
-          <Row>
+            <Row>
+              <FieldWrapper>
+                <Input
+                  type="date"
+                  {...register("birthDate")}
+                  placeholder="Data de Nascimento"
+                />
+                {errors.birthDate && (
+                  <ErrorMessage>{errors.birthDate.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <StyledSelect {...register("gender")}>
+                  <option value="MALE">Masculino</option>
+                  <option value="FEMALE">Feminino</option>
+                </StyledSelect>
+                {errors.gender && (
+                  <ErrorMessage>{errors.gender.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
             <FieldWrapper>
               <Input
-                {...register("userAddress.street")}
-                value={address.street}
-                placeholder="Logradouro"
+                type="text"
+                {...register("userAddress.zipCode")}
+                placeholder="CEP"
               />
-              {errors.userAddress?.street && (
-                <ErrorMessage>{errors.userAddress.street.message}</ErrorMessage>
-              )}
-            </FieldWrapper>
-          </Row>
-          <Row>
-            <FieldWrapper>
-              <Input
-                {...register("userAddress.neighborhood")}
-                value={address.neighborhood}
-                placeholder="Bairro"
-              />
-              {errors.userAddress?.neighborhood && (
+              {errors.userAddress?.zipCode && (
                 <ErrorMessage>
-                  {errors.userAddress.neighborhood.message}
+                  {errors.userAddress.zipCode.message}
                 </ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
               <Input
-                {...register("userAddress.city")}
-                value={address.city}
-                placeholder="Cidade"
+                type="number"
+                {...register("userAddress.numberAddress", {
+                  valueAsNumber: true,
+                })}
+                placeholder="Número"
               />
-              {errors.userAddress?.city && (
-                <ErrorMessage>{errors.userAddress.city.message}</ErrorMessage>
+              {errors.userAddress?.numberAddress && (
+                <ErrorMessage>
+                  {errors.userAddress.numberAddress.message}
+                </ErrorMessage>
               )}
             </FieldWrapper>
-            <FieldWrapper>
-              <Input
-                {...register("userAddress.state")}
-                value={address.state}
-                placeholder="Estado"
-              />
-              {errors.userAddress?.state && (
-                <ErrorMessage>{errors.userAddress.state.message}</ErrorMessage>
-              )}
-            </FieldWrapper>
-          </Row>
-          <Button type="submit">Cadastrar</Button>
-        </form>
-      </GlassCard>
-    </RegisterContainer>
+
+            <Row>
+              <FieldWrapper>
+                <Input
+                  {...register("userAddress.street")}
+                  value={address.street}
+                  placeholder="Logradouro"
+                />
+                {errors.userAddress?.street && (
+                  <ErrorMessage>
+                    {errors.userAddress.street.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <Row>
+              <FieldWrapper>
+                <Input
+                  {...register("userAddress.neighborhood")}
+                  value={address.neighborhood}
+                  placeholder="Bairro"
+                />
+                {errors.userAddress?.neighborhood && (
+                  <ErrorMessage>
+                    {errors.userAddress.neighborhood.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input
+                  {...register("userAddress.city")}
+                  value={address.city}
+                  placeholder="Cidade"
+                />
+                {errors.userAddress?.city && (
+                  <ErrorMessage>{errors.userAddress.city.message}</ErrorMessage>
+                )}
+              </FieldWrapper>
+              <FieldWrapper>
+                <Input
+                  {...register("userAddress.state")}
+                  value={address.state}
+                  placeholder="Estado"
+                />
+                {errors.userAddress?.state && (
+                  <ErrorMessage>
+                    {errors.userAddress.state.message}
+                  </ErrorMessage>
+                )}
+              </FieldWrapper>
+            </Row>
+            <Button type="submit">Cadastrar</Button>
+          </form>
+        </GlassCard>
+      </RegisterContainer>
+    </>
   );
 }
