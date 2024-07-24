@@ -11,15 +11,24 @@ O projeto é desenvolvido para resolver o desafio final do modulo 3 do curso **A
   
 # Tecnologias Utilizadas
 ## Front end
-- React
+- React 18
+- Node 20
 - TypeScript
-- styled-components
-- React Hook Form
+- Vite
 
 **Validação:**
 - Zod
 - Resolver
-  
+
+ **Extra** 
+ - Radix
+ - Style-Components
+ - MUI
+ - Prhosphor Icons
+ - Axios
+ - ViaCEP
+ - Immer
+   
 # Como executar o projeto
 Pré-requisitos: npm / yarn
 
