@@ -19,8 +19,7 @@ export const MainContainer = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding: 50px 0 20px 0;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -38,14 +37,16 @@ export const TextContainer = styled.div`
   }
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   background: white;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
+  height: 40rem; 
   display: flex;
   flex-direction: column;
+
   @media (min-width: 768px) {
     width: 40%;
   }
@@ -88,15 +89,15 @@ export const Heading = styled.h1`
 export const FieldContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 export const Label = styled.label`
-  min-width: 90px;
   font-weight: bold;
   font-size: 16px;
   color: #4a5568;
-  margin-right: 10px;
+  min-width: 150px;
+  margin-right: 2px;
 `;
 
 export const Input = styled.input`
@@ -115,8 +116,8 @@ export const TextArea = styled.textarea`
 `;
 
 export const RadioInput = styled.input`
-  margin-right: 5px;
   accent-color: #2b9a31;
+  margin: 10px 0px;
 `;
 
 // Pulse Animation
@@ -129,38 +130,62 @@ export const pulseAnimation = keyframes`
 export const Restrictions = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 10px;
-
-  div {
-    display: flex;
-    align-items: center;
-    accent-color: #2b9a31;
-    margin-right: 10px;
-
-    label {
-      margin-right: 5px;
-    }
-  }
+  align-items: center;
+  margin-bottom: 15px;
 `;
 
 export const Button = styled.button`
-  margin-top: 20px;
-  background-color: #f4d03f;
-  color: black;
-  padding: 8px 25px;
-  border-radius: 4px;
-  border: none;
+  animation: ${pulseAnimation} 2s infinite; // Pulse effect
+`;
+
+export const ButtoContainer = styled.div`
+  padding-top: 20px;
+
+  button {
+    margin: 0 auto;
+    background-color: #f4d03f;
+    color: black;
+    padding: 8px 25px;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: light;
+    cursor: pointer;
+    align-self: center;
+
+    &:hover {
+      background-color: #2b9a31; // Green color on hover
+      color: white;
+    }
+  }
+`;
+export const DietType = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: light;
-  cursor: pointer;
-  align-self: center;
+  gap: 10px;
+  accent-color: #2b9a31;
+  margin: 10px 0;
 
-  &:hover {
-    background-color: #2b9a31; // Green color on hover
-    color: white;
-  }
 
-  animation: ${pulseAnimation} 2s infinite; // Pulse effect
+`;
+
+export const LabelCheckbox = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+`;
+
+export const LabelRadio = styled.label`
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+export const RadioDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 7px;
 `;

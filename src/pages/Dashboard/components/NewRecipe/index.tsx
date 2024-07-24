@@ -13,10 +13,14 @@ import {
   Input,
   TextArea,
   RadioInput,
-  Button,
   ImageContainer,
   Image,
   Restrictions,
+  DietType,
+  LabelCheckbox,
+  LabelRadio,
+  RadioDiv,
+  ButtoContainer,
 } from "./styles";
 import backgroundImage from "../../../../assets/fundo-cadastro.jpg";
 import { Header } from "../../../../components/Header";
@@ -79,8 +83,7 @@ export function NewRecipe() {
             <Title>Cadastrar Receita</Title>
             <Heading>Quanto mais receitas, mais momentos Incríveis!</Heading>
           </TextContainer>
-          <FormContainer>
-            <form onSubmit={handleSubmit(createRecipe)}>
+            <FormContainer onSubmit={handleSubmit(createRecipe)}>
               <FieldContainer>
                 <Label>Título:</Label>
                 <Input {...register("title")} />
@@ -101,93 +104,80 @@ export function NewRecipe() {
                 )}
               </FieldContainer>
               <FieldContainer>
-                <Label>
-                  Tempo de <br />
-                  Preparo:
-                </Label>
+                <Label>Tempo de Preparo:</Label>
                 <Input type="string" {...register("preparationTime")} />
                 {errors.preparationTime && (
                   <span>{errors.preparationTime.message}</span>
                 )}
               </FieldContainer>
               <FieldContainer>
-                <Label>
-                  Modo de <br />
-                  Preparo:
-                </Label>
+                <Label>Modo de Preparo:</Label>
                 <TextArea {...register("preparationMethod")} />
                 {errors.preparationMethod && (
                   <span>{errors.preparationMethod.message}</span>
                 )}
               </FieldContainer>
               <FieldContainer>
-                <Label>
-                  Tipo de
-                  <br />
-                  Receita:
-                </Label>
+                <Label>Tipo de Receita:</Label>
                 <div>
-                  <Label>
-                    <RadioInput
-                      type="radio"
-                      value="MAIN_DISH"
-                      {...register("recipeType")}
-                    />{" "}
-                    Prato Principal
-                  </Label>
-                  <Label>
-                    <RadioInput
-                      type="radio"
-                      value="APPETIZERS"
-                      {...register("recipeType")}
-                    />{" "}
-                    Aperitivo
-                  </Label>
-                  <Label>
-                    <RadioInput
-                      type="radio"
-                      value="DRINKS"
-                      {...register("recipeType")}
-                    />{" "}
-                    Bebidas
-                  </Label>
-                  <Label>
-                    <RadioInput
-                      type="radio"
-                      value="BREAKFAST"
-                      {...register("recipeType")}
-                    />{" "}
-                    Café da Manhã
-                  </Label>
+                  <RadioDiv>
+                    <LabelRadio>
+                      <RadioInput
+                        type="radio"
+                        value="MAIN_DISH"
+                        {...register("recipeType")}
+                      />{" "}
+                      Prato Principal
+                    </LabelRadio>
+                    <LabelRadio>
+                      <RadioInput
+                        type="radio"
+                        value="APPETIZERS"
+                        {...register("recipeType")}
+                      />{" "}
+                      Aperitivo
+                    </LabelRadio>
+                  </RadioDiv>
+                  <RadioDiv>
+                    <LabelRadio>
+                      <RadioInput
+                        type="radio"
+                        value="DRINKS"
+                        {...register("recipeType")}
+                      />{" "}
+                      Bebidas
+                    </LabelRadio>
+                    <LabelRadio>
+                      <RadioInput
+                        type="radio"
+                        value="BREAKFAST"
+                        {...register("recipeType")}
+                      />{" "}
+                      Café da Manhã
+                    </LabelRadio>
+                  </RadioDiv>
                 </div>
                 {errors.recipeType && <span>{errors.recipeType.message}</span>}
               </FieldContainer>
               <Restrictions>
-                <Label>
-                  Tipo de
-                  <br />
-                  Dieta:
-                </Label>
-                <div>
-                  <Label>Sem Glúten:</Label>
-                  <Input type="checkbox" {...register("glutenFree")} />
-                  {errors.glutenFree && (
-                    <span>{errors.glutenFree.message}</span>
-                  )}
-                </div>
-                <div>
-                  <Label>Sem Lactose:</Label>
-                  <Input type="checkbox" {...register("lactoseFree")} />
-                  {errors.lactoseFree && (
-                    <span>{errors.lactoseFree.message}</span>
-                  )}
-                </div>
+                <Label>Tipo de Dieta:</Label>
+                <DietType>
+                    <LabelCheckbox>Sem Lactose:
+                    <Input type="checkbox" {...register("lactoseFree")} />
+                    {errors.lactoseFree && (
+                      <span>{errors.lactoseFree.message}</span>
+                    )}
+                    </LabelCheckbox>
+                    <LabelCheckbox>Sem Glúten:
+                    <Input type="checkbox" {...register("glutenFree")} />
+                    {errors.glutenFree && (
+                      <span>{errors.glutenFree.message}</span>
+                    )}
+                    </LabelCheckbox>
+                </DietType>
               </Restrictions>
               <FieldContainer>
-                <Label>
-                  País de <br />
-                  Origem:
-                </Label>
+                <Label>País de Origem:</Label>
                 <Input {...register("origin")} />
                 {errors.origin && <span>{errors.origin.message}</span>}
               </FieldContainer>
@@ -196,9 +186,10 @@ export function NewRecipe() {
                 <Input {...register("url")} />
                 {errors.url && <span>{errors.url.message}</span>}
               </FieldContainer>
-              <Button type="submit">Inserir Receita</Button>
-            </form>
-          </FormContainer>
+              <ButtoContainer>
+                <button type="submit">Inserir Receita</button>
+              </ButtoContainer>
+            </FormContainer>
           <ImageContainer>
             <Image src={backgroundImage} alt="Background" />
           </ImageContainer>
