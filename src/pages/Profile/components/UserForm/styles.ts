@@ -34,10 +34,7 @@ export const Input = styled.input`
   border-radius: 8px;
   border: none;
   outline: none;
-
-  &::placeholder {
-    color: black;
-  }
+  color: black; 
 `;
 
 export const StyledSelect = styled.select`
