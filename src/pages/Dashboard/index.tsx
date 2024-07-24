@@ -6,7 +6,7 @@ import { LatestRecipes } from "./components/LatestRecipes";
 
 export function Dashboard() {
   const { logado } = useContext(AuthContext);
-  const currentPage = logado() ? "dashboard" : "home"; 
+  const currentPage = logado() ? "dashboard" : "home";
 
   return (
     <>

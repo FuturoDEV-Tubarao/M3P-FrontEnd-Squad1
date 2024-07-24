@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
-import { Star, StarContainer } from "../pages/RecipePage/components/RecipeReviewsList/styles";
-import { faStar as faStarSolid, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  Star,
+  StarContainer,
+} from "../pages/RecipePage/components/RecipeReviewsList/styles";
+import {
+  faStar as faStarSolid,
+  faStarHalfAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
 
 interface Recipe {
@@ -51,7 +57,7 @@ export function Votes({ recipe }: RecipeReviewsProps) {
 
   const renderStars = (note: number): JSX.Element[] => {
     const fullStars = Math.floor(note);
-    const halfStar = note % 1 !== 0; 
+    const halfStar = note % 1 !== 0;
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -66,9 +72,5 @@ export function Votes({ recipe }: RecipeReviewsProps) {
     return stars;
   };
 
-  return (
-    <StarContainer>
-      {renderStars(mediaAvaliacao)}
-    </StarContainer>
-  );
+  return <StarContainer>{renderStars(mediaAvaliacao)}</StarContainer>;
 }

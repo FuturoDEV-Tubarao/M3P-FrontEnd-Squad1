@@ -15,7 +15,6 @@ export const pulseAnimation = keyframes`
   }
 `;
 
-
 export const BackgroundOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -25,7 +24,6 @@ export const BackgroundOverlay = styled.div`
   background: rgba(0, 0, 0, 0.8);
   z-index: 999;
 `;
-
 
 export const Container = styled.div`
   position: fixed;
@@ -40,7 +38,6 @@ export const Container = styled.div`
   z-index: 1000;
 `;
 
-
 export const CloseButton = styled.button`
   position: absolute;
   top: 10px;
@@ -52,7 +49,6 @@ export const CloseButton = styled.button`
   font-size: 24px;
 `;
 
-
 export const Content = styled.div`
   padding: 40px;
   background: #f9f9f9;
@@ -63,14 +59,12 @@ export const Content = styled.div`
   align-items: center;
 `;
 
-
 export const Title = styled.h2`
   font-size: 30px;
   color: #333;
   text-align: center;
   margin-bottom: 20px;
 `;
-
 
 export const Label = styled.label`
   font-size: 18px;
@@ -79,7 +73,6 @@ export const Label = styled.label`
   margin-top: 15px;
   width: 100%;
 `;
-
 
 export const RangeInput = styled.input`
   width: 70%;
@@ -101,7 +94,6 @@ export const RangeInput = styled.input`
   }
 `;
 
-
 export const Input = styled.input`
   width: 100%;
   padding: 10px;
@@ -109,7 +101,6 @@ export const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
-
 
 export const TextArea = styled.textarea`
   width: 100%;
@@ -119,7 +110,6 @@ export const TextArea = styled.textarea`
   border-radius: 4px;
   margin-top: 5px;
 `;
-
 
 export const SaveButton = styled.button`
   width: 100%;
@@ -132,13 +122,11 @@ export const SaveButton = styled.button`
   cursor: pointer;
   animation: ${pulseAnimation} 2s infinite;
 
-
   &:hover {
     background-color: #45a049;
     color: white;
   }
 `;
-
 
 export const StarRating = styled.div`
   margin-top: 15px;
@@ -148,24 +136,22 @@ export const StarRating = styled.div`
 `;
 
 export const Rate = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 12px;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+`;
 
 export const InputContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-
-`
+  display: flex;
+  flex-direction: column;
+`;
 
 export const LabelDescription = styled.label`
-    font-size: 18px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
   margin-top: 15px;
   width: 100%;
   margin-left: 95px;
-
-`
+`;

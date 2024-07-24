@@ -30,7 +30,7 @@ interface User {
   active: boolean;
   email: string;
   password?: string;
-  userAddress: { 
+  userAddress: {
     zipCode: string;
     street: string;
     numberAddress: number;
@@ -56,10 +56,12 @@ const userProfileSchema = zod.object({
     zipCode: zod.string().length(8, "CEP é obrigatório"),
     street: zod.string().min(1, "Rua deve possuir mais de 1 caractere"),
     numberAddress: zod.number().int().positive("Número deve ser positivo"),
-    neighborhood: zod.string().min(1, "Bairro deve possuir mais de 1 caractere"),
+    neighborhood: zod
+      .string()
+      .min(1, "Bairro deve possuir mais de 1 caractere"),
     city: zod.string().min(1, "Cidade deve possuir mais de 1 caractere"),
     state: zod.string().min(1, "Estado deve possuir mais de 1 caractere"),
-  })
+  }),
 });
 
 type UserProfileFormData = zod.infer<typeof userProfileSchema>;
@@ -134,7 +136,10 @@ export function UserForm() {
       if (userData.userAddress) {
         setValue("userAddress.zipCode", userData.userAddress.zipCode);
         setValue("userAddress.street", userData.userAddress.street);
-        setValue("userAddress.numberAddress", userData.userAddress.numberAddress);
+        setValue(
+          "userAddress.numberAddress",
+          userData.userAddress.numberAddress
+        );
         setValue("userAddress.neighborhood", userData.userAddress.neighborhood);
         setValue("userAddress.city", userData.userAddress.city);
         setValue("userAddress.state", userData.userAddress.state);
@@ -262,14 +267,9 @@ export function UserForm() {
                 )}
               </FieldWrapper>
               <FieldWrapper>
-                <Input
-                  {...register("userAddress.city")}
-                  placeholder="Cidade"
-                />
+                <Input {...register("userAddress.city")} placeholder="Cidade" />
                 {errors.userAddress?.city && (
-                  <ErrorMessage>
-                    {errors.userAddress.city.message}
-                  </ErrorMessage>
+                  <ErrorMessage>{errors.userAddress.city.message}</ErrorMessage>
                 )}
               </FieldWrapper>
               <FieldWrapper>

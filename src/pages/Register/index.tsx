@@ -77,7 +77,7 @@ export function Register() {
   const { signup } = useContext(UserContext);
 
   const zipCode = watch("userAddress.zipCode");
-  const address = useFetchAddress(zipCode); 
+  const address = useFetchAddress(zipCode);
 
   useEffect(() => {
     setValue("userAddress.street", address.street);
@@ -148,9 +148,7 @@ export function Register() {
               placeholder="CEP"
             />
             {errors.userAddress?.zipCode && (
-              <ErrorMessage>
-                {errors.userAddress.zipCode.message}
-              </ErrorMessage>
+              <ErrorMessage>{errors.userAddress.zipCode.message}</ErrorMessage>
             )}
           </FieldWrapper>
           <FieldWrapper>
@@ -176,9 +174,7 @@ export function Register() {
                 placeholder="Logradouro"
               />
               {errors.userAddress?.street && (
-                <ErrorMessage>
-                  {errors.userAddress.street.message}
-                </ErrorMessage>
+                <ErrorMessage>{errors.userAddress.street.message}</ErrorMessage>
               )}
             </FieldWrapper>
           </Row>
@@ -202,9 +198,7 @@ export function Register() {
                 placeholder="Cidade"
               />
               {errors.userAddress?.city && (
-                <ErrorMessage>
-                  {errors.userAddress.city.message}
-                </ErrorMessage>
+                <ErrorMessage>{errors.userAddress.city.message}</ErrorMessage>
               )}
             </FieldWrapper>
             <FieldWrapper>
@@ -214,9 +208,7 @@ export function Register() {
                 placeholder="Estado"
               />
               {errors.userAddress?.state && (
-                <ErrorMessage>
-                  {errors.userAddress.state.message}
-                </ErrorMessage>
+                <ErrorMessage>{errors.userAddress.state.message}</ErrorMessage>
               )}
             </FieldWrapper>
           </Row>

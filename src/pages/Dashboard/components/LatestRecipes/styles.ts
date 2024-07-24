@@ -1,17 +1,14 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 
-
   @media (max-width: 768px) {
     padding: 40px 20px; // Reduz o padding lateral em dispositivos móveis
   }
 `;
-
 
 export const TitleContainer = styled.div`
   display: flex;
@@ -29,18 +26,15 @@ export const TitleContainer = styled.div`
   }
 `;
 
-
 export const Title = styled.h2`
   font-size: 35px;
   font-weight: bold;
 `;
 
-
 export const Filters = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 export const CheckboxContainer = styled.label`
   display: flex;
@@ -49,7 +43,6 @@ export const CheckboxContainer = styled.label`
   font-size: 20px;
   color: #666;
 `;
-
 
 export const Checkbox = styled.input`
   accent-color: #4caf50;

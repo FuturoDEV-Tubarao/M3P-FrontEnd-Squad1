@@ -5,7 +5,7 @@ interface MenuContainerProps {
   children: React.ReactNode;
 }
 
-const MenuContainer: React.FC<MenuContainerProps> = ({  children }) => {
+const MenuContainer: React.FC<MenuContainerProps> = ({ children }) => {
   return <div>{children}</div>;
 };
 

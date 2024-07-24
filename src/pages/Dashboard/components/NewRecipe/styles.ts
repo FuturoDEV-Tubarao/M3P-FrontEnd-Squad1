@@ -137,10 +137,9 @@ export const Restrictions = styled.div`
     accent-color: #2b9a31;
     margin-right: 10px;
 
-  label {
-    margin-right: 5px;
-  }
-
+    label {
+      margin-right: 5px;
+    }
   }
 `;
 

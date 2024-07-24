@@ -56,9 +56,9 @@ export const StarContainer = styled.div`
 export const VoteContent = styled.div`
   display: flex;
   align-items: flex-end;
-  gap: 12px; 
+  gap: 12px;
   margin-top: 10px;
-`
+`;
 
 export const VoteContainer = styled.div`
   margin: 12px 2px;
@@ -66,8 +66,7 @@ export const VoteContainer = styled.div`
   p {
     margin-top: 12px;
   }
-  
-`
+`;
 export const Star = styled(FontAwesomeIcon)`
   margin-right: 2px;
 `;

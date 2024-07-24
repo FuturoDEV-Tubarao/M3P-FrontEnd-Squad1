@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-
 export const HeaderContainer = styled.header`
   display: flex;
   justify-content: center;
@@ -12,7 +11,6 @@ export const HeaderContainer = styled.header`
   z-index: 1000;
 `;
 
-
 export const InnerContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,21 +20,17 @@ export const InnerContainer = styled.div`
   margin: 0 auto;
   padding: 0 20px;
 
-
   @media (max-width: 1200px) {
     max-width: 90%;
   }
-
 
   @media (max-width: 992px) {
     max-width: 90%;
   }
 
-
   @media (max-width: 768px) {
     flex-direction: column;
   }
-
 
   @media (max-width: 576px) {
     flex-direction: column;
@@ -44,18 +38,15 @@ export const InnerContainer = styled.div`
   }
 `;
 
-
 export const SocialMediaContainer = styled.div`
   display: flex;
   align-items: center;
   color: #181f28;
 
-
   @media (max-width: 768px) {
     display: none; // Hide social icons on tablets and below
   }
 `;
-
 
 export const SocialIcon = styled.a`
   display: inline-flex;
@@ -69,17 +60,14 @@ export const SocialIcon = styled.a`
   border-radius: 50%;
   background-color: #2c2f29;
 
-
   &:hover {
     background-color: #62ae1e;
   }
-
 
   svg {
     font-size: 15px;
   }
 `;
-
 
 export const Logo = styled.div`
   img {
@@ -87,8 +75,7 @@ export const Logo = styled.div`
   }
 `;
 
-
-export const StyledNavLink =  styled(NavLink)`
+export const StyledNavLink = styled(NavLink)`
   background-color: #ffdf34;
   color: #181f28;
   border: none;
@@ -99,18 +86,15 @@ export const StyledNavLink =  styled(NavLink)`
   text-decoration: none;
   display: inline-block;
 
-
   &:hover {
     background-color: #62ae1e;
     color: #ffffff;
   }
 
-
   @media (max-width: 768px) {
     margin-top: 10px; // Add spacing on mobile
   }
 `;
-
 
 export const MenuContainer = styled.div`
   display: flex;

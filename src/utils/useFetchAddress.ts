@@ -20,7 +20,9 @@ export function useFetchAddress(zipCode: string) {
     const fetchAddress = async () => {
       if (zipCode.length === 8) {
         try {
-          const response = await axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
+          const response = await axios.get(
+            `https://viacep.com.br/ws/${zipCode}/json/`
+          );
           const data = response.data;
           if (!data.erro) {
             setAddress({

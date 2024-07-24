@@ -103,7 +103,8 @@ export function RecipeContent() {
   });
 
   const { id } = useParams<{ id: string }>();
-  const { recipes, updateRecipe, fetchRecipeById, deleteRecipe } = useContext(RecipesContext);
+  const { recipes, updateRecipe, fetchRecipeById, deleteRecipe } =
+    useContext(RecipesContext);
   const { logado, user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -154,7 +155,11 @@ export function RecipeContent() {
   };
 
   const handleDelete = async () => {
-    if (recipe && recipe.id && window.confirm("Tem certeza de que deseja excluir sua receita?")) {
+    if (
+      recipe &&
+      recipe.id &&
+      window.confirm("Tem certeza de que deseja excluir sua receita?")
+    ) {
       try {
         await deleteRecipe(recipe.id!);
       } catch (error) {
@@ -270,10 +275,7 @@ export function RecipeContent() {
                         </CancelButton>
                       </>
                     )}
-                    <DeleteButton
-                      type="button"
-                      onClick={handleDelete}
-                    >
+                    <DeleteButton type="button" onClick={handleDelete}>
                       Excluir
                     </DeleteButton>
                   </>

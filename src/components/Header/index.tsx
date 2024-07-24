@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export function Header({ currentPage }: HeaderProps) {
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
 
   return (
     <HeaderContainer>

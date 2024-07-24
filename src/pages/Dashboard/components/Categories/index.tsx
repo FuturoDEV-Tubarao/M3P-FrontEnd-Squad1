@@ -1,5 +1,14 @@
 import semglutem from "../../../../assets/sem-gluten.jpg";
-import { CategoriesContainer, CategoriesGrid, CategoryButton, CategoryCard, CategoryImage, CategoryOverlay, CategoryTitle, Title } from "./styles";
+import {
+  CategoriesContainer,
+  CategoriesGrid,
+  CategoryButton,
+  CategoryCard,
+  CategoryImage,
+  CategoryOverlay,
+  CategoryTitle,
+  Title,
+} from "./styles";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -49,7 +58,9 @@ export function Categories({ handleCategoryChange }: CategoriesProps) {
             <CategoryImage src={category.image} alt={category.alt} />
             <CategoryOverlay>
               <CategoryTitle>{category.title}</CategoryTitle>
-              <CategoryButton onClick={() => handleCategoryChange(category.type)}>
+              <CategoryButton
+                onClick={() => handleCategoryChange(category.type)}
+              >
                 Todas as Receitas <i className="fas fa-arrow-right"></i>
               </CategoryButton>
             </CategoryOverlay>

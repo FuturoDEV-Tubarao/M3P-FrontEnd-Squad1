@@ -34,39 +34,26 @@ export const ButtonGroup = styled.div`
   gap: 20px;
   margin-top: 20px;
 
-    button {
-    padding: 0.50rem 0.9rem;
+  button {
+    padding: 0.5rem 0.9rem;
     font-size: 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: #fff;
+  }
+`;
 
-    &:first-child {
-      background-color: #4caf50;
+export const Delete = styled.button`
+  background-color: #f44336;
 
-      a {
-       text-decoration: none;
-        color: #fff;
-
-      }
-    }
-    
-    &:hover {
-      background-color: #81c784; 
-    }
-
-    &:last-child {
-      background-color: #f44336;
-
-    &:hover {
-      background-color: #e57373;
-    }
+  &:hover {
+    background-color: #e63e32;
   }
 `;
 
 export const StyledNavLink = styled(Link)`
-  padding: 0.50rem 0.9rem;
+  padding: 0.5rem 0.9rem;
   font-size: 1rem;
   border: none;
   border-radius: 4px;
@@ -76,6 +63,6 @@ export const StyledNavLink = styled(Link)`
   background-color: #4caf50;
 
   &:hover {
-    background-color: #81c784; 
+    background-color: #81c784;
   }
 `;

@@ -23,7 +23,7 @@ export interface Recipe {
   votes?: Vote[];
   createdDate?: string;
   url?: string;
-  voteAvg?: number,
+  voteAvg?: number;
   createdBy?: {
     name: string;
     id: string;
@@ -46,6 +46,7 @@ interface RecipesContextType {
   createVote: (data: Vote) => Promise<void>;
   fetchRecipeById: (id: string) => Promise<Recipe | null>;
   deleteRecipe: (id: string) => Promise<void>;
+  deleteAllRecipes: () => Promise<void>;
 }
 
 interface RecipesContextProviderProps {
@@ -139,7 +140,9 @@ export function RecipesContextProvider({
       });
       if (response.status === 204) {
         alert("Receita excluída com sucesso!");
-        setRecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
+        setRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.id !== id)
+        );
         navigate("/");
       }
     } catch (error) {
@@ -161,6 +164,29 @@ export function RecipesContextProvider({
     }
   };
 
+  const deleteAllRecipes = async () => {
+    try {
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      const response = await api.delete(`/api/labfoods/v1/recipe`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 204) {
+        alert("Todas as receitas foram excluídas com sucesso!");
+        setRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.createdBy?.id !== user?.id)
+        );
+
+        navigate("/profile");
+      }
+    } catch (error) {
+      console.error("Erro ao excluir todas as receitas:", error);
+      alert("Erro ao tentar excluir todas as receitas");
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
       const response = await api.get("/api/labfoods/v1/recipe");
@@ -178,6 +204,7 @@ export function RecipesContextProvider({
         createVote,
         fetchRecipeById,
         deleteRecipe,
+        deleteAllRecipes,
       }}
     >
       {children}

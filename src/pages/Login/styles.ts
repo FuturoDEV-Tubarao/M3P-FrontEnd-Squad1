@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import backgroundImage from "../../assets/fundo-login.jpg";
 
 export const LoginContainer = styled.div`
- display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -16,7 +16,7 @@ export const LoginContainer = styled.div`
 `;
 
 export const GlassCard = styled.div`
-   padding: 40px; // Reduzido padding interno
+  padding: 40px; // Reduzido padding interno
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -48,7 +48,7 @@ export const Input = styled.input`
   padding: 8px;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.2);
-  
+
   color: white;
   border: none;
   outline: none;

@@ -111,10 +111,9 @@ export const Button = styled(NavLink)`
   &:first-child {
     margin-right: 15px;
   }
-    &:hover {
-    background-color: #E6B525;
+  &:hover {
+    background-color: #e6b525;
   }
-
 `;
 
 export const Buttons = styled.div`

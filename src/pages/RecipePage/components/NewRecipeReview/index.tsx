@@ -39,7 +39,7 @@ const avaliacaoSchema = zod.object({
 type AvaliacaoFormData = zod.infer<typeof avaliacaoSchema>;
 
 interface NewRecipeReviewProps {
-  onClose: () => void; 
+  onClose: () => void;
   idRecipe: string;
 }
 

@@ -86,7 +86,7 @@ export function Recipes({ recipe }: RecipeCardProps) {
           </div>
         </Meta>
         <Description>{recipe.description}</Description>
-        <Buttons >
+        <Buttons>
           <Button as={Link} to={`/recipe/${recipe.id}`}>
             Ver Receita
           </Button>

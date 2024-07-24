@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-
 export const MainContainer = styled.div`
   background-color: white;
   display: flex;
@@ -8,7 +7,6 @@ export const MainContainer = styled.div`
   align-items: center;
   min-height: 60vh;
 `;
-
 
 export const ContentContainer = styled.div`
   border-radius: 0.5rem;
@@ -22,7 +20,6 @@ export const ContentContainer = styled.div`
   }
 `;
 
-
 export const TextSection = styled.div`
   padding: 1rem;
   flex: 1;
@@ -33,14 +30,12 @@ export const TextSection = styled.div`
   }
 `;
 
-
 export const Title = styled.h1`
   font-size: 43px;
   color: black;
   font-weight: bold;
   margin-bottom: 1.5rem;
 `;
-
 
 export const BadgeAndRatingContainer = styled.div`
   display: flex;
@@ -52,7 +47,6 @@ export const BadgeAndRatingContainer = styled.div`
   }
 `;
 
-
 export const Badge = styled.span`
   background-color: #2b9a31;
   border-botton: 2px;
@@ -63,20 +57,16 @@ export const Badge = styled.span`
   font-weight: 100;
 `;
 
-
 export const RatingContainer = styled.div`
   color: #fbbf24;
   display: flex;
   align-items: center;
-
 `;
-
 
 export const Text = styled.p`
   color: #4b5563;
   margin: 3rem 0;
 `;
-
 
 export const DetailsContainer = styled.div`
   display: flex;
@@ -84,7 +74,6 @@ export const DetailsContainer = styled.div`
   align-items: center;
   margin-bottom: var(--details-text-margin-bottom, 1rem);
   color: var(--details-text-color, #2b9a31);
-
 
   span {
     font-size: var(--details-text-font-size, 20px);
@@ -95,7 +84,6 @@ export const DetailsContainer = styled.div`
     }
   }
 `;
-
 
 export const pulse = keyframes`
   0% {
@@ -109,13 +97,11 @@ export const pulse = keyframes`
   }
 `;
 
-
 export const ButtonContainer = styled.div`
   margin-top: 20px;
   display: flex;
   gap: 25px; // Espaçamento entre os botões
 `;
-
 
 export const Button = styled.button`
   background-color: #ffdf34;
@@ -126,14 +112,12 @@ export const Button = styled.button`
   cursor: pointer;
   font-weight: light;
 
-
   &:hover {
     background-color: #f2ca04;
   }
 
-
   svg {
-    margin-right: 10px; 
+    margin-right: 10px;
   }
 `;
 
@@ -141,20 +125,18 @@ export const UserDetails = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 10px;
-`
+`;
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
   background-color: #2b9a31; // Cor especial para este botão
   color: white;
 
-
   &:hover {
     background-color: #ffdf34; // Cor de hover especial
     color: black;
   }
 `;
-
 
 export const ShareContainer = styled.div`
   color: #4b5563;
@@ -168,7 +150,6 @@ export const ShareContainer = styled.div`
     justify-content: center;
     align-items: center;
 
-
     text-decoration: none;
     color: #f4f4f3;
     width: 35px;
@@ -176,11 +157,9 @@ export const ShareContainer = styled.div`
     border-radius: 50%;
     background-color: #2c2f29;
 
-
     &:hover {
       background-color: #62ae1e;
     }
-
 
     svg {
       font-size: 15px;
@@ -194,11 +173,9 @@ export const ShareContainer = styled.div`
   }
 `;
 
-
 export const ImageSection = styled.div`
   flex: 1;
 `;
-
 
 export const Image = styled.img`
   width: 100%;

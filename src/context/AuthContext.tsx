@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 
@@ -7,8 +13,7 @@ interface AuthContextType {
   logout: () => void;
   logado: () => boolean;
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>; 
-
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 interface LoginData {
@@ -58,7 +63,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         const userData: User = {
           id: response.data.id,
           name: response.data.name,
-          email: response.data.email
+          email: response.data.email,
         };
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);

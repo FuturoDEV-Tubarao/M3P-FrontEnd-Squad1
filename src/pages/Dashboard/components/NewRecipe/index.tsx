@@ -1,20 +1,34 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from 'zod';
-import { MainContainer, Container, TextContainer, Title, Heading, FormContainer, FieldContainer, Label, Input, TextArea, RadioInput, Button, ImageContainer, Image, Restrictions } from './styles';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+import {
+  MainContainer,
+  Container,
+  TextContainer,
+  Title,
+  Heading,
+  FormContainer,
+  FieldContainer,
+  Label,
+  Input,
+  TextArea,
+  RadioInput,
+  Button,
+  ImageContainer,
+  Image,
+  Restrictions,
+} from "./styles";
 import backgroundImage from "../../../../assets/fundo-cadastro.jpg";
-import { Header } from '../../../../components/Header';
-import { RecipesContext } from '../../../../context/RecipeContext';
-import { useContext } from 'react';
-
+import { Header } from "../../../../components/Header";
+import { RecipesContext } from "../../../../context/RecipeContext";
+import { useContext } from "react";
 
 enum RecipeType {
-  MAIN_DISH = 'MAIN_DISH',
-  APPETIZERS = 'APPETIZERS',
-  DRINKS = 'DRINKS',
-  BREAKFAST = 'BREAKFAST',
+  MAIN_DISH = "MAIN_DISH",
+  APPETIZERS = "APPETIZERS",
+  DRINKS = "DRINKS",
+  BREAKFAST = "BREAKFAST",
 }
-
 
 const newRecipeSchema = zod.object({
   title: zod.string().min(1, "Informe o título da receita"),
@@ -22,7 +36,9 @@ const newRecipeSchema = zod.object({
   ingredients: zod.string().min(1, "Informe os ingredientes"),
   preparationTime: zod.string().min(1, "Informe uma preparação válida"),
   preparationMethod: zod.string().min(1, "Informe o modo de preparo"),
-  recipeType: zod.nativeEnum(RecipeType, { required_error: "Informe uma categoria" }),
+  recipeType: zod.nativeEnum(RecipeType, {
+    required_error: "Informe uma categoria",
+  }),
   glutenFree: zod.boolean(),
   lactoseFree: zod.boolean(),
   origin: zod.string().min(1, "Informe o país de origem"),
@@ -32,7 +48,11 @@ const newRecipeSchema = zod.object({
 type NewRecipeFormData = zod.infer<typeof newRecipeSchema>;
 
 export function NewRecipe() {
-  const { register, handleSubmit, formState: { errors } } = useForm<NewRecipeFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewRecipeFormData>({
     resolver: zodResolver(newRecipeSchema),
     defaultValues: {
       title: "",
@@ -52,7 +72,7 @@ export function NewRecipe() {
 
   return (
     <>
-      <Header currentPage={'dashboard'}/>
+      <Header currentPage={"dashboard"} />
       <MainContainer>
         <Container>
           <TextContainer>
@@ -63,68 +83,117 @@ export function NewRecipe() {
             <form onSubmit={handleSubmit(createRecipe)}>
               <FieldContainer>
                 <Label>Título:</Label>
-                <Input {...register('title')} />
+                <Input {...register("title")} />
                 {errors.title && <span>{errors.title.message}</span>}
               </FieldContainer>
               <FieldContainer>
                 <Label>Descrição:</Label>
-                <Input {...register('description')} />
-                {errors.description && <span>{errors.description.message}</span>}
+                <Input {...register("description")} />
+                {errors.description && (
+                  <span>{errors.description.message}</span>
+                )}
               </FieldContainer>
               <FieldContainer>
                 <Label>Ingredientes:</Label>
-                <TextArea {...register('ingredients')} />
-                {errors.ingredients && <span>{errors.ingredients.message}</span>}
+                <TextArea {...register("ingredients")} />
+                {errors.ingredients && (
+                  <span>{errors.ingredients.message}</span>
+                )}
               </FieldContainer>
               <FieldContainer>
-                <Label>Tempo de <br/>Preparo:</Label>
-                <Input type="string" {...register('preparationTime')} />
-                {errors.preparationTime && <span>{errors.preparationTime.message}</span>}
+                <Label>
+                  Tempo de <br />
+                  Preparo:
+                </Label>
+                <Input type="string" {...register("preparationTime")} />
+                {errors.preparationTime && (
+                  <span>{errors.preparationTime.message}</span>
+                )}
               </FieldContainer>
               <FieldContainer>
-                <Label>Modo de <br/>Preparo:</Label>
-                <TextArea {...register('preparationMethod')} />
-                {errors.preparationMethod && <span>{errors.preparationMethod.message}</span>}
+                <Label>
+                  Modo de <br />
+                  Preparo:
+                </Label>
+                <TextArea {...register("preparationMethod")} />
+                {errors.preparationMethod && (
+                  <span>{errors.preparationMethod.message}</span>
+                )}
               </FieldContainer>
               <FieldContainer>
-                <Label>Tipo de<br/>Receita:</Label>
+                <Label>
+                  Tipo de
+                  <br />
+                  Receita:
+                </Label>
                 <div>
                   <Label>
-                    <RadioInput type="radio" value="MAIN_DISH" {...register('recipeType')} /> Prato Principal
+                    <RadioInput
+                      type="radio"
+                      value="MAIN_DISH"
+                      {...register("recipeType")}
+                    />{" "}
+                    Prato Principal
                   </Label>
                   <Label>
-                    <RadioInput type="radio" value="APPETIZERS" {...register('recipeType')} /> Aperitivo
+                    <RadioInput
+                      type="radio"
+                      value="APPETIZERS"
+                      {...register("recipeType")}
+                    />{" "}
+                    Aperitivo
                   </Label>
                   <Label>
-                    <RadioInput type="radio" value="DRINKS" {...register('recipeType')} /> Bebidas
+                    <RadioInput
+                      type="radio"
+                      value="DRINKS"
+                      {...register("recipeType")}
+                    />{" "}
+                    Bebidas
                   </Label>
                   <Label>
-                    <RadioInput type="radio" value="BREAKFAST" {...register('recipeType')} /> Café da Manhã
+                    <RadioInput
+                      type="radio"
+                      value="BREAKFAST"
+                      {...register("recipeType")}
+                    />{" "}
+                    Café da Manhã
                   </Label>
                 </div>
                 {errors.recipeType && <span>{errors.recipeType.message}</span>}
               </FieldContainer>
               <Restrictions>
-              <Label>Tipo de<br/>Dieta:</Label>
+                <Label>
+                  Tipo de
+                  <br />
+                  Dieta:
+                </Label>
                 <div>
                   <Label>Sem Glúten:</Label>
-                  <Input type="checkbox" {...register('glutenFree')} />
-                  {errors.glutenFree && <span>{errors.glutenFree.message}</span>}
+                  <Input type="checkbox" {...register("glutenFree")} />
+                  {errors.glutenFree && (
+                    <span>{errors.glutenFree.message}</span>
+                  )}
                 </div>
                 <div>
                   <Label>Sem Lactose:</Label>
-                  <Input type="checkbox" {...register('lactoseFree')} />
-                  {errors.lactoseFree && <span>{errors.lactoseFree.message}</span>}
+                  <Input type="checkbox" {...register("lactoseFree")} />
+                  {errors.lactoseFree && (
+                    <span>{errors.lactoseFree.message}</span>
+                  )}
                 </div>
               </Restrictions>
               <FieldContainer>
-                <Label>País de <br/>Origem:</Label>
-                <Input {...register('origin')} />
+                <Label>
+                  País de <br />
+                  Origem:
+                </Label>
+                <Input {...register("origin")} />
                 {errors.origin && <span>{errors.origin.message}</span>}
               </FieldContainer>
               <FieldContainer>
                 <Label>URL da Imagem:</Label>
-                <Input {...register('url')} />
+                <Input {...register("url")} />
                 {errors.url && <span>{errors.url.message}</span>}
               </FieldContainer>
               <Button type="submit">Inserir Receita</Button>

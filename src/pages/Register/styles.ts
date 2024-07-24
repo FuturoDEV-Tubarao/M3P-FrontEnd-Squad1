@@ -65,7 +65,6 @@ export const StyledSelect = styled.select`
   color: white;
   border: none;
   outline: none;
-
 `;
 
 export const Button = styled.button`
@@ -97,7 +96,6 @@ export const Row = styled.div`
   }
 
   @media (max-width: 768px) {
-
     & > * {
       margin-right: 0;
       margin-bottom: 10px;
