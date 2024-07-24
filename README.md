@@ -11,9 +11,10 @@ O projeto é desenvolvido para resolver o desafio final do modulo 3 do curso **A
   
 # Tecnologias Utilizadas
 ## Front end
-- HTML / CSS / JS / TypeScript
-- ReactJS
-- Styled Components
+- React
+- TypeScript
+- styled-components
+- React Hook Form
 
 **Validação:**
 - Zod
