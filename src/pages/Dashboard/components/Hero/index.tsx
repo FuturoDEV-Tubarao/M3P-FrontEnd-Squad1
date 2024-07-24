@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import {
   Button,
   ButtonContainer,
@@ -12,17 +12,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
-import { LatestRecipes } from "../LatestRecipes";
 
 export function Hero() {
   const { logado } = useContext(AuthContext);
-  const recipesRef = useRef(null);
 
   const scrollToRecipes = () => {
-    if (recipesRef.current) {
-      recipesRef.current.scrollIntoView({ behavior: "smooth" });
+    const recipesSection = document.getElementById("ultimas-receitas");
+    if (recipesSection) {
+      recipesSection.scrollIntoView({ behavior: "smooth" });
     } else {
-      console.error("Elemento com referência 'recipesRef' não encontrado.");
+      console.error("Elemento com ID 'ultimas-receitas' não encontrado.");
     }
   };
 
@@ -40,7 +39,7 @@ export function Hero() {
           <ButtonContainer>
             <Button onClick={scrollToRecipes}>Escolher Receita</Button>
             {logado() && (
-              <SpecialButton title="Nova Receita">
+              <SpecialButton to="/addrecipe" title="Nova Receita">
                 <FontAwesomeIcon icon={faPen} />
                 Cadastrar Receita
               </SpecialButton>
@@ -52,7 +51,6 @@ export function Hero() {
           alt="Delicioso Hamburguer Labfood"
         />
       </HeroContainer>
-      <LatestRecipes recipesRef={recipesRef} />
     </>
   );
 }
