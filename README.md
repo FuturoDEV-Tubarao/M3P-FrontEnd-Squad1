@@ -6,8 +6,8 @@ Este projeto é o frontend de uma aplicação web full-stack **-LabFoods-** que 
 
 O projeto é desenvolvido para resolver o desafio final do modulo 3 do curso **Análise e Desenvolvimento Web**, curso oferecido pelo grupo **Senai - Lab365**.
 
-## Layout web
-- prints
+## Link do Site
+- link
   
 # Tecnologias Utilizadas
 ## Front end
