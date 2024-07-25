@@ -61,7 +61,7 @@ export function Header({ currentPage }: HeaderProps) {
           <nav>
             {currentPage === "home" && (
               <>
-               <StyledNavLink to="/" title="Home">
+                <StyledNavLink to="/" title="Home">
                   <p>Home</p>
                 </StyledNavLink>
                 <StyledNavLink to="/login" title="Login">
