@@ -12,7 +12,7 @@ import {
   StarRating,
   Title,
 } from "./styles";
-import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
+
 import { Link } from "react-router-dom";
 import { Votes } from "../../../../components/Votes";
 import { translateRecipeType } from "../../../../utils/translateRecipeType";
@@ -38,7 +38,7 @@ interface Recipe {
   votes?: Vote[];
   createdDate?: string;
   url?: string;
-  voteAvg?: number,
+  voteAvg?: number;
   createdBy?: {
     name: string;
     id: string;
@@ -61,7 +61,7 @@ interface RecipeCardProps {
 export function Recipes({ recipe }: RecipeCardProps) {
   return (
     <Card key={recipe.id}>
-      <Image src={ImagemReceita} alt={recipe.title} />
+      <Image src={recipe.url} alt={recipe.title} />
       <Content>
         <Header>
           <Badge>{translateRecipeType(recipe.recipeType)}</Badge>

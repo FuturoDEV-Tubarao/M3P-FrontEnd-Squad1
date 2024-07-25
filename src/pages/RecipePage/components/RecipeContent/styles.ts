@@ -5,7 +5,7 @@ export const Container = styled.div`
   margin: 50px auto;
   padding: 20px;
   font-family: "Arial", sans-serif;
-  background-color: white;
+  background-color: #f3f3f4;
   color: #333;
 `;
 
@@ -19,10 +19,12 @@ export const Grid = styled.div`
   }
 `;
 
-export const GeneralSection = styled.div``;
+export const GeneralSection = styled.div`
+  background-color: #f3f3f4;
+`;
 
 export const SpecialSection = styled.div`
-  background-color: #f4f4f3;
+  background-color: #e4e4e4;
   background-size: cover;
   padding: 35px;
   border-radius: 8px;
@@ -31,8 +33,8 @@ export const SpecialSection = styled.div`
 export const TittleMenu = styled.h2`
   font-size: 24px;
   margin-bottom: 20px;
+`;
 
-`
 export const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
@@ -88,7 +90,7 @@ export const StyledSelect = styled.select`
   background-color: #fff;
   font-size: 16px;
   color: black;
-  
+
   &:disabled {
     background-color: #f0f0f0;
     color: black;
@@ -112,7 +114,7 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   position: relative;
   margin: 4px 6px;
 
-   &:disabled {
+  &:disabled {
     border: 0;
     color: black;
   }
@@ -143,7 +145,7 @@ const pulse = keyframes`
 `;
 
 export const Button = styled.button`
-  width: 100%; 
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 30px;
@@ -165,32 +167,31 @@ export const Button = styled.button`
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
-  background-color: #2b9a31; 
+  background-color: #2b9a31;
   color: white;
   margin-top: 50px;
 
   &:hover {
-    background-color: #ffdf34; 
+    background-color: #ffdf34;
     color: black;
   }
 `;
 
 export const CancelButton = styled(Button)`
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   color: white;
 
-   &:hover {
-    background-color:#B0B0B0; 
+  &:hover {
+    background-color: #b0b0b0;
     color: white;
   }
-`
+`;
 
 export const DeleteButton = styled(Button)`
-    background-color: #E30000;
-    color: white;
+  background-color: #e30000;
+  color: white;
 
-    &:hover {
-    background-color:#D62500;
+  &:hover {
+    background-color: #d62500;
   }
-`
-
+`;
