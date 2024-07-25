@@ -9,6 +9,7 @@ import { AuthContextProvider } from "../context/AuthContext";
 import { RecipePage } from "../pages/RecipePage";
 import { RecipesContextProvider } from "../context/RecipeContext";
 import { UserContextProvider } from "../context/UserContext";
+import { SessionExpired } from "../pages/SessionExpired";
 // import { NewRecipeReview } from "../pages/RecipePage/components/NewRecipeReview";
 
 const RotaPrivada = () => {
@@ -30,6 +31,7 @@ export function Router() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/editProfile" element={<UserForm />} />
             <Route path="/recipe/:id" element={<RecipePage />} />
+            <Route path="/session-expired" element={<SessionExpired />} />
 
             <Route element={<RotaPrivada />}>
               {/* adicionar as rotas privadas aqui, deixei elas fora para poder visualizar todas */}
