@@ -4,6 +4,8 @@ import {
   CheckboxContainer,
   Container,
   Filters,
+  Loading,
+  NoResultsContainer,
   Title,
   TitleContainer,
 } from "./styles";
@@ -12,6 +14,8 @@ import { Recipes } from "../Recipes";
 import { RecipeContainer } from "../Recipes/styles";
 import api from "../../../../axios/axiosConfig";
 import { Categories } from "../Categories";
+import { MagnifyingGlass } from "phosphor-react";
+import { AuthContext } from "../../../../context/AuthContext";
 
 enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
@@ -51,7 +55,8 @@ interface Vote {
 }
 
 export function LatestRecipes() {
-  const { recipes } = useContext(RecipesContext);
+  const { recipes, loading } = useContext(RecipesContext);
+  const { user } = useContext(AuthContext);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [glutenFree, setGlutenFree] = useState(false);
   const [lactoseFree, setLactoseFree] = useState(false);
@@ -59,6 +64,7 @@ export function LatestRecipes() {
     null
   );
   const [showAll, setShowAll] = useState(true);
+  const [myRecipesOnly, setMyRecipesOnly] = useState(false);
 
   const applyFilters = (recipes: Recipe[]) => {
     let filtered = recipes;
@@ -70,10 +76,12 @@ export function LatestRecipes() {
         filtered = filtered.filter(
           (recipe) => recipe.glutenFree && recipe.lactoseFree
         );
-      } else if (glutenFree) {
-        filtered = filtered.filter((recipe) => recipe.glutenFree);
-      } else if (lactoseFree) {
-        filtered = filtered.filter((recipe) => recipe.lactoseFree);
+      } 
+       if (glutenFree && !lactoseFree) {
+        filtered = filtered.filter((recipe) => recipe.glutenFree && !recipe.lactoseFree);
+      } 
+       if (lactoseFree && !glutenFree) {
+        filtered = filtered.filter((recipe) => recipe.lactoseFree && !recipe.glutenFree);
       }
 
       if (selectedCategory) {
@@ -81,13 +89,18 @@ export function LatestRecipes() {
           (recipe) => recipe.recipeType === selectedCategory
         );
       }
+
+      if (myRecipesOnly && user) {
+        filtered = filtered.filter(
+          (recipe) => recipe.createdBy?.id === user.id
+        );
+      }
     }
 
-    // Ordenar as receitas pela data de criação (mais recentes primeiro)
     filtered = filtered.sort((a, b) => {
       const dateA = new Date(a.createdDate || "").getTime();
       const dateB = new Date(b.createdDate || "").getTime();
-      return dateB - dateA; // Ordem decrescente
+      return dateB - dateA;
     });
 
     setFilteredRecipes(filtered);
@@ -95,8 +108,16 @@ export function LatestRecipes() {
 
   useEffect(() => {
     applyFilters(recipes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipes, glutenFree, lactoseFree, selectedCategory, showAll]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    recipes,
+    glutenFree,
+    lactoseFree,
+    selectedCategory,
+    showAll,
+    myRecipesOnly,
+    user,
+  ]);
 
   const handleFilterChange = (filter: string) => {
     switch (filter) {
@@ -113,6 +134,11 @@ export function LatestRecipes() {
         setGlutenFree(false);
         setLactoseFree(false);
         setSelectedCategory(null);
+        setMyRecipesOnly(false);
+        break;
+      case "myRecipes":
+        setMyRecipesOnly(!myRecipesOnly);
+        setShowAll(false);
         break;
       default:
         break;
@@ -170,13 +196,32 @@ export function LatestRecipes() {
               />
               Sem Lactose
             </CheckboxContainer>
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                checked={myRecipesOnly}
+                onChange={() => handleFilterChange("myRecipes")}
+              />
+              Minhas Receitas
+            </CheckboxContainer>
           </Filters>
         </TitleContainer>
-        <RecipeContainer>
-          {filteredRecipes.map((recipe) => (
-            <Recipes key={recipe.id} recipe={recipe} />
-          ))}
-        </RecipeContainer>
+        {loading ? (
+          <Loading>
+            <MagnifyingGlass size={32} />
+            Buscando Receitas...
+          </Loading>
+        ) : filteredRecipes.length === 0 ? (
+          <NoResultsContainer>
+          <p>Não há receitas disponíveis para os filtros selecionados.</p>
+        </NoResultsContainer>
+        ) : (
+          <RecipeContainer>
+            {filteredRecipes.map((recipe) => (
+              <Recipes key={recipe.id} recipe={recipe} />
+            ))}
+          </RecipeContainer>
+        )}
       </Container>
     </>
   );
