@@ -55,14 +55,14 @@ export const Checkbox = styled.input`
 `;
 
 export const Loading = styled.div`
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh; 
+  height: 25vh;
   gap: 8px;
-  font-size: 1.5rem; 
-  color: #333; 
-`
+  font-size: 1.5rem;
+  color: #333;
+`;
 
 export const NoResultsContainer = styled.div`
   display: flex;
