@@ -42,7 +42,7 @@ export function Hero() {
             )}
           </ButtonContainer>
         </Content>
-        <Image src="src/assets/food.jpg" alt="Delicious Dish" />
+        <Image src="/assets/food.jpg" alt="Delicious Dish" />
       </HeroContainer>
     </>
   );
