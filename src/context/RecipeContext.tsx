@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../axios/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
-enum RecipeType {
+export enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
   APPETIZERS = "APPETIZERS",
   DRINKS = "DRINKS",
@@ -42,7 +42,7 @@ interface Vote {
 interface RecipesContextType {
   recipes: Recipe[];
   loading: boolean;
-  updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<void>;
+  updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<Recipe | null>;
   createRecipe: (data: Recipe) => Promise<void>;
   createVote: (data: Vote) => Promise<void>;
   fetchRecipeById: (id: string) => Promise<Recipe | null>;
@@ -104,19 +104,18 @@ export function RecipesContextProvider({
     }
   };
 
-  const updateRecipe = async (id: string, data: Recipe) => {
+  const updateRecipe = async (id: string, data: Recipe): Promise<Recipe | null> => {
     try {
       if (!token) {
         throw new Error("Token não encontrado");
       }
-
       const response = await api.put(`/api/labfoods/v1/recipe/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-
+  
       if (response.data && response.status === 200) {
         alert("Receita atualizada com sucesso");
         setRecipes((prevRecipes) =>
@@ -124,12 +123,15 @@ export function RecipesContextProvider({
             recipe.id === id ? response.data : recipe
           )
         );
+        return response.data;
       } else {
-        alert("Não foi possível atualizar o usuário");
+        alert("Não foi possível atualizar a receita");
+        return null;
       }
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao tentar atualizar receita:", error);
       alert("Erro ao tentar atualizar receita");
+      return null;
     }
   };
 

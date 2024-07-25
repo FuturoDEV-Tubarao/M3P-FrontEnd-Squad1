@@ -68,7 +68,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       clearTimeout(timer);
     }
     const newTimer = setTimeout(() => {
-      navigate('/session-expired');
+      navigate("/session-expired");
       logout();
     }, delay);
     setTimer(newTimer);
