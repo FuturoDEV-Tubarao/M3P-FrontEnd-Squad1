@@ -33,35 +33,35 @@ export function Login() {
     },
   });
 
-  const { login /*logout*/ } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   return (
     <>
-    <Header currentPage={"home"}/>
-    <LoginContainer>
-      <GlassCard>
-        <Title>Login Labfoods</Title>
-        <form onSubmit={handleSubmit(login)}>
-          <div>
-            <Input type="text" placeholder="email" {...register("email")} />
-            <ErrorMessage>
-              {errors.email && <span>{errors.email.message}</span>}
-            </ErrorMessage>
-          </div>
-          <div>
-            <Input
-              type="password"
-              placeholder="senha"
-              {...register("password")}
-            />
-            <ErrorMessage>
-              {errors.password && <span>{errors.password.message}</span>}
-            </ErrorMessage>
-          </div>
-          <Button type="submit">Login</Button>
-        </form>
-      </GlassCard>
-    </LoginContainer>
+      <Header currentPage={"home"} />
+      <LoginContainer>
+        <GlassCard>
+          <Title>Login Labfoods</Title>
+          <form onSubmit={handleSubmit(login)}>
+            <div>
+              <Input type="text" placeholder="email" {...register("email")} />
+              <ErrorMessage>
+                {errors.email && <span>{errors.email.message}</span>}
+              </ErrorMessage>
+            </div>
+            <div>
+              <Input
+                type="password"
+                placeholder="senha"
+                {...register("password")}
+              />
+              <ErrorMessage>
+                {errors.password && <span>{errors.password.message}</span>}
+              </ErrorMessage>
+            </div>
+            <Button type="submit">Login</Button>
+          </form>
+        </GlassCard>
+      </LoginContainer>
     </>
   );
 }
