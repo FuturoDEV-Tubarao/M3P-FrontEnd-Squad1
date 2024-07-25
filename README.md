@@ -48,6 +48,6 @@ npm run dev
 
 # Autores
 
-Manoel Cavenati Fernandes Neto
-Milena Clara Ribeiro Rizzi
-Nathalia Lanzendorf
+- Manoel Cavenati Fernandes Neto
+- Milena Clara Ribeiro Rizzi
+- Nathalia Lanzendorf
