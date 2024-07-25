@@ -41,6 +41,7 @@ interface Vote {
 
 interface RecipesContextType {
   recipes: Recipe[];
+  loading: boolean;
   updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<void>;
   createRecipe: (data: Recipe) => Promise<void>;
   createVote: (data: Vote) => Promise<void>;
@@ -59,6 +60,7 @@ export function RecipesContextProvider({
   children,
 }: RecipesContextProviderProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -189,8 +191,15 @@ export function RecipesContextProvider({
 
   useEffect(() => {
     async function fetchData() {
-      const response = await api.get("/api/labfoods/v1/recipe");
-      setRecipes(response.data);
+      try {
+        setLoading(true);
+        const response = await api.get("/api/labfoods/v1/recipe");
+        setRecipes(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar as receitas:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
   }, []);
@@ -199,6 +208,7 @@ export function RecipesContextProvider({
     <RecipesContext.Provider
       value={{
         recipes,
+        loading,
         updateRecipe,
         createRecipe,
         createVote,
