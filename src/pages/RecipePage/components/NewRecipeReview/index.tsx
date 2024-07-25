@@ -15,12 +15,11 @@ import {
   Rate,
   SaveButton,
   StarRating,
-  // StarRating,
   TextArea,
   Title,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { /*faStar*/ faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ErrorMessage } from "../../../Login/styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import { RecipesContext } from "../../../../context/RecipeContext";
@@ -45,7 +44,6 @@ interface NewRecipeReviewProps {
 
 export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
   const [isVisible, setIsVisible] = useState(true);
-
   const { user } = useContext(AuthContext);
   const { createVote } = useContext(RecipesContext);
 

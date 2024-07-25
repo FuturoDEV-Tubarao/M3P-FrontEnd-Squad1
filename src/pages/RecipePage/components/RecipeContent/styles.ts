@@ -191,3 +191,13 @@ export const DeleteButton = styled(Button)`
     background-color: #d62500;
   }
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  text-align: center;
+  color: #666; // Cor do texto
+  font-size: 1.2rem;
+`;
