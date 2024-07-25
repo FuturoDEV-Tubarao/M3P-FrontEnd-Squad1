@@ -53,6 +53,7 @@ export const TextArea = styled.textarea`
   margin-bottom: 16px;
   height: 120px;
   color: black;
+  resize: none; /* Desativa o redimensionamento */
 `;
 
 export const Input = styled.input`
