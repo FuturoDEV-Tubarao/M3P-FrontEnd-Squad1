@@ -5,8 +5,6 @@ import {
   MainContainer,
   Container,
   TextContainer,
-  Title,
-  Heading,
   FormContainer,
   FieldContainer,
   Label,
@@ -21,6 +19,9 @@ import {
   LabelRadio,
   RadioDiv,
   ButtoContainer,
+  ErrorText,
+  Title,
+  Heading,
 } from "./styles";
 import backgroundImage from "../../../../assets/fundo-cadastro.jpg";
 import { Header } from "../../../../components/Header";
@@ -35,20 +36,37 @@ enum RecipeType {
 }
 
 const newRecipeSchema = zod.object({
-  title: zod.string().min(1, "Informe o título da receita"),
-  description: zod.string().min(1, "Informe a descrição da receita"),
-  ingredients: zod.string().min(1, "Informe os ingredientes"),
-  preparationTime: zod.string().min(1, "Informe uma preparação válida"),
-  preparationMethod: zod.string().min(1, "Informe o modo de preparo"),
+  title: zod
+    .string()
+    .min(1, "Informe o título da receita"),
+  description: zod
+    .string()
+    .min(1, "Informe a descrição da receita")
+    .max(255, "A descrição não pode ter mais de 255 caracteres"),
+  ingredients: zod
+    .string()
+    .min(1, "Informe os ingredientes")
+    .max(255, "Os ingredientes não podem ter mais de 255 caracteres"),
+  preparationTime: zod
+    .string()
+    .min(1, "Informe um tempo de preparo"),
+  preparationMethod: zod
+    .string()
+    .min(1, "Informe o modo de preparo")
+    .max(255, "O modo de preparo não pode ter mais de 255 caracteres"),
   recipeType: zod.nativeEnum(RecipeType, {
     required_error: "Informe uma categoria",
   }),
   glutenFree: zod.boolean(),
   lactoseFree: zod.boolean(),
-  origin: zod.string().min(1, "Informe o país de origem"),
-  url: zod.string().min(1, "Informe uma URL válida"),
+  origin: zod
+    .string()
+    .min(1, "Informe o país de origem"),
+  url: zod
+    .string()
+    .min(1, "Informe uma URL")
+    .max(255, "A URL não pode ter mais de 255 caracteres"),
 });
-
 type NewRecipeFormData = zod.infer<typeof newRecipeSchema>;
 
 export function NewRecipe() {
@@ -87,36 +105,36 @@ export function NewRecipe() {
               <FieldContainer>
                 <Label>Título:</Label>
                 <Input {...register("title")} />
-                {errors.title && <span>{errors.title.message}</span>}
               </FieldContainer>
+                {errors.title && <ErrorText>{errors.title.message}</ErrorText>}
               <FieldContainer>
                 <Label>Descrição:</Label>
                 <Input {...register("description")} />
-                {errors.description && (
-                  <span>{errors.description.message}</span>
-                )}
               </FieldContainer>
+                {errors.description && (
+                  <ErrorText>{errors.description.message}</ErrorText>
+                )}
               <FieldContainer>
                 <Label>Ingredientes:</Label>
                 <TextArea {...register("ingredients")} />
-                {errors.ingredients && (
-                  <span>{errors.ingredients.message}</span>
-                )}
               </FieldContainer>
+                {errors.ingredients && (
+                  <ErrorText>{errors.ingredients.message}</ErrorText>
+                )}
               <FieldContainer>
                 <Label>Tempo de Preparo:</Label>
                 <Input type="string" {...register("preparationTime")} />
-                {errors.preparationTime && (
-                  <span>{errors.preparationTime.message}</span>
-                )}
               </FieldContainer>
+                {errors.preparationTime && (
+                  <ErrorText>{errors.preparationTime.message}</ErrorText>
+                )}
               <FieldContainer>
                 <Label>Modo de Preparo:</Label>
                 <TextArea {...register("preparationMethod")} />
-                {errors.preparationMethod && (
-                  <span>{errors.preparationMethod.message}</span>
-                )}
               </FieldContainer>
+                {errors.preparationMethod && (
+                  <ErrorText>{errors.preparationMethod.message}</ErrorText>
+                )}
               <FieldContainer>
                 <Label>Tipo de Receita:</Label>
                 <div>
@@ -157,35 +175,28 @@ export function NewRecipe() {
                     </LabelRadio>
                   </RadioDiv>
                 </div>
-                {errors.recipeType && <span>{errors.recipeType.message}</span>}
               </FieldContainer>
               <Restrictions>
                 <Label>Tipo de Dieta:</Label>
                 <DietType>
                     <LabelCheckbox>Sem Lactose:
                     <Input type="checkbox" {...register("lactoseFree")} />
-                    {errors.lactoseFree && (
-                      <span>{errors.lactoseFree.message}</span>
-                    )}
                     </LabelCheckbox>
                     <LabelCheckbox>Sem Glúten:
                     <Input type="checkbox" {...register("glutenFree")} />
-                    {errors.glutenFree && (
-                      <span>{errors.glutenFree.message}</span>
-                    )}
                     </LabelCheckbox>
                 </DietType>
               </Restrictions>
               <FieldContainer>
                 <Label>País de Origem:</Label>
                 <Input {...register("origin")} />
-                {errors.origin && <span>{errors.origin.message}</span>}
               </FieldContainer>
+                {errors.origin && <ErrorText>{errors.origin.message}</ErrorText>}
               <FieldContainer>
                 <Label>URL da Imagem:</Label>
                 <Input {...register("url")} />
-                {errors.url && <span>{errors.url.message}</span>}
               </FieldContainer>
+                {errors.url && <ErrorText>{errors.url.message}</ErrorText>}
               <ButtoContainer>
                 <button type="submit">Inserir Receita</button>
               </ButtoContainer>

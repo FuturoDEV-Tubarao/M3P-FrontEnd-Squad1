@@ -31,7 +31,6 @@ export const Container = styled.div`
 
 export const TextContainer = styled.div`
   width: 100%;
-  padding: 0px;
   @media (min-width: 768px) {
     width: 45%;
   }
@@ -43,9 +42,10 @@ export const FormContainer = styled.form`
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 40rem; 
+  height: 45rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   @media (min-width: 768px) {
     width: 40%;
@@ -89,7 +89,7 @@ export const Heading = styled.h1`
 export const FieldContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 1.5px;
 `;
 
 export const Label = styled.label`
@@ -167,8 +167,6 @@ export const DietType = styled.div`
   gap: 10px;
   accent-color: #2b9a31;
   margin: 10px 0;
-
-
 `;
 
 export const LabelCheckbox = styled.label`
@@ -188,4 +186,12 @@ export const RadioDiv = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 7px;
+`;
+
+export const ErrorText = styled.span`
+  color: red;
+  font-size: 12.5px;
+  display: block;
+  text-align: end;
+  margin-bottom: 10px;
 `;
