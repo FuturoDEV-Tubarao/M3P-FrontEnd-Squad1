@@ -3,7 +3,6 @@ import { createContext, ReactNode, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios/axiosConfig";
 import { AuthContext } from "./AuthContext";
-// import { Recipe } from "./RecipeContext";
 
 enum GenderType {
   FEMALE = "FEMALE",
@@ -92,11 +91,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       if (response.data && response.status === 200) {
         localStorage.setItem("token", token);
         localStorage.setItem("isLogado", "true");
-        
+
         const loginData: LoginData = {
           email: data.email,
-          password: data.password || ""
-        }
+          password: data.password || "",
+        };
 
         const userData: User = {
           id: response.data.id,
@@ -121,11 +120,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
   const deleteUser = async (id: string) => {
     try {
-      // if (recipesUser && recipesUser.length > 0) {
-      //   alert("Por favor, exclua suas receitas antes de excluir sua conta.");
-      //   return;
-      // }
-
       const token = localStorage.getItem("token");
       const response = await api.delete(`/api/labfoods/v1/user/${id}`, {
         headers: {
