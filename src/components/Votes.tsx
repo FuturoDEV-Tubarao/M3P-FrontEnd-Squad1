@@ -8,37 +8,7 @@ import {
   faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  voteAvg?: number;
-  lastModifiedDate?: string;
-  url?: string;
-}
-
-interface Vote {
-  id?: string;
-  note: number;
-  feedback: string;
-  recipeId: string;
-}
+import { Recipe } from "../context/RecipeContext";
 
 interface RecipeReviewsProps {
   recipe: Recipe;

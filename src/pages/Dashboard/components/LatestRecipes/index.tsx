@@ -9,50 +9,17 @@ import {
   Title,
   TitleContainer,
 } from "./styles";
-import { RecipesContext } from "../../../../context/RecipeContext";
+import {
+  Recipe,
+  RecipesContext,
+  RecipeType,
+} from "../../../../context/RecipeContext";
 import { Recipes } from "../Recipes";
 import { RecipeContainer } from "../Recipes/styles";
 import api from "../../../../axios/axiosConfig";
 import { Categories } from "../Categories";
 import { MagnifyingGlass } from "phosphor-react";
 import { AuthContext } from "../../../../context/AuthContext";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  voteAvg?: number;
-  createdDate?: string;
-  url?: string;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-  createdBy: {
-    name: string;
-  };
-}
 
 export function LatestRecipes() {
   const { recipes, loading } = useContext(RecipesContext);
@@ -76,12 +43,16 @@ export function LatestRecipes() {
         filtered = filtered.filter(
           (recipe) => recipe.glutenFree && recipe.lactoseFree
         );
-      } 
-       if (glutenFree && !lactoseFree) {
-        filtered = filtered.filter((recipe) => recipe.glutenFree && !recipe.lactoseFree);
-      } 
-       if (lactoseFree && !glutenFree) {
-        filtered = filtered.filter((recipe) => recipe.lactoseFree && !recipe.glutenFree);
+      }
+      if (glutenFree && !lactoseFree) {
+        filtered = filtered.filter(
+          (recipe) => recipe.glutenFree && !recipe.lactoseFree
+        );
+      }
+      if (lactoseFree && !glutenFree) {
+        filtered = filtered.filter(
+          (recipe) => recipe.lactoseFree && !recipe.glutenFree
+        );
       }
 
       if (selectedCategory) {
@@ -108,7 +79,7 @@ export function LatestRecipes() {
 
   useEffect(() => {
     applyFilters(recipes);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     recipes,
     glutenFree,
@@ -213,8 +184,8 @@ export function LatestRecipes() {
           </Loading>
         ) : filteredRecipes.length === 0 ? (
           <NoResultsContainer>
-          <p>Não há receitas disponíveis para os filtros selecionados.</p>
-        </NoResultsContainer>
+            <p>Não há receitas disponíveis para os filtros selecionados.</p>
+          </NoResultsContainer>
         ) : (
           <RecipeContainer>
             {filteredRecipes.map((recipe) => (

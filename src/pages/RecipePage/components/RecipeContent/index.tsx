@@ -19,51 +19,20 @@ import {
   DeleteButton,
   StyledSelect,
   CancelButton,
+  Loading,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faClock } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useParams } from "react-router-dom";
-import { RecipesContext } from "../../../../context/RecipeContext";
+import {
+  Recipe,
+  RecipesContext,
+  RecipeType,
+} from "../../../../context/RecipeContext";
 import { RecipeHeader } from "../RecipeHeader";
 import { RecipeReviewsList } from "../RecipeReviewsList";
 import { translateRecipeType } from "../../../../utils/translateRecipeType";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  createdDate?: string;
-  url?: string;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-  createdBy: {
-    name: string;
-  };
-}
 
 const recipeSchema = zod.object({
   title: zod.string().min(1, "Informe o título da receita"),
@@ -103,8 +72,7 @@ export function RecipeContent() {
   });
 
   const { id } = useParams<{ id: string }>();
-  const { recipes, updateRecipe, fetchRecipeById, deleteRecipe } =
-    useContext(RecipesContext);
+  const { recipes, updateRecipe, deleteRecipe } = useContext(RecipesContext);
   const { logado, user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -133,7 +101,7 @@ export function RecipeContent() {
     }
   }, [recipe, setValue]);
 
-  if (!recipe) return <div>Loading...</div>;
+  if (!recipe) return <Loading>Loading...</Loading>;
 
   const onSubmit: SubmitHandler<RecipeFormData> = async (data) => {
     if (!id) {
@@ -142,11 +110,8 @@ export function RecipeContent() {
     }
 
     try {
-      await updateRecipe(id, { ...recipe, ...data });
-      const updatedRecipe = await fetchRecipeById(id);
-      if (updatedRecipe) {
-        setRecipe(updatedRecipe);
-      }
+      const updatedRecipe = await updateRecipe(id, { ...recipe, ...data });
+      setRecipe(updatedRecipe);
       setIsEditing(false);
     } catch (error) {
       console.error("Erro ao atualizar a receita:", error);

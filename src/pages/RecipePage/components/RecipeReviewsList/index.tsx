@@ -19,43 +19,7 @@ import { NewRecipeReview } from "../NewRecipeReview";
 import { Votes } from "../../../../components/Votes";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
-import { RecipesContext } from "../../../../context/RecipeContext";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  createdDate?: string;
-  url?: string;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-  createdBy: {
-    name: string;
-  };
-}
+import { Recipe, RecipesContext } from "../../../../context/RecipeContext";
 
 interface RecipeReviewsProps {
   recipe: Recipe;
@@ -64,9 +28,9 @@ interface RecipeReviewsProps {
 export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
   const [showReviewPopup, setShowReviewPopup] = useState(false);
   const [updatedRecipe, setUpdatedRecipe] = useState(recipe);
-  const { logado } = useContext(AuthContext);
+  const { logado, user } = useContext(AuthContext);
   const { fetchRecipeById } = useContext(RecipesContext);
-  const { user } = useContext(AuthContext);
+
   const shouldShowReviewSection =
     logado() && user && recipe.createdBy && user.id !== recipe.createdBy.id;
 
