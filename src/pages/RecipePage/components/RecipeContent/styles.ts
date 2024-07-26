@@ -5,7 +5,7 @@ export const Container = styled.div`
   margin: 50px auto;
   padding: 20px;
   font-family: "Arial", sans-serif;
-  background-color: white;
+  background-color: #f3f3f4;
   color: #333;
 `;
 
@@ -19,10 +19,12 @@ export const Grid = styled.div`
   }
 `;
 
-export const GeneralSection = styled.div``;
+export const GeneralSection = styled.div`
+  background-color: #f3f3f4;
+`;
 
 export const SpecialSection = styled.div`
-  background-color: #f4f4f3;
+  background-color: #eeee;
   background-size: cover;
   padding: 35px;
   border-radius: 8px;
@@ -32,6 +34,7 @@ export const TittleMenu = styled.h2`
   font-size: 24px;
   margin-bottom: 20px;
 `;
+
 export const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
@@ -53,7 +56,7 @@ export const TextArea = styled.textarea`
   margin-bottom: 16px;
   height: 120px;
   color: black;
-  resize: none; /* Desativa o redimensionamento */
+  resize: none;
 `;
 
 export const Input = styled.input`
@@ -113,6 +116,7 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   margin: 4px 6px;
 
   &:disabled {
+    border: 0;
     color: black;
   }
 
@@ -197,7 +201,7 @@ export const Loading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
   text-align: center;
   color: #666; // Cor do texto
   font-size: 1.2rem;
