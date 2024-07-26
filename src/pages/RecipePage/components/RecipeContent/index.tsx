@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
@@ -19,50 +19,20 @@ import {
   DeleteButton,
   StyledSelect,
   CancelButton,
+  Loading,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faClock } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useParams } from "react-router-dom";
-import { RecipesContext } from "../../../../context/RecipeContext";
+import {
+  Recipe,
+  RecipesContext,
+  RecipeType,
+} from "../../../../context/RecipeContext";
 import { RecipeHeader } from "../RecipeHeader";
 import { RecipeReviewsList } from "../RecipeReviewsList";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  createdDate?: string;
-  url?: string;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-  createdBy: {
-    name: string;
-  };
-}
+import { translateRecipeType } from "../../../../utils/translateRecipeType";
 
 const recipeSchema = zod.object({
   title: zod.string().min(1, "Informe o título da receita"),
@@ -102,10 +72,11 @@ export function RecipeContent() {
   });
 
   const { id } = useParams<{ id: string }>();
-  const { recipes, updateRecipe, fetchRecipeById, deleteRecipe } = useContext(RecipesContext);
+  const { recipes, updateRecipe, deleteRecipe } = useContext(RecipesContext);
   const { logado, user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const initialValues = useRef<RecipeFormData | null>(null);
 
   useEffect(() => {
     const foundRecipe = recipes.find((recipe) => recipe.id === id);
@@ -120,31 +91,35 @@ export function RecipeContent() {
     }
   }, [id, recipes, setValue]);
 
-  useEffect(() => {
+  const startEditing = () => {
     if (recipe) {
-      Object.keys(recipe).forEach((key) =>
-        setValue(
-          key as keyof RecipeFormData,
-          recipe[key as keyof RecipeFormData]
-        )
-      );
+      initialValues.current = {
+        title: recipe.title,
+        description: recipe.description,
+        ingredients: recipe.ingredients,
+        preparationTime: recipe.preparationTime,
+        preparationMethod: recipe.preparationMethod,
+        recipeType: recipe.recipeType,
+        glutenFree: recipe.glutenFree,
+        lactoseFree: recipe.lactoseFree,
+        origin: recipe.origin,
+      };
+      setIsEditing(true);
     }
-  }, [recipe, setValue]);
+  };
 
-  if (!recipe) return <div>Loading...</div>;
+  if (!recipe) return <Loading>Loading...</Loading>;
 
   const onSubmit: SubmitHandler<RecipeFormData> = async (data) => {
+    console.log(data);
     if (!id) {
       console.error("Erro: ID da receita não encontrado");
       return;
     }
 
     try {
-      await updateRecipe(id, { ...recipe, ...data });
-      const updatedRecipe = await fetchRecipeById(id);
-      if (updatedRecipe) {
-        setRecipe(updatedRecipe);
-      }
+      const updatedRecipe = await updateRecipe(id, { ...recipe, ...data });
+      setRecipe(updatedRecipe);
       setIsEditing(false);
     } catch (error) {
       console.error("Erro ao atualizar a receita:", error);
@@ -153,7 +128,11 @@ export function RecipeContent() {
   };
 
   const handleDelete = async () => {
-    if (recipe && recipe.id && window.confirm("Tem certeza de que deseja excluir sua receita?")) {
+    if (
+      recipe &&
+      recipe.id &&
+      window.confirm("Tem certeza de que deseja excluir sua receita?")
+    ) {
       try {
         await deleteRecipe(recipe.id!);
       } catch (error) {
@@ -161,6 +140,18 @@ export function RecipeContent() {
         alert("Erro ao tentar excluir a receita");
       }
     }
+  };
+
+  const handleCancel = () => {
+    if (initialValues.current) {
+      Object.keys(initialValues.current).forEach((key) =>
+        setValue(
+          key as keyof RecipeFormData,
+          initialValues.current![key as keyof RecipeFormData]
+        )
+      );
+    }
+    setIsEditing(false);
   };
 
   const changeRecipeSection =
@@ -223,81 +214,47 @@ export function RecipeContent() {
               >
                 {Object.values(RecipeType).map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {translateRecipeType(type)}
                   </option>
                 ))}
               </StyledSelect>
               {errors.recipeType && <span>{errors.recipeType.message}</span>}
               <Subtitle>Tipo de Dieta</Subtitle>
               <List>
-                {!isEditing ? (
-                  <>
-                    {recipe.glutenFree && (
-                      <ListItem>
-                        <Checkbox
-                          {...register("glutenFree")}
-                          disabled
-                          checked
-                        />
-                        <label htmlFor="glutenFree">Sem Glúten</label>
-                      </ListItem>
-                    )}
-                    {recipe.lactoseFree && (
-                      <ListItem>
-                        <Checkbox
-                          {...register("lactoseFree")}
-                          disabled
-                          checked
-                        />
-                        <label htmlFor="lactoseFree">Sem Lactose</label>
-                      </ListItem>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <ListItem>
-                      <Checkbox
-                        {...register("glutenFree")}
-                        disabled={!logado()}
-                      />
-                      <label htmlFor="glutenFree">Sem Glúten</label>
-                    </ListItem>
-                    <ListItem>
-                      <Checkbox
-                        {...register("lactoseFree")}
-                        disabled={!logado()}
-                      />
-                      <label htmlFor="lactoseFree">Sem Lactose</label>
-                    </ListItem>
-                  </>
-                )}
+                <ListItem>
+                  <Checkbox
+                    {...register("glutenFree")}
+                    disabled={!isEditing || !logado()}
+                    defaultChecked={recipe.glutenFree}
+                  />
+                  <label htmlFor="glutenFree">Sem Glúten</label>
+                </ListItem>
+                <ListItem>
+                  <Checkbox
+                    {...register("lactoseFree")}
+                    disabled={!isEditing || !logado()}
+                    defaultChecked={recipe.lactoseFree}
+                  />
+                  <label htmlFor="lactoseFree">Sem Lactose</label>
+                </ListItem>
               </List>
               <>
                 {" "}
                 {changeRecipeSection && (
                   <>
                     {!isEditing ? (
-                      <SpecialButton
-                        type="button"
-                        onClick={() => setIsEditing(true)}
-                      >
+                      <SpecialButton type="button" onClick={startEditing}>
                         Alterar Receita
                       </SpecialButton>
                     ) : (
                       <>
                         <SpecialButton type="submit">Salvar</SpecialButton>
-                        <CancelButton
-                          type="button"
-                          onClick={() => setIsEditing(false)}
-                        >
+                        <CancelButton type="button" onClick={handleCancel}>
                           Cancelar
                         </CancelButton>
                       </>
                     )}
-                    <DeleteButton
-                      type="button"
-                      onClick={handleDelete}
-                    >
+                    <DeleteButton type="button" onClick={handleDelete}>
                       Excluir
                     </DeleteButton>
                   </>
