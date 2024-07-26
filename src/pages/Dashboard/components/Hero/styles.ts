@@ -16,7 +16,7 @@ export const pulse = keyframes`
 
 export const HeroContainer = styled.div`
   display: flex;
-  max-width: 1220px;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -36,7 +36,7 @@ export const HeroContainer = styled.div`
     padding: 0 5%;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1220px) {
     height: 650px;
     padding: 0 11%;
   }
