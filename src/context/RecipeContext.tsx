@@ -104,7 +104,10 @@ export function RecipesContextProvider({
     }
   };
 
-  const updateRecipe = async (id: string, data: Recipe): Promise<Recipe | null> => {
+  const updateRecipe = async (
+    id: string,
+    data: Recipe
+  ): Promise<Recipe | null> => {
     try {
       if (!token) {
         throw new Error("Token não encontrado");
@@ -115,7 +118,7 @@ export function RecipesContextProvider({
           "Content-Type": "application/json",
         },
       });
-  
+
       if (response.data && response.status === 200) {
         alert("Receita atualizada com sucesso");
         setRecipes((prevRecipes) =>
