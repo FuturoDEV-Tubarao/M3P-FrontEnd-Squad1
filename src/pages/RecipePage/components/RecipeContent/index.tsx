@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
@@ -76,6 +76,7 @@ export function RecipeContent() {
   const { logado, user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const initialValues = useRef<RecipeFormData | null>(null);
 
   useEffect(() => {
     const foundRecipe = recipes.find((recipe) => recipe.id === id);
@@ -90,20 +91,27 @@ export function RecipeContent() {
     }
   }, [id, recipes, setValue]);
 
-  useEffect(() => {
+  const startEditing = () => {
     if (recipe) {
-      Object.keys(recipe).forEach((key) =>
-        setValue(
-          key as keyof RecipeFormData,
-          recipe[key as keyof RecipeFormData]
-        )
-      );
+      initialValues.current = {
+        title: recipe.title,
+        description: recipe.description,
+        ingredients: recipe.ingredients,
+        preparationTime: recipe.preparationTime,
+        preparationMethod: recipe.preparationMethod,
+        recipeType: recipe.recipeType,
+        glutenFree: recipe.glutenFree,
+        lactoseFree: recipe.lactoseFree,
+        origin: recipe.origin,
+      };
+      setIsEditing(true);
     }
-  }, [recipe, setValue]);
+  };
 
   if (!recipe) return <Loading>Loading...</Loading>;
 
   const onSubmit: SubmitHandler<RecipeFormData> = async (data) => {
+    console.log(data);
     if (!id) {
       console.error("Erro: ID da receita não encontrado");
       return;
@@ -132,6 +140,18 @@ export function RecipeContent() {
         alert("Erro ao tentar excluir a receita");
       }
     }
+  };
+
+  const handleCancel = () => {
+    if (initialValues.current) {
+      Object.keys(initialValues.current).forEach((key) =>
+        setValue(
+          key as keyof RecipeFormData,
+          initialValues.current![key as keyof RecipeFormData]
+        )
+      );
+    }
+    setIsEditing(false);
   };
 
   const changeRecipeSection =
@@ -223,19 +243,13 @@ export function RecipeContent() {
                 {changeRecipeSection && (
                   <>
                     {!isEditing ? (
-                      <SpecialButton
-                        type="button"
-                        onClick={() => setIsEditing(true)}
-                      >
+                      <SpecialButton type="button" onClick={startEditing}>
                         Alterar Receita
                       </SpecialButton>
                     ) : (
                       <>
                         <SpecialButton type="submit">Salvar</SpecialButton>
-                        <CancelButton
-                          type="button"
-                          onClick={() => setIsEditing(false)}
-                        >
+                        <CancelButton type="button" onClick={handleCancel}>
                           Cancelar
                         </CancelButton>
                       </>
