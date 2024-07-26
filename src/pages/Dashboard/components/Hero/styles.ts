@@ -16,6 +16,7 @@ export const pulse = keyframes`
 
 export const HeroContainer = styled.div`
   display: flex;
+  max-width: 1220px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
