@@ -50,11 +50,11 @@ export const Header = styled.div`
 `;
 
 export const Badge = styled.span`
-  background-color: #4caf50;
+  background-color: #62ae1e;
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
 `;
 
@@ -80,7 +80,7 @@ export const Meta = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 7px;
-  font-size: 17px;
+  font-size: 15px;
   color: #666;
   margin-top: 8px;
 

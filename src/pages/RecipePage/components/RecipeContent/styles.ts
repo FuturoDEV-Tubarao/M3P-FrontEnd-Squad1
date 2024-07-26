@@ -24,7 +24,7 @@ export const GeneralSection = styled.div`
 `;
 
 export const SpecialSection = styled.div`
-  background-color: #e4e4e4;
+  background-color: #eeee;
   background-size: cover;
   padding: 35px;
   border-radius: 8px;
