@@ -106,7 +106,8 @@ export const Button = styled(NavLink)`
   cursor: pointer;
   width: calc(50% - 7.5px);
   text-align: center;
-  font-weight: light;
+
+  font-size: 17px;
   text-decoration: none;
   &:first-child {
     margin-right: 15px;
