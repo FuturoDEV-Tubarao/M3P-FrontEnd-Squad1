@@ -56,6 +56,7 @@ export const TextArea = styled.textarea`
   margin-bottom: 16px;
   height: 120px;
   color: black;
+  resize: none;
 `;
 
 export const Input = styled.input`
@@ -194,4 +195,14 @@ export const DeleteButton = styled(Button)`
   &:hover {
     background-color: #d62500;
   }
+`;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  color: #666; // Cor do texto
+  font-size: 1.2rem;
 `;
