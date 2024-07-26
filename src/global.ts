@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
       font-family: Arial, Helvetica, sans-serif;
       height: 100vh;
       position: relative; 
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: #F3F3F4;
         overflow: auto; 
       background-size: cover; 
     }
