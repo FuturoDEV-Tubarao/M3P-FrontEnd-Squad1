@@ -19,7 +19,7 @@ export const MainContainer = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  padding: 50px 0 20px 0;
+  padding: 100px 0 100px 0px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -31,6 +31,7 @@ export const Container = styled.div`
 
 export const TextContainer = styled.div`
   width: 100%;
+  padding-right: 35px;
   @media (min-width: 768px) {
     width: 45%;
   }
@@ -45,7 +46,7 @@ export const FormContainer = styled.form`
   height: 45rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 
   @media (min-width: 768px) {
     width: 40%;
@@ -79,6 +80,7 @@ export const Image = styled.img`
 export const Title = styled.p`
   color: #2b9a31;
   font-weight: bold;
+  font-size: 18px;
 `;
 
 export const Heading = styled.h1`
@@ -173,6 +175,8 @@ export const LabelCheckbox = styled.label`
   display: flex;
   align-items: center;
   gap: 2px;
+  font-size: 15px;
+  font-weight: bold;
 `;
 
 export const LabelRadio = styled.label`
@@ -180,6 +184,7 @@ export const LabelRadio = styled.label`
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 15px;
 `;
 
 export const RadioDiv = styled.div`
