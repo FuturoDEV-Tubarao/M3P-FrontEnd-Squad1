@@ -1,6 +1,7 @@
 // src/components/RecipeHeader.tsx
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   Badge,
   BadgeAndRatingContainer,
@@ -15,8 +16,8 @@ import {
   Image,
   Text,
   UserDetails,
+  Divider,
 } from "./styles";
-import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
 
 import {
   faFlag,
@@ -50,13 +51,16 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
               <Votes recipe={recipe} />
             </RatingContainer>
           </BadgeAndRatingContainer>
+
           <DetailsContainer>
             <FontAwesomeIcon icon={faFlag} />
             <span>{recipe.origin}</span>
             <FontAwesomeIcon icon={faClock} />
             <span>{recipe.preparationTime}</span>
           </DetailsContainer>
+          <Divider />
           <Text>{recipe.description}</Text>
+          <Divider />
           <ShareContainer>
             <span>Compartilhar:</span>
             <a href="#">
@@ -72,6 +76,7 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
               <FontAwesomeIcon icon={faWhatsapp} />
             </a>
           </ShareContainer>
+          <Divider />
           <section>
             <UserDetails>
               <FontAwesomeIcon icon={faUser} />
@@ -86,7 +91,7 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
           </section>
         </TextSection>
         <ImageSection>
-          <Image src={ImagemReceita} alt="Delicious Dish" />
+          <Image src={recipe.url} alt="Delicious Dish" />
         </ImageSection>
       </ContentContainer>
     </MainContainer>
