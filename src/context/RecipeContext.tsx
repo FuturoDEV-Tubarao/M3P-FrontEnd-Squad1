@@ -2,14 +2,14 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../axios/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
-enum RecipeType {
+export enum RecipeType {
   MAIN_DISH = "MAIN_DISH",
   APPETIZERS = "APPETIZERS",
   DRINKS = "DRINKS",
   BREAKFAST = "BREAKFAST",
 }
 
-interface Recipe {
+export interface Recipe {
   id?: string;
   title: string;
   description: string;
@@ -23,7 +23,7 @@ interface Recipe {
   votes?: Vote[];
   createdDate?: string;
   url?: string;
-  voteAvg?: number,
+  voteAvg?: number;
   createdBy?: {
     name: string;
     id: string;
@@ -41,11 +41,13 @@ interface Vote {
 
 interface RecipesContextType {
   recipes: Recipe[];
-  updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<void>;
+  loading: boolean;
+  updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<Recipe | null>;
   createRecipe: (data: Recipe) => Promise<void>;
   createVote: (data: Vote) => Promise<void>;
   fetchRecipeById: (id: string) => Promise<Recipe | null>;
   deleteRecipe: (id: string) => Promise<void>;
+  deleteAllRecipes: () => Promise<void>;
 }
 
 interface RecipesContextProviderProps {
@@ -58,6 +60,7 @@ export function RecipesContextProvider({
   children,
 }: RecipesContextProviderProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -101,12 +104,14 @@ export function RecipesContextProvider({
     }
   };
 
-  const updateRecipe = async (id: string, data: Recipe) => {
+  const updateRecipe = async (
+    id: string,
+    data: Recipe
+  ): Promise<Recipe | null> => {
     try {
       if (!token) {
         throw new Error("Token não encontrado");
       }
-
       const response = await api.put(`/api/labfoods/v1/recipe/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -121,12 +126,15 @@ export function RecipesContextProvider({
             recipe.id === id ? response.data : recipe
           )
         );
+        return response.data;
       } else {
-        alert("Não foi possível atualizar o usuário");
+        alert("Não foi possível atualizar a receita");
+        return null;
       }
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao tentar atualizar receita:", error);
       alert("Erro ao tentar atualizar receita");
+      return null;
     }
   };
 
@@ -139,7 +147,9 @@ export function RecipesContextProvider({
       });
       if (response.status === 204) {
         alert("Receita excluída com sucesso!");
-        setRecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
+        setRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.id !== id)
+        );
         navigate("/");
       }
     } catch (error) {
@@ -161,10 +171,40 @@ export function RecipesContextProvider({
     }
   };
 
+  const deleteAllRecipes = async () => {
+    try {
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      const response = await api.delete(`/api/labfoods/v1/recipe`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 204) {
+        alert("Todas as receitas foram excluídas com sucesso!");
+        setRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.createdBy?.id !== user?.id)
+        );
+
+        navigate("/profile");
+      }
+    } catch (error) {
+      console.error("Erro ao excluir todas as receitas:", error);
+      alert("Erro ao tentar excluir todas as receitas");
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
-      const response = await api.get("/api/labfoods/v1/recipe");
-      setRecipes(response.data);
+      try {
+        setLoading(true);
+        const response = await api.get("/api/labfoods/v1/recipe");
+        setRecipes(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar as receitas:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
   }, []);
@@ -173,11 +213,13 @@ export function RecipesContextProvider({
     <RecipesContext.Provider
       value={{
         recipes,
+        loading,
         updateRecipe,
         createRecipe,
         createVote,
         fetchRecipeById,
         deleteRecipe,
+        deleteAllRecipes,
       }}
     >
       {children}
