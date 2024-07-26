@@ -24,7 +24,7 @@ enum GenderType {
 }
 
 const userProfileSchema = zod.object({
-  name: zod.string().min(1, "Informe o nome"),
+  name: zod.string().min(1, "Informe o nome").max(25, "Máximo 25 caracteres"),
   gender: zod.nativeEnum(GenderType, {
     required_error: "Informe uma categoria",
   }),
