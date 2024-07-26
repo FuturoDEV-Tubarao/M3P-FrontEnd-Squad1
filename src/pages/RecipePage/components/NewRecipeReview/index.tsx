@@ -121,7 +121,7 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
               <RangeInput
                 type="range"
                 min="0"
-                max="5"
+                max="6"
                 step="0.5"
                 {...register("note", { valueAsNumber: true })}
                 id="note"
