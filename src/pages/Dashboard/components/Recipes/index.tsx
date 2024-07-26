@@ -16,43 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { Votes } from "../../../../components/Votes";
 import { translateRecipeType } from "../../../../utils/translateRecipeType";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  createdDate?: string;
-  url?: string;
-  voteAvg?: number;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-  createdBy: {
-    name: string;
-  };
-}
+import { Recipe } from "../../../../context/RecipeContext";
 
 interface RecipeCardProps {
   recipe: Recipe;
