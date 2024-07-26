@@ -18,7 +18,6 @@ import {
   UserDetails,
   Divider,
 } from "./styles";
-//import ImagemReceita from "../../../../assets/ImagemReceita.jpg";
 
 import {
   faFlag,
@@ -34,40 +33,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { Votes } from "../../../../components/Votes";
 import { translateRecipeType } from "../../../../utils/translateRecipeType";
-
-enum RecipeType {
-  MAIN_DISH = "MAIN_DISH",
-  APPETIZERS = "APPETIZERS",
-  DRINKS = "DRINKS",
-  BREAKFAST = "BREAKFAST",
-}
-
-interface Recipe {
-  id?: string;
-  title: string;
-  description: string;
-  ingredients: string;
-  preparationTime: string;
-  preparationMethod: string;
-  recipeType: RecipeType;
-  glutenFree: boolean;
-  lactoseFree: boolean;
-  origin: string;
-  votes?: Vote[];
-  lastModifiedDate?: string;
-  url?: string;
-  createdDate?: string;
-  createdBy?: {
-    name: string;
-    id: string;
-  };
-}
-
-interface Vote {
-  note: number;
-  feedback: string;
-  recipeId: string;
-}
+import { Recipe } from "../../../../context/RecipeContext";
 
 interface RecipeHeaderProps {
   recipe: Recipe;
