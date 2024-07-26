@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../../context/AuthContext";
+import HeroHamburguer from "../../../../assets/Hero-Hamburguer.webp";
 
 export function Hero() {
   const { logado } = useContext(AuthContext);
@@ -46,10 +47,7 @@ export function Hero() {
             )}
           </ButtonContainer>
         </Content>
-        <Image
-          src="src/assets/Hero-Hamburguer.webp"
-          alt="Delicioso Hamburguer Labfood"
-        />
+        <Image src={HeroHamburguer} alt="Delicioso Hamburguer Labfood" />
       </HeroContainer>
     </>
   );
