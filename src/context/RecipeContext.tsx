@@ -31,10 +31,12 @@ export interface Recipe {
 }
 
 interface Vote {
+  id?: string;
   note: number;
   feedback: string;
   recipeId: string;
   createdBy: {
+    id?: string;
     name: string;
   };
 }
@@ -45,6 +47,7 @@ interface RecipesContextType {
   updateRecipe: (id: string, updatedRecipe: Recipe) => Promise<Recipe | null>;
   createRecipe: (data: Recipe) => Promise<void>;
   createVote: (data: Vote) => Promise<void>;
+  deleteVote: (id: string) => Promise<void>;
   fetchRecipeById: (id: string) => Promise<Recipe | null>;
   deleteRecipe: (id: string) => Promise<void>;
   deleteAllRecipes: () => Promise<void>;
@@ -96,11 +99,33 @@ export function RecipesContextProvider({
 
       if (response.data && response.status === 200) {
         alert("Voto cadastrado com sucesso");
+        setRecipes((prevRecipes) =>
+          prevRecipes.map((recipe) =>
+            recipe.id === data.recipeId
+              ? { ...recipe, votes: [...(recipe.votes || []), data] }
+              : recipe
+          )
+        );
       } else {
         alert("Não foi possível cadastrar o voto");
       }
     } catch (error) {
       alert("Erro ao tentar cadastrar voto");
+    }
+  };
+
+  const deleteVote = async (id: string) => {
+    try {
+      const response = await api.delete(`/api/labfoods/v1/vote/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 204) {
+        alert("Voto excluído com sucesso!");
+      }
+    } catch (error) {
+      alert("Erro ao tentar excluir receita");
     }
   };
 
@@ -164,7 +189,17 @@ export function RecipesContextProvider({
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+
+      if (response.data) {
+        setRecipes((prevRecipes) =>
+          prevRecipes.map((recipe) =>
+            recipe.id === id ? response.data : recipe
+          )
+        );
+        return response.data;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("Erro ao buscar a receita:", error);
       return null;
@@ -217,6 +252,7 @@ export function RecipesContextProvider({
         updateRecipe,
         createRecipe,
         createVote,
+        deleteVote,
         fetchRecipeById,
         deleteRecipe,
         deleteAllRecipes,
