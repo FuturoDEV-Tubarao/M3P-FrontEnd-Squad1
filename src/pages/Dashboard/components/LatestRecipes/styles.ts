@@ -73,3 +73,17 @@ export const NoResultsContainer = styled.div`
   color: #666; // Cor do texto para a mensagem
   font-size: 1.2rem; // Tamanho da fonte para a mensagem
 `;
+
+export const RecipeContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
+
+  @media (max-width: 1200px) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+`;
