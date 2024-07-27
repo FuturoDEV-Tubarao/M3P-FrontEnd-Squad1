@@ -8,29 +8,27 @@ import {
   faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
-import { Recipe } from "../context/RecipeContext";
 
-interface RecipeReviewsProps {
-  recipe: Recipe;
+interface VotesProps {
+  note: number;
 }
 
-export function Votes({ recipe }: RecipeReviewsProps) {
+export function Votes({ note }: VotesProps) {
+  const actualNote = note ?? 0;
   const [mediaAvaliacao, setMediaAvaliacao] = useState<number>(0);
 
   useEffect(() => {
-    const result = recipe.voteAvg;
-
-    if (result) {
-      setMediaAvaliacao(result);
+    if (actualNote !== undefined) {
+      setMediaAvaliacao(actualNote);
     }
-  }, [recipe.voteAvg]);
+  }, [actualNote]);
 
   const renderStars = (note: number): JSX.Element[] => {
     const fullStars = Math.floor(note);
     const halfStar = note % 1 !== 0;
 
     const stars = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i <= 4; i++) {
       if (i < fullStars) {
         stars.push(<Star key={i} icon={faStarSolid} />);
       } else if (halfStar && i === fullStars) {
