@@ -6,6 +6,7 @@ import {
   Filters,
   Loading,
   NoResultsContainer,
+  RecipeContainer,
   Title,
   TitleContainer,
 } from "./styles";
@@ -15,7 +16,6 @@ import {
   RecipeType,
 } from "../../../../context/RecipeContext";
 import { Recipes } from "../Recipes";
-import { RecipeContainer } from "../Recipes/styles";
 import api from "../../../../axios/axiosConfig";
 import { Categories } from "../Categories";
 import { MagnifyingGlass } from "phosphor-react";
@@ -136,7 +136,8 @@ export function LatestRecipes() {
   return (
     <>
       <Categories handleCategoryChange={handleCategoryChange} />
-      <Container>
+      <Container id="ultimas-receitas">
+        {" "}
         <TitleContainer>
           <div>
             <Title>Últimas Receitas</Title>
