@@ -78,7 +78,7 @@ export function RecipeReviewsList({ recipe }: RecipeReviewsProps) {
             {!!updatedRecipe.votes &&
               updatedRecipe.votes.map((voto, index) => (
                 <VoteContainer key={index}>
-                  <ReviewAuthor>{user?.name}</ReviewAuthor>
+                  <ReviewAuthor>{voto.createdBy.name}</ReviewAuthor>
                   <p>{voto.feedback}</p>
                   <VoteContent>
                     <p>nota {voto.note}</p>
