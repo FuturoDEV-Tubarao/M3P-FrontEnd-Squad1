@@ -18,12 +18,15 @@ import { Link } from "react-router-dom";
 import { Votes } from "../../../../components/Votes";
 import { translateRecipeType } from "../../../../utils/translateRecipeType";
 import { Recipe } from "../../../../context/RecipeContext";
+import { useContext } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
 interface RecipeCardProps {
   recipe: Recipe;
 }
 
 export function Recipes({ recipe }: RecipeCardProps) {
+  const { user } = useContext(AuthContext);
   return (
     <Card key={recipe.id}>
       <Image src={recipe.url} alt={recipe.title} />
@@ -31,7 +34,9 @@ export function Recipes({ recipe }: RecipeCardProps) {
         <Header>
           <Badge>{translateRecipeType(recipe.recipeType)}</Badge>
           <div>
-            <StarRating>{<Votes recipe={recipe} />}</StarRating>
+            <StarRating>
+              {recipe.voteAvg !== undefined && <Votes note={recipe.voteAvg} />}
+            </StarRating>
           </div>
         </Header>
         <Title>{recipe.title}</Title>
@@ -39,7 +44,9 @@ export function Recipes({ recipe }: RecipeCardProps) {
           {recipe.createdBy && !!recipe.createdBy.name && (
             <div>
               <FontAwesomeIcon icon={faUser} />
-              {recipe.createdBy.name}
+              {recipe.createdBy.id === user?.id
+                ? user.name
+                : recipe.createdBy.name}
             </div>
           )}
           <div>
