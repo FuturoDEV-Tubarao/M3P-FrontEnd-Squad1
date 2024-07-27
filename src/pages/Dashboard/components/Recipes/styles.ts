@@ -14,13 +14,6 @@ export const pulse = keyframes`
   }
 `;
 
-export const RecipeContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-row-gap: 40px;
-  grid-column-gap: 45px;
-`;
-
 export const Card = styled.div`
   background: white;
   border-radius: 8px;
@@ -39,14 +32,18 @@ export const Image = styled.img`
 `;
 
 export const Content = styled.div`
-  padding: 10px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
 `;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 12px 0;
+  margin: 10px 0;
 `;
 
 export const Badge = styled.span`
@@ -72,14 +69,12 @@ export const Star = styled(FontAwesomeIcon)`
 export const Title = styled.h2`
   font-size: 25px;
   font-weight: light;
-  margin: 15px 0;
 `;
 
 export const Meta = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 7px;
   font-size: 15px;
   color: #666;
   margin-top: 8px;
@@ -102,7 +97,7 @@ export const Button = styled(NavLink)`
   border: none;
   padding: 10px 16px;
   border-radius: 4px;
-  margin-top: 16px;
+  margin-bottom: 10px;
   cursor: pointer;
   width: calc(50% - 7.5px);
   text-align: center;
