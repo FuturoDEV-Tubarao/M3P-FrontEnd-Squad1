@@ -67,6 +67,19 @@ export const VoteContainer = styled.div`
     margin-top: 12px;
   }
 `;
+
+export const VoteHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+`;
+
 export const Star = styled(FontAwesomeIcon)`
   margin-right: 2px;
 `;
