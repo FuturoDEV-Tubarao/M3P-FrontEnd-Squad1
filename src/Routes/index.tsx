@@ -10,7 +10,6 @@ import { RecipePage } from "../pages/RecipePage";
 import { RecipesContextProvider } from "../context/RecipeContext";
 import { UserContextProvider } from "../context/UserContext";
 import { SessionExpired } from "../pages/SessionExpired";
-// import { NewRecipeReview } from "../pages/RecipePage/components/NewRecipeReview";
 
 const RotaPrivada = () => {
   const isLogado = localStorage.getItem("isLogado");
@@ -27,14 +26,12 @@ export function Router() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/addrecipe" element={<NewRecipe />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/editProfile" element={<UserForm />} />
-            <Route path="/recipe/:id" element={<RecipePage />} />
             <Route path="/session-expired" element={<SessionExpired />} />
-
             <Route element={<RotaPrivada />}>
-              {/* adicionar as rotas privadas aqui, deixei elas fora para poder visualizar todas */}
+              <Route path="/addrecipe" element={<NewRecipe />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/editProfile" element={<UserForm />} />
+              <Route path="/recipe/:id" element={<RecipePage />} />
             </Route>
           </Routes>
         </RecipesContextProvider>
