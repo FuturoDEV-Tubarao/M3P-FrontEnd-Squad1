@@ -56,7 +56,7 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
     resolver: zodResolver(avaliacaoSchema),
     defaultValues: {
       title: "",
-      note: 2.5,
+      note: 0,
       feedback: "",
       createdBy: {
         id: user?.id || "",
@@ -66,7 +66,7 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
     },
   });
 
-  const rating = watch("note", 2.5);
+  const rating = watch("note", 0);
 
   const onSubmit = (data: AvaliacaoFormData) => {
     createVote(data).then(() => handleClose());
@@ -80,8 +80,9 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
   };
 
   const calculateFill = (index: number, rating: number) => {
-    const currentFill = Math.max(0, (rating - index) * 100);
-    return Math.min(currentFill, 100);
+    if (rating === 0) return 0;
+    const currentFill = Math.max(0, Math.min(100, (rating - index) * 100));
+    return currentFill;
   };
 
   return (
@@ -109,7 +110,7 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
                   key={i}
                   icon={faStar}
                   style={{
-                    color: `rgba(255, 215, 0, ${calculateFill(i + 0.5, rating) / 100})`,
+                    color: `rgba(255, 215, 0, ${calculateFill(i + 0.5 - 0.5, rating) / 100})`,
                     stroke: "#ffd700",
                     strokeWidth: "30px",
                   }}
@@ -121,7 +122,7 @@ export function NewRecipeReview({ onClose, idRecipe }: NewRecipeReviewProps) {
               <RangeInput
                 type="range"
                 min="0"
-                max="6"
+                max="5"
                 step="0.5"
                 {...register("note", { valueAsNumber: true })}
                 id="note"
