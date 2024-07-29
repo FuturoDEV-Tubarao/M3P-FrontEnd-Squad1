@@ -11,6 +11,7 @@ import {
 import { UserContext } from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 import { RecipesContext } from "../../context/RecipeContext";
+import ImagemProfile from "../../assets/user-icon.png"
 
 export function Profile() {
   const { deleteUser } = useContext(UserContext);
@@ -57,7 +58,7 @@ export function Profile() {
       <div>
         <Header currentPage={currentPage} />
         <ProfileInfos>
-          <img src="src/assets/user-icon.png" alt="" />
+          <img src={ImagemProfile} alt="" />
           <h1>{user?.name}</h1>
           <p>{user?.email}</p>
           <ButtonGroup>

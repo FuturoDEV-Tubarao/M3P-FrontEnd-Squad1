@@ -48,7 +48,7 @@ export function RecipeHeader({ recipe }: RecipeHeaderProps) {
           <BadgeAndRatingContainer>
             <Badge>{translateRecipeType(recipe.recipeType)}</Badge>
             <RatingContainer>
-              <Votes recipe={recipe} />
+            {recipe.voteAvg !== undefined && <Votes note={recipe.voteAvg} />}
             </RatingContainer>
           </BadgeAndRatingContainer>
 
