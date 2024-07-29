@@ -24,30 +24,30 @@ export function Header({ currentPage }: HeaderProps) {
       <InnerContainer>
         <SocialMediaContainer>
           <SocialIcon
-            href="https://www.facebook.com/SouManoelF"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://www.facebook.com/profile.php?id=61563525841775&sk=about"
+            target="Facebook"
+            rel="Canal Labfoods no Facebook"
           >
             <FaFacebookF />
           </SocialIcon>
           <SocialIcon
-            href="https://www.instagram.com/manoelcavenati/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://www.instagram.com/labfoods.rs/"
+            target="Instagram"
+            rel="Canal Labfoods no Instagram"
           >
             <FaInstagram />
           </SocialIcon>
           <SocialIcon
-            href="https://twitter.com/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://x.com/LabFoods93523"
+            target="X"
+            rel="Canal Labfoods no X"
           >
             <FaTwitter />
           </SocialIcon>
           <SocialIcon
-            href="http://www.youtube.com/@manoelcavenati"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://www.youtube.com/@LabFoods"
+            target="Youtube"
+            rel="Canal Labfoods no Youtube"
           >
             <FaYoutube />
           </SocialIcon>
