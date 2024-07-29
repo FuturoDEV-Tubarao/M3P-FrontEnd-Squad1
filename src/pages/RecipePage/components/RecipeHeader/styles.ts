@@ -166,6 +166,7 @@ export const ShareContainer = styled.div`
 
     &:hover {
       background-color: #96d433;
+      color: #ffffff;
     }
 
     svg {

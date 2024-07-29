@@ -108,7 +108,8 @@ export const Button = styled(NavLink)`
     margin-right: 15px;
   }
   &:hover {
-    background-color: #e6b525;
+    background-color: #96d433;
+    color: #ffffff;
   }
 `;
 
