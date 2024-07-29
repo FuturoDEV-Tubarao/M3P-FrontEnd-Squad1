@@ -168,7 +168,7 @@ export const Button = styled.button`
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
-  background-color: #2b9a31;
+  background-color: #96d433;
   color: white;
   margin-top: 50px;
 

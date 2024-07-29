@@ -49,7 +49,7 @@ export const BadgeAndRatingContainer = styled.div`
 `;
 
 export const Badge = styled.span`
-  background-color: #62ae1e;
+  background-color: #96d433;
 
   color: white;
   padding: 0.4rem 0.9rem;
@@ -73,7 +73,7 @@ export const DetailsContainer = styled.div`
   gap: 7px;
   align-items: center;
   margin-bottom: var(--details-text-margin-bottom, 1rem);
-  color: var(--details-text-color, #2b9a31);
+  color: var(--details-text-color, #96d433);
 
   span {
     font-size: var(--details-text-font-size, 18px);
@@ -130,7 +130,7 @@ export const UserDetails = styled.div`
 
 export const SpecialButton = styled(Button)`
   animation: ${pulse} 1s infinite;
-  background-color: #2b9a31; // Cor especial para este botão
+  background-color: #96d433; // Cor especial para este botão
   color: white;
 
   &:hover {
@@ -165,7 +165,7 @@ export const ShareContainer = styled.div`
     background-color: #2c2f29;
 
     &:hover {
-      background-color: #62ae1e;
+      background-color: #96d433;
     }
 
     svg {

@@ -123,7 +123,7 @@ export const SaveButton = styled.button`
   animation: ${pulseAnimation} 2s infinite;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #96d433;
     color: white;
   }
 `;

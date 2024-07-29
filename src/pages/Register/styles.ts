@@ -77,7 +77,7 @@ export const Button = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #62ae1e;
+    background-color: #96d433;
     color: white;
   }
 `;

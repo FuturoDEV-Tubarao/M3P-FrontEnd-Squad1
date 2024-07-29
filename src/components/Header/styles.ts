@@ -61,7 +61,7 @@ export const SocialIcon = styled.a`
   background-color: #2c2f29;
 
   &:hover {
-    background-color: #62ae1e;
+    background-color: #96d433;
   }
 
   svg {
@@ -87,7 +87,7 @@ export const StyledNavLink = styled(NavLink)`
   display: inline-block;
 
   &:hover {
-    background-color: #62ae1e;
+    background-color: #96d433;
     color: #ffffff;
   }
 

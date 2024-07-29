@@ -35,12 +35,12 @@ export const ButtonConfirm = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #ffdf34;
   color: white;
   cursor: pointer;
   font-size: 16px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #96d433;
   }
 `;

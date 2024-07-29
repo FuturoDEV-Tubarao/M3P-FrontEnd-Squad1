@@ -45,7 +45,7 @@ export const CheckboxContainer = styled.label`
 `;
 
 export const Checkbox = styled.input`
-  accent-color: #4caf50;
+  accent-color: #96d433;
   margin-right: 5px;
   width: 18px;
   height: 18px;
@@ -85,5 +85,4 @@ export const RecipeContainer = styled.div`
     flex-wrap: wrap;
     justify-content: center;
   }
-
 `;

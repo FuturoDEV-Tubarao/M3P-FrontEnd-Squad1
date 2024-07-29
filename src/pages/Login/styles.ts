@@ -68,7 +68,7 @@ export const Button = styled.button`
   margin-top: 10px;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #62ae1e;
+    background-color: #96d433;
     color: white;
   }
 `;

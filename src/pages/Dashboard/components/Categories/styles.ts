@@ -97,6 +97,6 @@ export const CategoryButton = styled.button`
   border: none;
 
   &:hover {
-    background-color: #f2ca04;
+    background-color: #96d433;
   }
 `;

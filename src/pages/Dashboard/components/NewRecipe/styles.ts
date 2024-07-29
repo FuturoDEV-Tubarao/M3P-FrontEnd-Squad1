@@ -158,7 +158,7 @@ export const ButtoContainer = styled.div`
     align-self: center;
 
     &:hover {
-      background-color: #2b9a31; // Green color on hover
+      background-color: #96d433; // Green color on hover
       color: white;
     }
   }
@@ -167,7 +167,7 @@ export const DietType = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  accent-color: #2b9a31;
+  accent-color: #96d433;
   margin: 10px 0;
 `;
 

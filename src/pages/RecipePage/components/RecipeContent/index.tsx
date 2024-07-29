@@ -189,7 +189,7 @@ export function RecipeContent() {
               <TittleMenu>Informações do Menu</TittleMenu>
               <List>
                 <ListItem>
-                  <FontAwesomeIcon icon={faFlag} color="#2b9a31" />
+                  <FontAwesomeIcon icon={faFlag} color="#96d433" />
                   <Input
                     {...register("origin")}
                     disabled={!isEditing || !logado()}
@@ -197,7 +197,7 @@ export function RecipeContent() {
                   {errors.origin && <span>{errors.origin.message}</span>}
                 </ListItem>
                 <ListItem>
-                  <FontAwesomeIcon icon={faClock} color="#2b9a31" />
+                  <FontAwesomeIcon icon={faClock} color="#96d433" />
                   <Input
                     {...register("preparationTime")}
                     disabled={!isEditing || !logado()}

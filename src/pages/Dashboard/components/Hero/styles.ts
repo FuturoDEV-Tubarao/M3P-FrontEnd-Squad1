@@ -104,7 +104,7 @@ export const Button = styled.button`
   font-weight: light;
 
   &:hover {
-    background-color: #f2ca04;
+    background-color: #96d433;
   }
 `;
 

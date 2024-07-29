@@ -101,7 +101,7 @@ export const ProgressBar = styled.div`
 `;
 
 export const ProgressBarLabel = styled.span`
-  color: #2b9a31;
+  color: #96d433;
   font-size: 0.875rem;
   font-weight: bold;
 `;
@@ -142,7 +142,7 @@ export const Button = styled.button`
   justify-content: center;
   animation: ${pulse} 2s infinite;
   &:hover {
-    background-color: #2b9a31;
+    background-color: #96d433;
     color: white;
   }
   svg {
