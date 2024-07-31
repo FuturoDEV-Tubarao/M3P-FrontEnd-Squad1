@@ -27,11 +27,11 @@ export function Router() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/session-expired" element={<SessionExpired />} />
+            <Route path="/recipe/:id" element={<RecipePage />} />
             <Route element={<RotaPrivada />}>
               <Route path="/addrecipe" element={<NewRecipe />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/editProfile" element={<UserForm />} />
-              <Route path="/recipe/:id" element={<RecipePage />} />
             </Route>
           </Routes>
         </RecipesContextProvider>
